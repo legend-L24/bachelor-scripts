@@ -1,0 +1,74 @@
+# /home/carsten/Documents/PhD/LPS/MD_GAP/polarise/MD_GAP_CS.in (written by LAMMPScs 2.1 on Mon Jun 17 10:42:15 2019) 
+
+# ------------------------------ INITIALIZATION -------------------------------
+units      metal
+dimension  3
+boundary   p p p
+atom_style full
+newton     on off
+# ----------------------------- ATOM DEFINITION -------------------------------
+read_data geom.data
+timer timeout 24:00:00 every 100
+# ------------------------------ ATOM GROUPING --------------------------------
+group Li_atoms type 1
+group P_atoms type 2
+group S_atoms type 3
+
+neighbor 2.0 bin
+comm_modify vel yes
+
+# ------------------------- GAP Potential ---------------------------
+
+
+pair_style quip
+pair_coeff      * * /u/thuss/templates/gaps/naps/gp_2b_soap.xml "IP GAP label=GAP_2023_2_8_0_13_56_52_159" 11 15 16
+
+reset_timestep 0
+# ------------------------ DEFINE COMPUTES --------------------------
+compute moving_temp Li_atoms temp
+compute thermo_press_lmp all pressure thermo_temp
+compute ke_tech all ke
+compute epot_tech all pe
+compute vacf_p P_atoms vacf 
+compute vacf_s S_atoms vacf
+compute msd_li Li_atoms msd com yes
+variable etotal_tech equal c_ke_tech+c_epot_tech
+variable temp_phys equal c_thermo_temp
+variable ke_phys equal ke
+variable etot_phys equal etotal
+variable vol_v equal vol
+variable T equal "500"
+
+# ---------------------------------- TIMESTEP ------------------------------------
+timestep 0.002
+
+# ------------------------ RUNS ---------------------------
+dump equiatoms all atom 500 geom.dump
+dump_modify equiatoms scale no 
+
+thermo 100 # every 0.1 
+thermo_style custom step etotal pe ke temp press
+
+fix therm_equ all nvt temp 300 600 1.0
+run 50000
+unfix therm_equ
+
+fix therm_equ2 all nvt temp 600 300 1.0
+fix modify threm_equ2 temp moving_temp
+run 100000
+unfix therm_equ2
+
+
+write_restart restart.equil
+quit
+
+# ----------------------- UN(FIXING/COMPUTING/DUMPING) ------------------------
+unfix dump_energy
+unfix dump_stress
+uncompute thermo_press_lmp
+uncompute vcm
+uncompute ke_tech
+uncompute epot_tech
+uncompute cs_chunk
+uncompute cstherm
+uncompute stress_compute

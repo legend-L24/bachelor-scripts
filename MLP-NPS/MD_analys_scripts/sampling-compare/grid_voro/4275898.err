@@ -1,0 +1,40 @@
+/var/spool/slurmd/job4275898/slurm_script: line 42: cd: 0: No such file or directory
+cp: cannot stat '../geom.in': No such file or directory
+/var/spool/slurmd/job4275898/slurm_script: line 42: cd: 1: No such file or directory
+cp: cannot stat '../geom.in': No such file or directory
+/var/spool/slurmd/job4275898/slurm_script: line 42: cd: 2: No such file or directory
+cp: cannot stat '../geom.in': No such file or directory
+/var/spool/slurmd/job4275898/slurm_script: line 42: cd: 3: No such file or directory
+cp: cannot stat '../geom.in': No such file or directory
+Abort(1) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+Abort(1) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+srun: error: ravc2094: task 0: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=4275898.1
+slurmstepd: error: *** STEP 4275898.1 ON ravc2094 CANCELLED AT 2023-02-23T17:05:57 ***
+slurmstepd: error: *** STEP 4275898.2 ON ravc2095 CANCELLED AT 2023-02-23T17:05:57 ***
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+srun: error: ravc2095: task 0: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=4275898.2
+srun: error: ravc2094: tasks 2-3,36,62-63: Killed
+srun: error: ravc2094: tasks 25,27,34,41,43,47,60,68,71: Killed
+srun: error: ravc2095: tasks 13,22,29-30,36,49,62,66: Killed
+srun: error: ravc2094: tasks 1,4-24,26,28-33,35,37-40,42,44-46,48-51,53-59,61,64-67,69-70: Killed
+srun: error: ravc2094: task 52: Killed
+srun: error: ravc2095: tasks 8,17-18,20,28,35,38,44,50,57,59,61,64: Killed
+srun: error: ravc2095: tasks 1-7,9-12,14-16,19,21,23-27,31-34,37,39-43,45-48,51-56,58,60,63,65,67-71: Killed
+Abort(1) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 4275898.3 ON ravc2093 CANCELLED AT 2023-02-23T17:06:01 ***
+srun: error: ravc2093: task 0: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=4275898.3
+srun: error: ravc2093: tasks 1-4,6-22,24-38,40-45,47-62,64-66,68-71: Killed
+srun: error: ravc2093: task 67: Killed
+srun: error: ravc2093: task 63: Killed
+srun: error: ravc2093: task 5: Killed
+srun: error: ravc2093: task 39: Killed
+srun: error: ravc2093: tasks 23,46: Killed
+srun: error: ravc2093: tasks 0-7,9-71: Exited with exit code 1
+srun: launch/slurm: _step_signal: Terminating StepId=4275898.0
+slurmstepd: error: *** STEP 4275898.0 ON ravc2093 CANCELLED AT 2023-02-23T17:06:07 ***
+srun: error: ravc2093: task 8: Exited with exit code 1

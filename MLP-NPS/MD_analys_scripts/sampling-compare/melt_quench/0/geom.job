@@ -1,0 +1,42 @@
+#!/bin/bash -l
+# Standard output and error:
+#SBATCH -o %j.out
+#SBATCH -e %j.err
+# Initial working directory:
+#SBATCH -D ./
+# Job Name:
+#SBATCH -J MD_short
+# Queue (Partition):
+#SBATCH --partition=general
+
+# Don't specify 'SBATCH --nodes' !
+
+# Number of MPI Tasks, e.g. 8:
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=72
+#SBATCH --cpus-per-task=1
+# Memory usage [MB] of the job is required, 3800 MB per task:
+#SBATCH --mem-per-cpu=1500MB
+#
+#SBATCH --mail-type=END,FAIL,TIME_LIMIT
+#SBATCH --mail-user=huss@fhi-berlin.mpg.de
+#
+# Wall clock limit:
+#SBATCH --time=24:00:00
+
+module purge
+module load gcc
+module load intel/21.2.0
+module load impi/2021.2
+module load mkl/2020.2
+module load cmake/3.18
+module load ffmpeg/4.4
+
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/mpcdf/soft/SLE_15/packages/x86_64/intel_parallel_studio/2020.2/mkl/lib/intel64"
+
+export GAP=/u/thuss/templates/gaps/turbo_soap/
+
+# Running in a parallel fashion
+# root = $(pwd)
+srun --exclusive -N1 -n72 /raven/u/thuss/LAMMPS/lammps_22_10/build/lmp -in geom.in
+

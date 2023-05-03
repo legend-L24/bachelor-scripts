@@ -1,0 +1,14 @@
+LAMMPS (15 Sep 2022)
+  using 1 OpenMP thread(s) per MPI task
+# /home/carsten/Documents/PhD/LPS/MD_GAP/polarise/MD_GAP_CS.in (written by LAMMPScs 2.1 on Mon Jun 17 10:42:15 2019)
+
+# ------------------------------ INITIALIZATION -------------------------------
+units      metal
+dimension  3
+boundary   p p p
+atom_style full
+newton     on off
+# ----------------------------- ATOM DEFINITION -------------------------------
+read_data geom.data
+ERROR: Cannot open file geom.data: No such file or directory (src/read_data.cpp:366)
+Last command: read_data geom.data

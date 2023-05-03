@@ -1,0 +1,41 @@
+ERROR on proc 0: Cannot open input script geom.in: No such file or directory (src/lammps.cpp:521)
+Last command: (unknown)
+ERROR on proc 0: Cannot open input script geom.in: No such file or directory (src/lammps.cpp:521)
+Last command: (unknown)
+LAMMPS (15 Sep 2022)
+  using 1 OpenMP thread(s) per MPI task
+ERROR: Cannot open file geom.data: No such file or directory (src/read_data.cpp:366)
+Last command: read_data geom.data
+ERROR on proc 0: Cannot open input script geom.in: No such file or directory (src/lammps.cpp:521)
+Last command: (unknown)
+                                  
+================================= 
+Global information about the job: 
+================================= 
+  
+Job owner: thuss(30998)
+Job name:  MD_short
+Node list: ravc2093
+Job start: Thu Feb 23 17:05:41 CET 2023
+Job end:   Thu Feb 23 17:06:10 CET 2023
+Work dir:  /ptmp/thuss/naps/sampl_compar/grid_voro/./
+Command:   /raven/ptmp/thuss/naps/sampl_compar/grid_voro/geom.job
+  
+  
+  
+==========================================================================================
+Information on jobsteps (Note: MaxRSS/AveRSS is the maximum/average over all 
+tasks of the per-task memory high-water marks; cf. "man sacct"): 
+==========================================================================================
+  
+JobID            JobName NNodes NTasks  NCPUS        0.00M        0.00M    Elapsed ExitCode
+------------- ---------- ------ ------ ------ ------------ ------------ ---------- --------
+4275898         MD_short      3           432                             00:00:29      0:0
+4275898.0            lmp      1     72     72      175.16M       60.40M   00:00:22      1:0
+4275898.1            lmp      1     72     72      163.70M      159.77M   00:00:11      1:0
+4275898.2            lmp      1     72     72      163.75M      159.45M   00:00:12      1:0
+4275898.3            lmp      1     72     72        0.40M        0.37M   00:00:18      1:0
+  
+Maximum memory per node: 13.223780 GB (defined as MaxRSS*Ntasks/NNodes)
+CPU utilization: 18.4 %
+  
