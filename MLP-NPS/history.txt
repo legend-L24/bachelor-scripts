@@ -1,0 +1,750 @@
+    1  sudo -i
+    2  vim ~./config
+    3  vim ~/.ssh/config
+    4  ls ~/.ssh
+    5  vim ~/.ssh/config
+    6  ssh-keygen
+    7  ls
+    8  vim ~/.ssh/config
+    9  ssh raven.mpcdf.mpg.de 
+   10  ls
+   11  vim ~/.ssh/id_rsa.pub 
+   12  vim ~/.ssh/config
+   13  ssh hpc-cloud-ytli-workstation 
+   14  cd 
+   15  mkdir -p ~/Resources/Anaconda
+   16  mkdir ~/Python
+   17  cd Resources/Anaconda/
+   18  wget https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
+   19  bash Anaconda3-2022.05-Linux-x86_64.sh
+   20  conda install anaconda
+   21  ssh raven.mpcdf.mpg.de 
+   22  conda install anaconda
+   23  conda 
+   24  cd Resources/Anaconda/
+   25  ls
+   26  bash Anaconda3-2022.05-Linux-x86_64.sh 
+   27  ls
+   28  cd ~
+   29  conda 
+   30  bash ~/.bash
+   31  conda
+   32  vim ~/.bashrc
+   33  cd Resources/Anaconda/
+   34  bash Anaconda3-2022.05-Linux-x86_64.sh 
+   35  ls
+   36  ls ~
+   37  rm -rf ~/anaconda3/
+   38  bash Anaconda3-2022.05-Linux-x86_64.sh 
+   39  bash ~/.bashrc
+   40  bash ~/.bashrc 
+   41  conda install anaconda
+   42  conda create --name quip python=3.9
+   43  conda activate quip
+   44  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/dens_dep.py
+   45  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+   46  ssh raven.mpcdf.mpg.de 
+   47  pip install matplolib
+   48  pip install matplotlib
+   49  ls
+   50  pip install ase, scipy
+   51  pip install ase scipy
+   52  ls /home/yli/database/glass_3_4/400K//home/yli/database/glass_3_4/400K/geom.dump
+   53  ls /home/yli/database/glass_3_4/400K/geom.dump
+   54  ll /home/yli/database/glass_3_4/400K/geom.dump
+   55  ssh raven.mpcdf.mpg.de 
+   56  ls database/
+   57  cd database/
+   58  scp raven.mpcdf.mpg.de:~/md_test/conduct/glass_tetr/*.tar.gz .
+   59  python
+   60  ssh raven.mpcdf.mpg.de 
+   61  conda activate quip
+   62  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+   63  ls /home/yli/database/glass_3_4/400
+   64  ls /home/yli/database/glass_3_4/400K
+   65  ls /home/yli/database/glass_3_4/400/home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+   66  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+   67  ls /home/yli/database/glass_3_4/400K/geom.dump
+   68  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+   69  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/plot_result.py
+   70  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+   71  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/plot_result.py
+   72  ssh raven.mpcdf.mpg.de 
+   73  ssh hpc-cloud-ytli-workstation 
+   74  ssh raven.mpcdf.mpg.de 
+   75  ls
+   76  scp raven.mpcdf.mpg.de:~/md_test/conduct/*.tar.gz database/
+   77  ls
+   78  cd database/
+   79  tar -zxvf glass_triple.tar.gz 
+   80  ls
+   81  cd ~/softwares/
+   82  ls
+   83  cd MD_analys_scripts/
+   84  ls
+   85  cd ..
+   86  ls
+   87  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/final_compressed.xyz ,
+   88  ls *.xyz
+   89  ls ,
+   90  vim ,
+   91  mv , final_compressed.xyz 
+   92  scp final_compressed.xyz  raven.mpcdf.mpg.de:~/glass_train/na3ps4/
+   93  ssh hpc-cloud-ytli-workstation 
+   94  ssh hpc-cloud-ytli-workstation 
+   95  scp hpc-cloud-ytli-workstation:/work/iter_glass/refer_gap/*.png .
+   96  mv energy_val_extra.png energy_val_orign.png
+   97  scp hpc-cloud-ytli-workstation:/work/iter_glass/g0/*.png .
+   98  ssh hpc-cloud-ytli-workstation 
+   99  scp hpc-cloud-ytli-workstation:/work/iter_glass/g1/*.png .
+  100  ssh hpc
+  101  ssh hpc-cloud-ytli-workstation 
+  102  conda activate quip
+  103  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  104  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  105  ls
+  106  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  107  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  108  ssh raven.mpcdf.mpg.de 
+  109  ssh hpc-cloud-ytli-workstation 
+  110  ssh raven.mpcdf.mpg.de 
+  111  ssh hpc-cloud-ytli-workstation 
+  112  ssh raven.mpcdf.mpg.de 
+  113  ssh hpc-cloud-ytli-workstation 
+  114  ssh hpc-cloud-ytli-workstation 
+  115  scp hpc-cloud-ytli-workstation:/work/iter_glass/na4p2s7/refer_gap/*.png .
+  116  scp hpc-cloud-ytli-workstation:/work/iter_glass/na4p2s7/g1/result.xyz .
+  117  conda activate quip
+  118  ase gui result.xyz
+  119  scp hpc-cloud-ytli-workstation:/work/iter_glass/g2/val.xyz .
+  120  scp hpc-cloud-ytli-workstation:/work/iter_glass/g1/val.xyz .
+  121  ase gui val.xyz 
+  122  scp raven.mpcdf.mpg.de:~/glass_train/na4p2s7_g2/result.xyz .
+  123  ase gui result.xyz 
+  124  ls result.xyz 
+  125  vim result.xyz 
+  126  scp raven.mpcdf.mpg.de:~/glass_train/na4p2s7_1/result.xyz .
+  127  ase gui result.xyz 
+  128  ssh hpc-cloud-ytli-workstation 
+  129  ssh raven.mpcdf.mpg.de 
+  130  ssh hpc-cloud-ytli-workstation 
+  131  ssh raven.mpcdf.mpg.de 
+  132  ssh hpc-cloud-ytli-workstation 
+  133  ssh raven.mpcdf.mpg.de 
+  134  ssh hpc-cloud-ytli-workstation 
+  135  bash ~/.shh
+  136  bash ~/.ssh
+  137  ssh raven.mpcdf.mpg.de 
+  138  ssh hpc-cloud-ytli-workstation 
+  139  ssh raven.mpcdf.mpg.de 
+  140  ssh hpc-cloud-ytli-workstation 
+  141  ssh raven.mpcdf.mpg.de 
+  142  ssh hpc-cloud-ytli-workstation 
+  143  ssh raven.mpcdf.mpg.de 
+  144  ssh hpc
+  145  ssh hpc-cloud-ytli-workstation 
+  146  ssh -L 2345:localhost:5901 hpc-cloud-workstation
+  147  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation 
+  148  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation ':'
+  149  Liyutao0531@
+  150  vncviewer localhost:2345
+  151  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation ':'
+  152  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation
+  153  vncview localhost:2345
+  154  vncviewer localhost:2345
+  155  ls
+  156  vncviewer localhost:2345
+  157  LS
+  158  ls
+  159  vncviewer localhost:2345
+  160  scp hpc-cloud-ytli-workstation:/work/iter_glass/*tar.gz database/
+  161  cd softwares/
+  162  cd plot_error_function/
+  163  scp raven.mpcdf.mpg.de:~/gap_train/new_test_3/*txt 
+  164  scp raven.mpcdf.mpg.de:~/gap_train/new_test_3/*txt .
+  165  scp raven.mpcdf.mpg.de:~/gap_train/new_test_3/*py .
+  166  vim plot_iter.py 
+  167  conda activate quip
+  168  vim error_ls.txt 
+  169  vim plot_iter.py 
+  170  vim error_ls.txt 
+  171  vim plot_iter.py 
+  172  vim error_ls.txt 
+  173  ls
+  174  scp raven.mpcdf.mpg.de:~/gap_train/new_test_3/*py .
+  175  vim plot_iter.py 
+  176  ./plot_iter.py 
+  177  ls
+  178  ./plot_iter_special.py 
+  179  vncviewer localhost:2345 
+  180  ssh raven.mpcdf.mpg.de 
+  181  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation
+  182  vncviewer localhost:2345
+  183  conda activate quip
+  184  ssh raven.mpcdf.mpg.de 
+  185  ssh hpc-cloud-ytli-workstation 
+  186  ssh -L 2345:localhost:5901 hpc-cloud-workstation
+  187  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation
+  188  viewer localhost:2345
+  189  vncviewer localhost:2345
+  190  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation
+  191  ssh -L 2345 hpc-cloud-ytli-workstation 
+  192  ssh -L 2345:localhost:5901 hpc-cloud-workstation
+  193  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation 
+  194  vncviewer localhost:2345
+  195  LS
+  196  ls
+  197  cd softwares/
+  198  ls
+  199  cd tigervnc-1.12.0/
+  200  ls
+  201  vim README.rst 
+  202  pip install .
+  203  make
+  204  vim LICENCE.TXT 
+  205  ssh  raven.mpcdf.mpg.de 
+  206  ssh hpc-cloud-ytli-workstation 
+  207  ssh raven.mpcdf.mpg.de 
+  208  ls database/
+  209  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_msd.tar.gz database/
+  210  cd database/
+  211  ls
+  212  ll *
+  213  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_msd.tar.gz database/
+  214  cd ..
+  215  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_msd.tar.gz database/
+  216  cd database/
+  217  ls
+  218  mkdir triple_na
+  219  mv triple_msd.tar.gz triple_na/
+  220  cd triple_na/
+  221  tar -zxvf triple_msd.tar.gz 
+  222  ls
+  223  pwd
+  224  df
+  225  df -h /home/
+  226  df -h /home/ytli
+  227  df -h /home/yli
+  228  cd ~
+  229  ls -lh *
+  230  df 
+  231  ls /dev/nvme0n1p2
+  232  cd /dev/nvme0n1p2
+  233  cd /dev/
+  234  ls
+  235  ls -lh nvme0n1p2
+  236  vim nvme0n1p2
+  237  ls
+  238  cd ..
+  239  ls 
+  240  df
+  241  df /home/yli
+  242  df -f /home/yli
+  243  df
+  244  scp raven.mpcdf.mpg.de:~/md_test/conduct/naps3.tar.gz /home/yli/database/
+  245  ls media/yli/LaCie/
+  246  ls media/yli/LaCie/database/naps3/
+  247  df
+  248  ls
+  249  cd yli
+  250  ls
+  251  cd /home/yli
+  252  ls
+  253  du -sh
+  254  cd /dev/
+  255  ls
+  256  ls -l
+  257  ssh hpc-cloud-ytli-workstation 
+  258  conda activate quip
+  259  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/msds.py
+  260  /home/yli/anaconda3/envs/quip/bin/python /home/yli/msds.py
+  261  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  262  ls "media/yli/LaCie/"
+  263  ls media/yli/LaCie/database/naps3/1/geom.dump
+  264  ls /media/yli/LaCie/database/naps3/1/geom.dump
+  265  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  266  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  267  conda activate quip
+  268  ssh raven.mpcdf.mpg.de 
+  269  ssh -L 5033:hpc-cloud-ytli-workstation 
+  270  ssh hpc-cloud-ytli-workstation 
+  271  ssh raven.mpcdf.mpg.de 
+  272  ssh hpc-cloud-ytli-workstation 
+  273  ssh raven.mpcdf.mpg.de 
+  274  ssh hpc-cloud-ytli-workstation 
+  275  ls
+  276  vim ~/.ssh/id_rsa.pub 
+  277  ssh raven.mpcdf.mpg.de 
+  278  ssh hpc-cloud-ytli-workstation 
+  279  ssh raven.mpcdf.mpg.de 
+  280  ssh ytli
+  281  ssh hpc-cloud-ytli-workstation 
+  282  ssh raven.mpcdf.mpg.de 
+  283  grep MemTotal /proc/meminfo
+  284  df
+  285  df -l
+  286  df -l /home/yli
+  287  df -l /home/
+  288  df -l /home/yli
+  289  ssh raven.mpcdf.mpg.de 
+  290  lS /media/yli/LaCie/
+  291  scp raven.mpcdf.mpg.de:~/md_test/conduct/*.tar.gz /media/yli/LaCie/
+  292  scp raven.mpcdf.mpg.de:~/md_test/conduct/md_*.tar.gz /media/yli/LaCie/
+  293  conda activate quip
+  294  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  295  conda activate quip
+  296  conda activate quip
+  297  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  298  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  299  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  300  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  301  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  302  /bin/python3 /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  303  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  304  ls /media/
+  305  ls /media/yli
+  306  ls /media/yli/L
+  307  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  308  ls /media/yli/LaCie/database
+  309  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  310  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  311  df
+  312  ls
+  313  cd /home
+  314  ls
+  315  cd yli
+  316  ls
+  317  cd softwares/
+  318  ls
+  319  cd MD_analys_scripts/
+  320  LS
+  321  ls
+  322  ls -lh
+  323  ls
+  324  df
+  325  ls
+  326  df
+  327  htop
+  328  df
+  329  ssh raven.mpcdf.mpg.de 
+  330  ssh hpc-cloud-ytli-workstation 
+  331  scp raven.mpcdf.mpg.de:~/md_test/conduct/na3ps4/rdf.tar.gz .
+  332  df
+  333  ls /media/yli/LaCie/na3ps4/1/geom.dump
+  334  ls /media/yli/LaCie/na3ps4/
+  335  ls /media/yli/LaCie/
+  336  ls /media
+  337  ls /media/yli
+  338  ls /media/yli/LaCie/
+  339  cd /home/yli/
+  340  ls
+  341  cd softwares/
+  342  ls
+  343  cd MD_analys_scripts/
+  344  ls
+  345  cd ps
+  346  cd ps_plots/
+  347  ls
+  348  ll 
+  349  cd /media/yli/LaCie/naps3/
+  350  ls
+  351  cd 5
+  352  ls
+  353  conda activate quip
+  354  ase gui geom.dump 
+  355  df
+  356  ls
+  357  df
+  358  cd /home
+  359  ls
+  360  df
+  361  df -f yli
+  362  ls -lh  yli
+  363  ls
+  364  ls share
+  365  cd ytli
+  366  cd yli
+  367  df
+  368  ls
+  369  cd ~
+  370  ls
+  371  ls -lh
+  372  ls softwares/
+  373  df 
+  374  df
+  375  ls /home/yli
+  376  ls -lh /home/yli
+  377  df
+  378  cd ~
+  379  ls -lh ~
+  380  df 
+  381  cd /media/
+  382  ls
+  383  cd yli
+  384  ls
+  385  cd LaCie/
+  386  ls
+  387  cd naps3
+  388  ls
+  389  ls 1
+  390  ls -lh 1
+  391  cd ..
+  392  find . -name "geom.dump"
+  393  find . -name "geom.dump"|xargs -exec ls -lh
+  394  ssh raven.mpcdf.mpg.de 
+  395  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass/naps3_traj.tar.gz /media/yli/LaCie/
+  396  scp -r /home/yli/Downloads/crystal_na3ps4 ~/md_test/conduct/triple_crystal
+  397  scp -r /home/yli/Downloads/crystal_na3ps4 raven.mpcdf.mpg.de:~/md_test/conduct/triple_crystal
+  398  ssh hpc-cloud-ytli-workstation 
+  399  scp hpc-cloud-ytli-workstation:/work/home/ytli/softwares/refer_tobacco/tobacco_3.0/mofs.tar.gz .
+  400  scp hpc-cloud-ytli-workstation:/work/home/ytli/softwares/refer_tobacco/tobacco_3.0/mof_1.tar .
+  401  ls
+  402  lsblk
+  403  scp -r softwares/MD_analys_scripts hpc-cloud-ytli-workstation:
+  404  scp -r softwares/MD_analys_scripts hpc-cloud-ytli-workstation:/work/home/yli
+  405  scp -r softwares/MD_analys_scripts hpc-cloud-ytli-workstation:/work/home/
+  406  scp -r softwares/MD_analys_scripts hpc-cloud-ytli-workstation:/work/home
+  407  scp -r softwares/MD_analys_scripts hpc-cloud-ytli-workstation:/work/home/ytli
+  408  lsblk
+  409  df
+  410  lsblk
+  411  find . -xdev -type f -size +1000M
+  412  df
+  413  lsblk
+  414  df
+  415  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  416  ssh raven.mpcdf.mpg.de 
+  417  ssh hpc-cloud-ytli-workstation 
+  418  ls softwares/
+  419  scp -r softwares/MD_analys_scripts hpc-cloud-ytli-workstation:~/softwares
+  420  ssh hpc-cloud-ytli-workstation 
+  421  ssh hpc-cloud-ytli-workstation 
+  422  conda activate quip
+  423  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/test.py
+  424  ls /nexus/posix0/FHI-Theory
+  425  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/*.txt .
+  426  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/*.txt .
+  427  ls ~/na4p2s7.txt
+  428  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots /media/yli/LaCie/
+  429  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots /media/yli/LaCieconda activate quip
+  430  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  431  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  432  ssh raven.mpcdf.mpg.de 
+  433  ssh hpc-cloud-ytli-workstation 
+  434  ssh hpc-cloud-ytli-workstation 
+  435  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/ps_plot .
+  436  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/ps_plots .
+  437  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/ps_plots .
+  438  df
+  439  ls
+  440  ls -lh
+  441  find /media/yli/LaCie/beta -name "geom.dump"
+  442  find /media/yli/LaCie/beta -name "geom.dump"|xargs ls -lh
+  443  vim  /media/yli/LaCie/beta/5/geom.dump
+  444  scp hpc-cloud-ytli-workstation:Na_plots/beta_400K_* .
+  445  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots/beta_400K_* .
+  446  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/ps_plots/beta_400K_* .
+  447  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots/beta_400K_* .
+  448  df 
+  449  ssh raven.mpcdf.mpg.de 
+  450  scp raven.mpcdf.mpg.de:~/dimers_compute/dimer*xyz .
+  451  ase dimers.xyz 
+  452  ase gui dimers.xyz 
+  453  conda activate quip
+  454  ase gui dimers.xyz 
+  455  scp raven.mpcdf.mpg.de:glass_train/naps3/naps3.xyz .
+  456  ase naps3.xyz 
+  457  ase gui naps3.xyz 
+  458  python
+  459  ssh raven.mpcdf.mpg.de 
+  460  ssh hpc-cloud-ytli-workstation 
+  461  /bin/python3 /home/yli/softwares/scripts/scripts/struct_analysis.py
+  462  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/scripts/scripts/struct_analysis.py
+  463  ls /media/yli/Lacie/
+  464  ls /media/yli/
+  465  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/scripts/scripts/struct_analysis.py
+  466  ls glass_train/naps3/naps3.xyz
+  467  ls ~/naps3.xyz
+  468  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/scripts/scripts/struct_analysis.py
+  469  ssh raven.mpcdf.mpg.de 
+  470  ssh hpc-cloud-ytli-workstation 
+  471  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/crystal*.png .
+  472  ls crystal_volume_plot.png 
+  473  ll crystal_volume_plot.png 
+  474  scp -r raven.mpcdf.mpg.de:md_test/conduct/triple_crystal/crystal_na3ps4 .
+  475  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/crystal*.png .
+  476  ls
+  477  ls crystal_na3ps4
+  478  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/crystal*.png try_3.png
+  479  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/na*.xyz .
+  480  /bin/python3 /home/yli/softwares/scripts/scripts/struct_analysis.py
+  481  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/scripts/scripts/struct_analysis.py
+  482  conda activate quip
+  483  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/scripts/scripts/struct_analysis.py
+  484  /home/yli/anaconda3/envs/quip/bin/python /media/yli/LaCie/struct_analysis.py
+  485  conda activate quip
+  486  /home/yli/anaconda3/envs/quip/bin/python /media/yli/LaCie/scripts/scripts/struct_analysis.py
+  487  conda activate quip
+  488  /home/yli/anaconda3/envs/quip/bin/python /media/yli/LaCie/scripts/scripts/struct_analysis.py
+  489  ls
+  490  ssh raven.mpcdf.mpg.de 
+  491  ls
+  492  cd softwares/
+  493  ls
+  494  find . -name "*rdf*.py"
+  495  ssh hpc-cloud-ytli-workstation 
+  496  scp raven.mpcdf.mpg.de:~/amorphous_lps_sampling/na3ps4_new.xyz .
+  497  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/na3ps4_new.xyz .
+  498  ase gui na3ps4_new.xyz 
+  499  conda activate quip
+  500  ase gui na3ps4_new.xyz 
+  501  df
+  502  ssh raven.mpcdf.mpg.de 
+  503  ssh hpc-cloud-ytli-workstation 
+  504  conda activate quip
+  505  /home/yli/anaconda3/envs/quip/bin/python /media/yli/LaCie/scripts/scripts/struct_analysis.py
+  506  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/na4p2s7.xyz .
+  507  ls -lh na4p2s7.xyz 
+  508  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/na3ps4_g2.xyz .
+  509  /bin/python3 /media/yli/LaCie/scripts/scripts/struct_analysis.py
+  510  /home/yli/anaconda3/envs/quip/bin/python /media/yli/LaCie/scripts/scripts/struct_analysis.py
+  511  ssh hpc-cloud-ytli-workstation 
+  512  df
+  513  ls
+  514  ls -lh 
+  515  ls
+  516  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/final_compress.xyz .
+  517  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/fin*.xyz .
+  518  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/fin*.xyz /media/yli/LiCie
+  519  ls /media/yli/
+  520  ls /media/yli/LaCie/
+  521  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/fin*.xyz /media/yli/LaCie/
+  522  cd /media/yli/LaCie/scripts/scripts/
+  523  ls
+  524  conda activate quip
+  525  vim struct_analysis.py 
+  526  python struct_analysis.py 
+  527  vim struct_analysis.py 
+  528  python struct_analysis.py 
+  529  vim struct_analysis.py 
+  530  python struct_analysis.py 
+  531  vim struct_analysis.py 
+  532  python struct_analysis.py 
+  533  ssh raven.mpcdf.mpg.de 
+  534  ssh hpc-cloud-ytli-workstation 
+  535  ssh raven.mpcdf.mpg.de 
+  536  ssh hpc-cloud-ytli-workstation 
+  537  df
+  538  ssh raven.mpcdf.mpg.de 
+  539  ssh hpc-cloud-ytli-workstation 
+  540  ssh raven.mpcdf.mpg.de 
+  541  ls
+  542  ssh ytli
+  543  ssh hpc-cloud-ytli-workstation 
+  544  ssh hpc-cloud-ytli-workstation 
+  545  ssh -x hpc-cloud-ytli-workstation 
+  546  ssh -X hpc-cloud-ytli-workstation 
+  547  ssh raven.mpcdf.mpg.de 
+  548  df
+  549  ssh raven.mpcdf.mpg.de 
+  550  /bin/python3 /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  551  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  552  conda activate quip
+  553  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  554  ssh hpc-cloud-ytli-workstation 
+  555  df
+  556  ssh raven.mpcdf.mpg.de 
+  557  /bin/python3 /media/yli/LaCie/scripts/scripts/struct_analysis.py
+  558  /home/yli/anaconda3/envs/quip/bin/python /media/yli/LaCie/scripts/scripts/struct_analysis.py
+  559  ssh -X raven.mpcdf.mpg.de 
+  560  ssh raven.mpcdf.mpg.de 
+  561  ssh raven.mpcdf.mpg.de 
+  562  ssh hpc-cloud-ytli-workstation 
+  563  scp -r hpc-cloud-ytli-workstation:~/amorphous_lps_sampling /media/yli/
+  564  scp -r hpc-cloud-ytli-workstation:~/amorphous_lps_sampling .
+  565  scp -r hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/*.py .
+  566  scp -r hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/na*xyz amorphous_lps_sampling/
+  567  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_crystal/alpha/1/*.png .
+  568  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_crystal/alpha/2/*.png .
+  569  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_crystal/alpha/2/*.png 500K.png
+  570  ls 500K.png 
+  571  pwd
+  572  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_crystal/alpha/*tar.gz .
+  573  mkdir alpha
+  574  mv rdf_alpha.tar.gz alpha
+  575  cd alpha
+  576  tar -zxvf rdf_alpha.tar.gz 
+  577  ls
+  578  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_crystal/beta/*tar.gz .
+  579  mkdir beta
+  580  mv beta_pic.tar.gz beta
+  581  cd beta
+  582  tar -zxvf beta_pic.tar.gz 
+  583  ls ~/dataset
+  584  ls ~/database/
+  585  ls ~/database/triple_na/
+  586  cd ..
+  587  cd ~/database/
+  588  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_crystal/*.cif .
+  589  ls *.cif
+  590  ls ~/database/alpha_na3ps4.cif
+  591  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_3/na3ps4_4/*tar.gz .
+  592  mkdir glassy_na3ps4_rdf
+  593  cd glassy_na3ps4_rdf/
+  594  cp ../na3ps4_glassy.tar.gz .
+  595  tar -zxvf na3ps4_glassy.tar.gz 
+  596  ssh -X raven.mpcdf.mpg.de 
+  597  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_3/na3ps4_4/*.xyz .
+  598  ase gui 1.xyz
+  599  conda activate quip
+  600  ase gui 1.xyz
+  601  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_3/na3ps4_4/*oig*.xyz .
+  602  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_3/na3ps4_4/*orig*.xyz .
+  603  pwd
+  604  ls
+  605  vim 1.txt
+  606  ls
+  607  vim na3ps4_1.txt 
+  608  vim home/yli/database/glassy_na3ps4_rdf/na3ps4_comp.txt
+  609  mkdir naps3
+  610  cd naps3/
+  611  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass/naps3_2/*.xyz .
+  612  ls
+  613  vim na3ps4_comp.txt 
+  614  cd naps3
+  615  ls
+  616  ase gui 1.xyz
+  617  conda activate quip
+  618  ase gui 1.xyz
+  619  python
+  620  ssh raven.mpcdf.mpg.de 
+  621  ssh hpc-cloud-ytli-workstation 
+  622  /bin/python3 /media/yli/LaCie/scripts/scripts/struct_analysis.py
+  623  /home/yli/anaconda3/envs/quip/bin/python /media/yli/LaCie/scripts/scripts/struct_analysis.py
+  624  ssh hpc-cloud-ytli-workstation 
+  625  ssh hpc-cloud-ytli-workstation 
+  626  ssh hpc-cloud-ytli-workstation 
+  627  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct/*.png .
+  628  ls *.png
+  629  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/error*py .
+  630  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct/*.xyz .
+  631  ase gui train.xyz
+  632  conda activate quip
+  633  ase gui train.xyz
+  634  ./error.py 
+  635  python ./error.py 
+  636  pip install sklearn
+  637  python ./error.py 
+  638  python
+  639  pip install scikit-learning
+  640  pip install scikit-learn
+  641  python
+  642  python error.py
+  643  vim error.py
+  644  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct/*.xyz .
+  645  ../error.py
+  646  python error.py
+  647  vim error.py
+  648  python error.py
+  649  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct/*val.png .
+  650  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct/*val*.png .
+  651  ssh raven.mpcdf.mpg.de 
+  652  /bin/python3 /home/yli/error.py
+  653  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+  654  vim error.py 
+  655  ssh raven.mpcdf.mpg.de 
+  656  ssh raven.mpcdf.mpg.de 
+  657  scp raven.mpcdf.mpg.de:~/gap_train/new_test_3/new_test_2/plot_iter.py .
+  658  scp raven.mpcdf.mpg.de:~/gap_train/new_test_3/new_test_2/error* .
+  659  vim error_ls.txt 
+  660  cp error_ls.txt error_crystal.txt
+  661  vim error_crystal.txt 
+  662  mkdir crystal_converge
+  663  mv force.png energy.png crystal_converge/
+  664  ls crystal_converge/
+  665  cp error_ls.txt error_glassy.txt
+  666  vim error_glassy.txt 
+  667  mv force.png energy.png crystal_converge/
+  668  vim error_glassy.txt 
+  669  mkdir glass_converge
+  670  mv force.png energy.png glass_converge/
+  671  ls error.py
+  672  ssh hpc-cloud-ytli-workstation 
+  673  ls
+  674  ssh raven.mpcdf.mpg.de 
+  675  scp ./gap_train/third_test/g6/energy_val.png .
+  676  scp hpc-cloud-ytli-workstation:./gap_train/third_test/g6/energy_val.png .
+  677  scp hpc-cloud-ytli-workstation:/work/data/gap_train/third_test/g6/energy_val.png .
+  678  scp ./gap_train/turbo_test/g6/energy_val.png .
+  679  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g6/energy_val.png .
+  680  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g6/*.xyz .
+  681  ld
+  682  ls
+  683  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g5/*.xyz .
+  684  ase gui test.xyz 
+  685  ase gui val.xyz 
+  686  conda activate quip
+  687  ase gui val.xyz 
+  688  vim test.xyz 
+  689  scp hpc-cloud-ytli-workstation:./glass_gap_new/g8_turbo/energy_val.png .
+  690  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/g8_turbo/energy_val.png .
+  691  scp hpc-cloud-ytli-workstation:./glass_gap_new/g8_turbo/*.xyz .
+  692  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/g8_turbo/*.xyz .
+  693  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/g2/*.png .
+  694  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/g2/*.xyz .
+  695  scp raven.mpcdf.mpg.de:/work/data/glass_gap_new/snap_4/energy_val.png .
+  696  scp hpc-cloud-ytli-workstation::/work/data/glass_gap_new/snap_4/energy_val.png .
+  697  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/energy_val.png .
+  698  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/*.xyz .
+  699  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g2/*.xyz .
+  700  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+  701  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na3ps4/train_g3/*.xyz .
+  702  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/train_g2/*.xyz .
+  703  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g2/*.xyz .
+  704  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g3/*.xyz .
+  705  ls error*.txt
+  706  ssh raven.mpcdf.mpg.de 
+  707  conda activate quip
+  708  /home/yli/anaconda3/envs/quip/bin/python /home/yli/plot_iter.py
+  709  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+  710  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py/home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+  711  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+  712  /home/yli/anaconda3/envs/quip/bin/python /home/yli/plot_iter.py
+  713  conda activate quip
+  714  /home/yli/anaconda3/envs/quip/bin/python /media/yli/LaCie/scripts/scripts/visualize_violin.py
+  715  ssh raven.mpcdf.mpg.de 
+  716  ssh hpc-cloud-ytli-workstation 
+  717  ssh hpc-cloud-ytli-workstation 
+  718  scp -r raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_3/na4p2s7_new_1/na4p2s7 database/
+  719  ls database/
+  720  ls /home/yli/database/na4p2s7
+  721  ls /home/yli/database/na4p2s7/1.xyz
+  722  ls /home/yli/database/na4p2s7/*.xyz
+  723  conda activate quip
+  724  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+  725  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+  726  ls
+  727  ls *.png
+  728  mv NaPS3_new_com.png compositions/
+  729  ssh raven.mpcdf.mpg.de 
+  730  ssh hpc-cloud-ytli-workstation 
+  731  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_g2/*.xyz
+  732  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_g2/*.xyz .
+  733  vim test.xyz 
+  734  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct/*.xyz .
+  735  vim quip_train.xyz 
+  736  conda activate quip
+  737  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/md_analyse/scripts/scripts/struct_analysis.py
+  738  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/md_analyse/scripts/scripts/visualize_violin.py
+  739  ssh raven.mpcdf.mpg.de 
+  740  ssh hpc-cloud-ytli-workstation 
+  741  ssh raven.mpcdf.mpg.de 
+  742  ssh hpc-cloud-ytli-workstation 
+  743  conda activate quip
+  744  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+  745  ssh raven.mpcdf.mpg.de 
+  746  ssh hpc-cloud-ytli-workstation 
+  747  ssh hpc-cloud-ytli-workstation 
+  748  ssh raven.mpcdf.mpg.de 
+  749  history
+  750  history > history.txt

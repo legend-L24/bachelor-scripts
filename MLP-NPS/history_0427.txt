@@ -1,0 +1,1000 @@
+  824  cd ~
+  825  find . -name "*.png"
+  826  find . -name "*energy*val*png"
+  827  mkdir test_gap_model
+  828  mv ./energy_val_alpha.png ./energy_val_beta.png test_gap_model
+  829  cd test_gap_model/
+  830  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct_1/*.png
+  831  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct_1/*.png .
+  832  ls
+  833  mv energy_val_extra.png energy_val_na3ps4.png
+  834  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct_1/*.png .
+  835  mv energy_val_extra.png energy_val_naps3.png
+  836  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct_1/*.png .
+  837  mv energy_val_extra.png energy_val_na7p3s11.png
+  838  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/dimers_correct_1/*.png .
+  839  mv energy_val_extra.png energy_val_na4p2s7.png
+  840  ls /home/yli/database/glassy_na3ps4_rdf/naps3/
+  841  ls /home/yli/database/glassy_na3ps4_rdf/
+  842  ls /home/yli/database/
+  843  ls /home/yli/database/glassy_na3ps4_rdf/
+  844  ls /home/yli/database/glassy_na3ps4_rdf/1
+  845  find .
+  846  cd ..
+  847  find . -name "na4p2s7*png"
+  848  find . -name "na4p2s7*"
+  849  find . -name "na4p2s7*comp*"
+  850  vim /home/yli/database/glassy_na3ps4_rdf/naps3_comp.txt
+  851  ls -lh /home/yli/database/glassy_na3ps4_rdf/naps3_comp.txt
+  852  ls /home/yli/database/glassy_na3ps4_rdf/
+  853  ls /home/yli/database/glassy_na3ps4_rdf/*
+  854  ls -lh /home/yli/database/glassy_na3ps4_rdf/
+  855  ssh raven.mpcdf.mpg.de 
+  856  conda activate quip
+  857  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  858  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+  859  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  860  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+  861  ssh raven.mpcdf.mpg.de 
+  862  ssh hpc-cloud-ytli-workstation 
+  863  ssh raven.mpcdf.mpg.de 
+  864  ls *.py
+  865  ssh raven.mpcdf.mpg.de 
+  866  ssh hpc-cloud-ytli-workstation 
+  867  ssh raven.mpcdf.mpg.de 
+  868  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0208/test_new/test_glass.tar.gz .
+  869  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0208/test_new/test_glass.tar.gz database/
+  870  cd databse
+  871  cd database
+  872  ls
+  873  tar -zxvf test_glass.tar.gz 
+  874  ls
+  875  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0208/test_glass.tar.gz database
+  876  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0208/test_glass.tar.gz .
+  877  mkdir comp_glass
+  878  cp test_glass.tar.gz comp_glass/
+  879  mv test_glass.tar.gz comp_glass/
+  880  cd comp_glass/
+  881  tar -zxvf test_glass.tar.gz ./
+  882  ls
+  883  scp raven.mpcdf.mpg.de:~/md_test/conduct/*.tar.gz .
+  884  scp raven.mpcdf.mpg.de:~/md_test/conduct/*comp.tar.gz .
+  885  tar -zxvf na3ps4_comp.tar.gz
+  886  tar -zxvf na4p2s7_comp.tar.gz
+  887  cd ..
+  888  ssh hpc-cloud-ytli-workstation 
+  889  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/na3ps4_0208.xyz .
+  890  scp hpc-cloud-ytli-workstation:~/amorphous_lps_sampling/Full_Geo.xyz .
+  891  ssh raven.mpcdf.mpg.de 
+  892  conda activate quip
+  893  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  894  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+  895  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  896  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+  897  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  898  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+  899  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  900  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+  901  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  902  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+  903  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  904  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+  905  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  906  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+  907  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+  908  ssh raven.mpcdf.mpg.de 
+  909  ssh raven.mpcdf.mpg.de 
+  910  ssh hpc-cloud-ytli-workstation 
+  911  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2/*.png .
+  912  ls -lh *.png
+  913  ssh raven.mpcdf.mpg.de 
+  914  ls
+  915  clear
+  916  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0208/md_snapshot/na4p2s7_g2/traj.xyz na4p2s7_traj.xyz
+  917  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0208/md_snapshot/na3ps4_g2/traj.xyz na3ps4_traj.xyz
+  918  ls
+  919  ls na3ps4_traj.xyz
+  920  vim /home/yli/database/glassy_na3ps4_rdf/na3ps4_comp.txt
+  921  ssh raven.mpcdf.mpg.de 
+  922  ssh hpc-cloud-ytli-workstation 
+  923  scp error.py hpc-cloud-ytli-workstation:
+  924  scp error.py hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units
+  925  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2_test/*.png database/
+  926  conda activate quip
+  927  ssh raven.mpcdf.mpg.de 
+  928  ssh hpc-cloud-ytli-workstation 
+  929  ssh raven.mpcdf.mpg.de 
+  930  scp Downloads/cm1c01113_si_006.cif raven.mpcdf.mpg.de:~/md_test/conduct
+  931  cd softwares/MD_analys_scripts/
+  932  ls
+  933  find .. -name "glass_volume_plot.png"
+  934  cd ..
+  935  ls
+  936  cd tobacco_3.0-master/
+  937  ls
+  938  vim ~/Downloads/cm1c01113_si_006
+  939  vim ~/Downloads/cm1c01113_si_006.cif 
+  940  cd ~
+  941  find . -name "glass_volume_plot.png"
+  942  cd plot
+  943  ls
+  944  cd ..
+  945  ls crystal_na3ps4/
+  946  ls *.py
+  947  vim md.py 
+  948  vim plot_iter.py 
+  949  ls crystal_volume_plot.png 
+  950  vim error_1.py 
+  951  vim error_2.py 
+  952  vim error.py 
+  953  cd /media/yli/LaCie/
+  954  ls
+  955  find . -name "exam*py"
+  956  find ~ -name "exam*py"
+  957  find ~ -name "example_get_msd_conductivity.py"
+  958  vim /home/yli/softwares/MD_analys_scripts/example_get_msd_conductivity.py
+  959  ssh raven.mpcdf.mpg.de 
+  960  ls
+  961  clear
+  962  ssh hpc-cloud-ytli-workstation 
+  963  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/crystal_volume_plot.png database/
+  964  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/crystal_volume_plot*.png database/
+  965  ssh raven.mpcdf.mpg.de 
+  966  ssh hpc-cloud-ytli-workstation 
+  967  cd database/
+  968  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/check_npt.tar.gz .
+  969  ssh raven.mpcdf.mpg.de 
+  970  ls
+  971  clear
+  972  cd database/
+  973  ls
+  974  cd Na_plots/
+  975  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots/*g2*pdf .
+  976  cd ../ps_plots/
+  977  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/ps_plots/*g2*pdf .
+  978  cd ..
+  979  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0208/md_snapshot/na3ps4_g2/*.xyz .
+  980  conda activate quip
+  981  ase gui 1.xyz
+  982  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0208/md_snapshot/na4p2s7_g2/*.xyz .
+  983  ase gui 1.xyz
+  984  ssh hpc-cloud-ytli-workstation 
+  985  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2_test/energy_val_glass.png .
+  986  ssh hpc-cloud-ytli-workstation 
+  987  ls
+  988  find . -name "5.xyz"
+  989  find . -name "5.xyz"|xargs ls -lh
+  990  cd ./database/comp_glass/na7p3s11_1
+  991  ls
+  992  ase gui 1.xyz 
+  993  conda activate quip
+  994  ase gui 1.xyz 
+  995  cd ../
+  996  ls
+  997  cd na3ps4
+  998  ls
+  999  cd ../
+ 1000  ls
+ 1001  cd na3ps4
+ 1002  cd ..
+ 1003  cd na3ps4_2
+ 1004  ls
+ 1005  ase gui 1.xyz 
+ 1006  vim 1.xyz
+ 1007  ls
+ 1008  conda activate quip
+ 1009  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1010  conda activate quip
+ 1011  /home/yli/anaconda3/envs/quip/bin/python /home/yli/reduce_trset.py
+ 1012  ssh hpc-cloud-ytli-workstation 
+ 1013  ssh raven.mpcdf.mpg.de 
+ 1014  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2/train.xyz .
+ 1015  pip install dscribe
+ 1016  conda activate quip
+ 1017  pip install describe
+ 1018  python
+ 1019  pip install value
+ 1020  python
+ 1021  pip install mock
+ 1022  python
+ 1023  pip install describe
+ 1024  ls /raven/u/thuss/LAMMPS/lammps_22_10/build/lmp
+ 1025  ls /home/yli/na4p2s7_traj.xyz
+ 1026  ase gui /home/yli/na4p2s7_traj.xyz
+ 1027  ase gui /home/yli/na4ps4_traj.xyz
+ 1028  ase gui /home/yli/na3ps4_traj.xyz
+ 1029  ssh hpc-cloud-ytli-workstation 
+ 1030  ls train_*
+ 1031  scp def get_new_dataset(dataset, indexes):
+ 1032  scp ~/softwares/MD_analys_scripts/*.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply
+ 1033  vim train.xyz
+ 1034  scp ~/softwares/MD_analys_scripts/extra_*.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply
+ 1035  cd ~/softwares/MD_analys_scripts/
+ 1036  vim extra_structure.xyz 
+ 1037  scp ~/softwares/MD_analys_scripts/extra_*.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply
+ 1038  ssh raven.mpcdf.mpg.de 
+ 1039  scp raven.mpcdf.mpg.de:~/crystal_structure/mp-1101885.cif .
+ 1040  python
+ 1041  vim Na4P2S6.xyz 
+ 1042  scp Na4P2S6.xyz raven.mpcdf.mpg.de:~/md_test/conduct
+ 1043  ssh raven.mpcdf.mpg.de 
+ 1044  git clone git@gitlab.com:jmargraf/kqeq.git
+ 1045  git clone https://gitlab.com/jmargraf/kqeq.git
+ 1046  cd kqeq/
+ 1047  ls
+ 1048  pip install .
+ 1049  pip install describe
+ 1050  python
+ 1051  pip install describe
+ 1052  pip install value
+ 1053  python
+ 1054  pip install mock
+ 1055  python
+ 1056  ls
+ 1057  pip install dscribe
+ 1058  conda activate quip
+ 1059  pip install dscribe
+ 1060  which python
+ 1061  python --version
+ 1062  gcc
+ 1063  conda install -c conda-forge dscribe
+ 1064  python
+ 1065  conda activate quip
+ 1066  python 1.py
+ 1067  cat 1.py
+ 1068  pip install requests
+ 1069  cat 1.py
+ 1070  python 1.py
+ 1071  conda activate quip
+ 1072  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1073  ssh raven.mpcdf.mpg.de 
+ 1074  ssh raven.mpcdf.mpg.de 
+ 1075  ssh hpc-cloud-ytli-workstation 
+ 1076  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.png .
+ 1077  vim error.py 
+ 1078  scp error.py hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/
+ 1079  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.png energy_lmp_300.png
+ 1080  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/150/*.png energy_lmp_150.png
+ 1081  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.png energy_lmp_300.png
+ 1082  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/150/*.png energy_lmp_150.png
+ 1083  python
+ 1084  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.png energy_lmp_300.png
+ 1085  vim energy_lmp.png 
+ 1086  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/out*.xyz .
+ 1087  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/val.xyz outlier.xyz
+ 1088  ase outlier
+ 1089  ase outlier.xyz 
+ 1090  ase gui outlier.xyz 
+ 1091  ls *.xyz
+ 1092  scp *450*xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/
+ 1093  scp /work/data/iter_glass/soap_simply/*450*xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/
+ 1094  scp ~/softwares/MD_analys_scripts*450*xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/
+ 1095  scp ~/softwares/MD_analys_scripts/*450*xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/
+ 1096  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/outlier*.xyz .
+ 1097  ssh hpc-cloud-ytli-workstation 
+ 1098  scp hpc-cloud-ytli-workstation:
+ 1099  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/g2_test_again/.png p2s6.png
+ 1100  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/g2_test_again/*.png .
+ 1101  conda activate quip
+ 1102  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1103  /home/yli/anaconda3/envs/quip/bin/python /home/yli/reduce_trset.py
+ 1104  ls
+ 1105  ls *.xyz
+ 1106  /home/yli/anaconda3/envs/quip/bin/python /home/yli/reduce_trset.py
+ 1107  ssh raven.mpcdf.mpg.de 
+ 1108  ssh raven.mpcdf.mpg.de 
+ 1109  ssh hpc-cloud-ytli-workstation 
+ 1110  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2_test_p2s6/*.png .
+ 1111  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2_test_p2s6/test.xyz .
+ 1112  ls
+ 1113  cp train.xyz train_new.xyz
+ 1114  cat val.xyz >> train_new.xyz
+ 1115  vim val.xyz
+ 1116  cp train.xyz train_new.xyz
+ 1117  vim result.xyz 
+ 1118  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2_test_p2s6/result.xyz p2s6.xyz
+ 1119  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2_test_p2s6/val.xyz p2s6.xyz
+ 1120  vim p2s6.xyz 
+ 1121  cp train.xyz train_new.xyz
+ 1122  cat p2s6 >> train_new.xyz
+ 1123  cp train.xyz train_new.xyz
+ 1124  cat p2s6.xyz >> train_new.xyz
+ 1125  conda activate quip
+ 1126  /home/yli/anaconda3/envs/quip/bin/python /home/yli/reduce_trset.py
+ 1127  conda activate quip
+ 1128  ssh raven.mpcdf.mpg.de 
+ 1129  ssh hpc-cloud-ytli-workstation 
+ 1130  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/450/*.png energy_lmp_450.png
+ 1131  ls -lh train.xyz
+ 1132  ls ~/softwares/MD_analys_scripts
+ 1133  ls ~/softwares/MD_analys_scripts/*.xyz
+ 1134  scp ~/softwares/MD_analys_scripts/*60_*.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/
+ 1135  scp ~/softwares/MD_analys_scripts/*60*.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/
+ 1136  scp ~/softwares/MD_analys_scripts/tabea*.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/
+ 1137  /home/yli/anaconda3/envs/quip/bin/python /home/yli/reduce_trset.py
+ 1138  ssh raven.mpcdf.mpg.de 
+ 1139  ssh raven.mpcdf.mpg.de 
+ 1140  ssh hpc-cloud-ytli-workstation 
+ 1141  ssh raven.mpcdf.mpg.de 
+ 1142  ssh hpc-cloud-ytli-workstation 
+ 1143  s
+ 1144  ssh hpc-cloud-ytli-workstation 
+ 1145  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/*.png .
+ 1146  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/160/*.png .
+ 1147  ls -lh *.png
+ 1148  ls -lh energy_lmp.png 
+ 1149  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/260/*.png .
+ 1150  ls
+ 1151  vim train_new.xyz 
+ 1152  ls
+ 1153  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/*.tar.gz database/
+ 1154  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.png .
+ 1155  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/450/*.png .
+ 1156  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/260/*.png .
+ 1157  ls -lh energy_lmp.png
+ 1158  python
+ 1159  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap*tar.gz database/
+ 1160  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.png .
+ 1161  scp raven.mpcdf.mpg.de:/work/data/iter_glass/retrain_units/g2/energy_val_extra.png .
+ 1162  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2/energy_val_extra.png .
+ 1163  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2/energ*.png .
+ 1164  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.png .
+ 1165  ls *.xyz
+ 1166  ls p2s6.xyz 
+ 1167  cp train.xyz train_new.xyz 
+ 1168  cp p2s6.xyz train_new.xyz 
+ 1169  cat train.xyz >> train_new.xyz 
+ 1170  scp /home/yli/softwares/MD_analys_scripts/train_p2s6* hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300
+ 1171  conda activate quip
+ 1172  /home/yli/anaconda3/envs/quip/bin/python /home/yli/reduce_trset.py
+ 1173  conda activate quip
+ 1174  conda activate quip
+ 1175  conda activate quip
+ 1176  ssh hpc-cloud-ytli-workstation 
+ 1177  ssh raven.mpcdf.mpg.de 
+ 1178  ssh hpc-cloud-ytli-workstation 
+ 1179  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0/*.xyz .
+ 1180  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g1/*.xyz .
+ 1181  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2/*.xyz .
+ 1182  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0/*.xyz .
+ 1183  vim history.txt 
+ 1184  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na3ps4/train_g3/*.xyz .
+ 1185  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/g2/*.xyz .
+ 1186  scp hpc-cloud-ytli-workstation:./glass_gap_new/g8_turbo/*.xyz .
+ 1187  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1188  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g3/*.xyz .
+ 1189  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1190  ls
+ 1191  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_glass_g0
+ 1192  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_glass_g0/*.xyz .
+ 1193  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g3/*.xyz .
+ 1194  ls
+ 1195  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_glass_g0
+ 1196  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g3/*.xyz .
+ 1197  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_glass_g0/*.xyz .
+ 1198  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/g2/*.xyz .
+ 1199  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/g3/*.xyz .
+ 1200  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/*.xyz .
+ 1201  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_glass_g0
+ 1202  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_glass_g0/*.xyz .
+ 1203  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.xyz .
+ 1204  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_glass_g0/*.xyz .
+ 1205  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1206  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g3/*.xyz .
+ 1207  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/g8_turbo/*.xyz .
+ 1208  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g6/*.xyz .
+ 1209  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g5/*.xyz .
+ 1210  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300
+ 1211  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/*.xyz .
+ 1212  mv *newest.png database/
+ 1213  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g5/*.xyz .
+ 1214  conda activate quip
+ 1215  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.xyz .
+ 1216  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/*.xyz .
+ 1217  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.xyz .
+ 1218  scp hpc-cloud-ytli-workstation:./glass_gap_new/g8_turbo/*.xyz .
+ 1219  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/g8_turbo/*.xyz .
+ 1220  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300
+ 1221  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_glass_g0/*.xyz .
+ 1222  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/300/*.xyz .
+ 1223  ls
+ 1224  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1225  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0
+ 1226  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g5/*.xyz .
+ 1227  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0
+ 1228  conda activate quip
+ 1229  pip install scikit-learning
+ 1230  pip install scikit
+ 1231  pip install -U scikit-learn
+ 1232  mv *newest.png database/
+ 1233  ssh hpc-cloud-ytli-workstation 
+ 1234  conda activate quip
+ 1235  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1236  conda activate quip
+ 1237  conda activate quip
+ 1238  conda activate quip
+ 1239  conda activate quip
+ 1240  ssh hpc-cloud-ytli-workstation 
+ 1241  ssh raven.mpcdf.mpg.de 
+ 1242  ssh raven.mpcdf.mpg.de 
+ 1243  vim history.txt 
+ 1244  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/*.xyz .
+ 1245  scp test.xyz /work/data/iter_glass/retrain_units/g0_small
+ 1246  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_small
+ 1247  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_small/*.xyz 
+ 1248  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_small/*.xyz. 
+ 1249  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_small/*.xyz .
+ 1250  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2_test/*.xyz .
+ 1251  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_new_g2/*.xyz .
+ 1252  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_new/*.xyz .
+ 1253  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/soap_simply/p2s6_glass_g0/*.xyz .
+ 1254  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large .
+ 1255  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large/*.xyz .
+ 1256  vim history.txt 
+ 1257  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1258  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/ 
+ 1259  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1260  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large/*.xyz .
+ 1261  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2_test/*.xyz .
+ 1262  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/*.xyz .
+ 1263  scp test.xyz /work/data/iter_glass/retrain_units/g0_large
+ 1264  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large
+ 1265  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2/*.xyz .
+ 1266  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0/*.xyz .
+ 1267  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large/*.xyz .
+ 1268  vim history.txt 
+ 1269  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g2/*.xyz .
+ 1270  vim history.txt 
+ 1271  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1272  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large
+ 1273  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large/*.xyz .
+ 1274  ssh raven.mpcdf.mpg.de 
+ 1275  ssh hpc-cloud-ytli-workstation 
+ 1276  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1277  ssh raven.mpcdf.mpg.de 
+ 1278  ssh hpc-cloud-ytli-workstation 
+ 1279  ssh raven.mpcdf.mpg.de 
+ 1280  ssh hpc-cloud-ytli-workstation 
+ 1281  vim history.txt 
+ 1282  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g3/*.xyz .
+ 1283  ssh raven.mpcdf.mpg.de 
+ 1284  scp database/tz9b00322_si_001.cif raven.mpcdf.mpg.de:~/md_test/conduct
+ 1285  ssh raven.mpcdf.mpg.de 
+ 1286  ssh raven.mpcdf.mpg.de 
+ 1287  ssh hpc-cloud-ytli-workstation 
+ 1288  scp hpc-cloud-ytli-workstation:~/MD_analys_scripts/Na_plots database/Na_plots/
+ 1289  scp hpc-cloud-ytli-workstation:~/MD_analys_scripts/Na_plots/* database/Na_plots/
+ 1290  scp hpc-cloud-ytli-workstation:~/MD_analys_scripts/ps_plots/* database/ps_plots/
+ 1291  cd database/
+ 1292  ls
+ 1293  scp ~/md_test/conduct/triple_glass_0307/*comp.tar.gz .
+ 1294  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0307/*comp.tar.gz .
+ 1295  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0302/*comp.tar.gz
+ 1296  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0302/*comp.tar.gz .
+ 1297  ssh hpc-cloud-ytli-workstation 
+ 1298  vim history.txt 
+ 1299  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1300  scp test.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/
+ 1301  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/*.xyz .
+ 1302  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2/*.xyz .
+ 1303  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/*.xyz .
+ 1304  ssh raven.mpcdf.mpg.de 
+ 1305  ssh raven.mpcdf.mpg.de 
+ 1306  ssh hpc-cloud-ytli-workstation 
+ 1307  conda activate quip
+ 1308  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1309  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1310  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1311  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1312  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1313  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1314  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1315  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1316  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1317  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1318  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1319  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1320  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1321  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1322  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1323  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1324  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1325  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1326  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1327  ls *.pdf
+ 1328  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1329  conda activate quip
+ 1330  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1331  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1332  /home/yli/anaconda3/envs/quip/bin/python
+ 1333  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1334  conda activate quip
+ 1335  conda activate quip
+ 1336  conda activate quip
+ 1337  conda activate quip
+ 1338  conda activate quip
+ 1339  ssh raven.mpcdf.mpg.de 
+ 1340  ssh hpc-cloud-ytli-workstation 
+ 1341  ssh raven.mpcdf.mpg.de 
+ 1342  ssh hpc-cloud-ytli-workstation 
+ 1343  ssh raven.mpcdf.mpg.de 
+ 1344  ssh hpc-cloud-ytli-workstation 
+ 1345  ssh raven.mpcdf.mpg.de 
+ 1346  ssh raven.mpcdf.mpg.de 
+ 1347  squeue -u ytli
+ 1348  ssh raven.mpcdf.mpg.de 
+ 1349  scp hpc-cloud-ytli-workstation:
+ 1350  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/g2_g0_gama/*.xyz .
+ 1351  mkdir p2s6_0306
+ 1352  mv quip_train.xyz test.xyz p2s6_0306/
+ 1353  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/g2_g0_gama/*.xyz .
+ 1354  vim history.txt 
+ 1355  ssh hpc-cloud-ytli-workstation 
+ 1356  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2_test_p2s6/train.xyz .
+ 1357  scp train_p2s6_new*.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/
+ 1358  scp extra_structure.xyz  hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/
+ 1359  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/0307_try/*.xyz .
+ 1360  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/0307_try/*.png .
+ 1361  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/0307_try/*.xyz .
+ 1362  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large/*.xyz .
+ 1363  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g2/*.xyz .
+ 1364  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large/*.xyz .
+ 1365  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large/train..xyz .
+ 1366  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/g0_large/train.xyz .
+ 1367  scp train_p2s6_again_*.xyz raven.mpcdf.mpg.de:/work/data/iter_glass/retrain_units/
+ 1368  scp train_p2s6_again_*.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/
+ 1369  scp train_p2s6_again*.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/
+ 1370  scp extra_structure.xyz hpc-cloud-ytli-workstation:/work/data/iter_glass/retrain_units/
+ 1371  vim history.txt 
+ 1372  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g5/*.xyz .
+ 1373  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/g3_gama_g1_small .
+ 1374  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/g3_gama_g1_small/*.xyz .
+ 1375  ls error_crystal.txt 
+ 1376  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/g8_turbo/*.xyz .
+ 1377  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/*.xyz .
+ 1378  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1379  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g3/*.xyz .
+ 1380  find database/ -name "*0313*png"
+ 1381  find database/ -name "*0313*png"|xargs ls -lh
+ 1382  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1383  mkdir database/0313_figure
+ 1384  find database/ -name "*0313*png"|xargs cp database/0313_figure
+ 1385  find database/ -name "*0313*png"|xargs -exec cp database/0313_figure
+ 1386  cd database/
+ 1387  cp *0313*png 0313_figure/
+ 1388  conda activate quip
+ 1389  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1390  /home/yli/anaconda3/envs/quip/bin/python /home/yli/reduce_trset.py
+ 1391  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1392  /home/yli/anaconda3/envs/quip/bin/python /home/yli/reduce_trset.py
+ 1393  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1394  /home/yli/anaconda3/envs/quip/bin/python /home/yli/plot_iter.py
+ 1395  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1396  ssh hpc-cloud-ytli-workstation 
+ 1397  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/g3_gama_g1_small/*.xyz .
+ 1398  ssh hpc-cloud-ytli-workstation 
+ 1399  ssh raven.mpcdf.mpg.de 
+ 1400  ssh raven.mpcdf.mpg.de 
+ 1401  conda activate quip
+ 1402  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1403  ssh hpc-cloud-ytli-workstation 
+ 1404  ssh raven.mpcdf.mpg.de 
+ 1405  ssh hpc-cloud-ytli-workstation 
+ 1406  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/0315_test/glassy_md.tar.gz database/
+ 1407  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/0315_test/glassy_md.tar.gz database/0315/
+ 1408  cd database/0315
+ 1409  ls
+ 1410  tar -zxvf glassy_md.tar.gz 
+ 1411  ls
+ 1412  ssh -X hpc-cloud-ytli-workstation 
+ 1413  ssh raven.mpcdf.mpg.de 
+ 1414  ls /home/yli/database/0315
+ 1415  ls /home/yli/database/0315/na3ps4
+ 1416  cd database/na3ps4_2
+ 1417  scp hpc-cloud-ytli-workstation:~/home/ytli/amorphous_lps_sampling/na4p2s7_0313.xyz .
+ 1418  scp hpc-cloud-ytli-workstation:/home/ytli/amorphous_lps_sampling/na*_0313.xyz .
+ 1419  conda activate quip
+ 1420  ase gui na3ps4_0313.xyz
+ 1421  ase gui na4p2s7_0313.xyz
+ 1422  ase gui na7p3s11_0313.xyz
+ 1423  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/*plots database/0315
+ 1424  ls
+ 1425  mkdir database/0315
+ 1426  ssh hpc-cloud-ytli-workstation 
+ 1427  ls *.py
+ 1428  vim md.py 
+ 1429  find . -name "try.png"
+ 1430  cd plot
+ 1431  ls
+ 1432  cd ..
+ 1433  ls
+ 1434  ls *.py
+ 1435  ls plot
+ 1436  ls plot/try.png 
+ 1437  ls -lh plot/try.png 
+ 1438  ls *.py
+ 1439  ls softwares/
+ 1440  conda activate quip
+ 1441  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/plot_result.py
+ 1442  conda activate quip
+ 1443  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1444  pwd
+ 1445  conda activate quip
+ 1446  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1447  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1448  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1449  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1450  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1451  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1452  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1453  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1454  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1455  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1456  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1457  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1458  ssh raven.mpcdf.mpg.de 
+ 1459  ssh hpc-cloud-ytli-workstation 
+ 1460  mkdir database/
+ 1461  mkdir database/new_conductivity
+ 1462  scp -r raven.mpcdf.mpg.de:~/softwares/MD_analys_scripts/Na_plots database/new_conductivity
+ 1463  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots database/new_conductivity
+ 1464  mkdir database/0320_comp
+ 1465  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0316/comp_0320.tar.gz database/0320_comp
+ 1466  cd database/0320_comp
+ 1467  ls
+ 1468  tar -zxvf comp_0320.tar.gz
+ 1469  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0316/comp_last_0320.tar.gz .
+ 1470  mkdir last
+ 1471  mv comp_last_0320.tar.gz last/
+ 1472  cd last/
+ 1473  tar -zxvf comp_last_0320.tar.gz 
+ 1474  cd ..
+ 1475  mkdir 0320
+ 1476  find . -name "*last_20*"
+ 1477  find . -name "*20*png"
+ 1478  mv picked_only_20_na4p2s7.png 0320
+ 1479  ls
+ 1480  cp new_conductivity/Na_plots/examples/* 0320
+ 1481  ssh raven.mpcdf.mpg.de 
+ 1482  ssh hpc-cloud-ytli-workstation 
+ 1483  ssh raven.mpcdf.mpg.de 
+ 1484  conda activate quip
+ 1485  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1486  ls -lh *.png
+ 1487  ls -lh database/*.png
+ 1488  ssh hpc-cloud-ytli-workstation 
+ 1489  ssh hpc-cloud-ytli-workstation 
+ 1490  ssh raven.mpcdf.mpg.de 
+ 1491  ssh hpc-cloud-ytli-workstation 
+ 1492  conda activate quip
+ 1493  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1494  ls database/
+ 1495  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/ps_plots database/new_conductivity/
+ 1496  conda activate quip
+ 1497  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1498  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/plot_result.py
+ 1499  ssh hpc-cloud-ytli-workstation 
+ 1500  ssh raven.mpcdf.mpg.de 
+ 1501  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots/na7p3s11_3_1_600K_raw.pdf .
+ 1502  mkdir database/0322
+ 1503  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/*_plots database/0322
+ 1504  ssh hpc-cloud-ytli-workstation 
+ 1505  conda activate quip
+ 1506  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1507  ssh hpc-cloud-ytli-workstation 
+ 1508  ssh raven.mpcdf.mpg.de 
+ 1509  mkdir database/0324
+ 1510  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0316/0324_full.tar.gz database/0324
+ 1511  030263
+ 1512  cd database/0324
+ 1513  tar -zxvf 0324_full.tar.gz 
+ 1514  cd na4p2s7_1
+ 1515  ase gui 2_full_traj.xyz 
+ 1516  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0316/na4p2s7_0318.xyz .
+ 1517  ase gui na4p2s7_0318.xyz 
+ 1518  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0316/na3ps4_0324.tar.gz /home/yli/database/0324/
+ 1519  cd /home/yli/database/0324/
+ 1520  ls
+ 1521  tar -zxvf na3ps4_0324.tar.gz
+ 1522  cd na3ps4_0324
+ 1523  ls
+ 1524  conda activate quip
+ 1525  python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1526  cd /home/yli/softwares/new_scripts/scripts/
+ 1527  cp struct_analysis.py struct_analysis_parallel.py 
+ 1528  vim struct_analysis_parallel.py
+ 1529  python /home/yli/softwares/new_scripts/scripts/struct_analysis_parallel.py 
+ 1530  vim struct_analysis_parallel.py
+ 1531  python /home/yli/softwares/new_scripts/scripts/struct_analysis_parallel.py 
+ 1532  vim struct_analysis_parallel.py
+ 1533  python /home/yli/softwares/new_scripts/scripts/struct_analysis_parallel.py 
+ 1534  vim struct_analysis_parallel.py 
+ 1535  vim /home/yli/database/glassy_na3ps4_rdf/na3ps4_0324_simple.txt
+ 1536  ssh hpc-cloud-ytli-workstation 
+ 1537  ssh -X hpc-cloud-ytli-workstation 
+ 1538  651830
+ 1539  vim history.txt 
+ 1540  scp hpc-cloud-ytli-workstation:./glass_gap_new/g8_turbo/energy_val.png .
+ 1541  scp hpc-cloud-ytli-workstation:./glass_gap_new/g8_turbo/*.xyz .
+ 1542  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g6/*.xyz .
+ 1543  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g5/*.xyz .
+ 1544  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/g8_turbo/*.xyz .
+ 1545  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na3ps4/train_g3/*.xyz .
+ 1546  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/*.xyz .
+ 1547  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1548  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g3/*.xyz .
+ 1549  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/na4p2s7/train_g3/*.xyz .
+ 1550  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/naps3/g3/*.xyz .
+ 1551  scp hpc-cloud-ytli-workstation:/work/data/glass_gap_new/snap_4/*.xyz .
+ 1552  scp hpc-cloud-ytli-workstation:./glass_gap_new/g8_turbo/*.xyz .
+ 1553  scp hpc-cloud-ytli-workstation:~/glass_gap_new/g8_turbo/*.xyz .
+ 1554  scp hpc-cloud-ytli-workstation:/work/data/gap_train/turbo_test/g5/*.xyz .
+ 1555  mkdir 0325_plot
+ 1556  mv *0325.png 0325_plot/
+ 1557  ls 0325_plot/
+ 1558  ssh hpc-cloud-ytli-workstation 
+ 1559  ssh raven.mpcdf.mpg.de 
+ 1560  ls Downloads/
+ 1561  ls Downloads/amorphous_lps_sampling-main.tar.gz 
+ 1562  scp Downloads/amorphous_lps_sampling-main.tar.gz hpc-cloud-ytli-workstation:~/softwares/new_amorphous
+ 1563  scp hpc-cloud-ytli-workstation:~/softwares/amorphous_lps_sampling-main/na3ps4*.xyz .
+ 1564  scp na3ps4_bridson.xyz raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0316/
+ 1565  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/example_get_msd_conductivity.py softwares/MD_analys_scripts
+ 1566  ssh raven.mpcdf.mpg.de 
+ 1567  conda activate quip
+ 1568  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1569  ssh hpc-cloud-ytli-workstation 
+ 1570  ssh hpc-cloud-ytli-workstation 
+ 1571  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/g2/*.xyz .
+ 1572  vim history.txt 
+ 1573  scp raven.mpcdf.mpg.de:~/md_snapspot/cubic/*.xyz .
+ 1574  vim test.xyz 
+ 1575  vim quip_train.xyz 
+ 1576  scp raven.mpcdf.mpg.de:~/md_snapspot/cubic_1/*.xyz .
+ 1577  vim quip_train.xyz 
+ 1578  ls *.py
+ 1579  vim plot_iter.py 
+ 1580  find . -name "crystal.txt"
+ 1581  find . -name "error_crystal.txt"
+ 1582  cp error_crystal.txt error_glass.txt
+ 1583  vim error_glass.txt 
+ 1584  cp error_glass.txt error_local.txt
+ 1585  vim error_local.txt 
+ 1586  ssh raven.mpcdf.mpg.de 
+ 1587  ssh hpc-cloud-ytli-workstation 
+ 1588  ls
+ 1589  ssh hpc-cloud-ytli-workstation 
+ 1590  ssh hpc-cloud-ytli-workstation 
+ 1591  mkdir database/0404
+ 1592  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/*_plots database/0404
+ 1593  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/*png database/0404
+ 1594  conda activate quip
+ 1595  conda activate quip
+ 1596  /home/yli/anaconda3/envs/quip/bin/python /home/yli/plot_iter.py
+ 1597  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1598  ssh raven.mpcdf.mpg.de 
+ 1599  ssh raven.mpcdf.mpg.de 
+ 1600  conda activate quip
+ 1601  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1602  conda activate quip
+ 1603  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1604  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1605  ssh raven.mpcdf.mpg.de 
+ 1606  ssh hpc-cloud-ytli-workstation 
+ 1607  cd database/
+ 1608  ls
+ 1609  cd 0405
+ 1610  cd 0405_comp/
+ 1611  ls
+ 1612  mkdir msd_plots
+ 1613  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/msd_plots
+ 1614  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/*.png msd_plots/
+ 1615  ssh raven.mpcdf.mpg.de 
+ 1616  ssh hpc-cloud-ytli-workstation 
+ 1617  ssh -X raven.mpcdf.mpg.de 
+ 1618  ssh raven.mpcdf.mpg.de 
+ 1619  ssh raven.mpcdf.mpg.de 
+ 1620  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_freeze/na3ps4/2/log.temp database/
+ 1621  13765
+ 1622  cd softwares/
+ 1623  find . -name "plot_result*"
+ 1624  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_freeze_new/na3ps4/2/log_fix.temp database/
+ 1625  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_freeze_new/na3ps4/2/log_fix.temp ~/database/
+ 1626  cd ~
+ 1627  vim database/log_fix.temp 
+ 1628  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/fix_atom dataset
+ 1629  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/*fix*.png dataset
+ 1630  ssh -X raven.mpcdf.mpg.de 
+ 1631  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/plot_result.py
+ 1632  conda activate quip
+ 1633  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/plot_result.py
+ 1634  ls ~/database/log.temp 
+ 1635  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/plot_result.py
+ 1636  conda activate quip
+ 1637  ssh raven.mpcdf.mpg.de 
+ 1638  ssh hpc-cloud-ytli-workstation 
+ 1639  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/freeze_force dataset/
+ 1640  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/mass_change dataset/
+ 1641  ssh hpc-cloud-ytli-workstation 
+ 1642  ssh raven.mpcdf.mpg.de 
+ 1643  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1644  ssh raven.mpcdf.mpg.de 
+ 1645  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_mass_S/na3ps4/3/log.temp database/
+ 1646  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/msd_plots database/
+ 1647  rm -r database/msd_plots/
+ 1648  rm -r database/msd_plots
+ 1649  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/msd_plots database/
+ 1650  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_mass_P/na4p2s7/geom_500.in database/msd_plots/geom_increasing_mass.in
+ 1651  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_mass_P/na3ps4/geom_500.in database/msd_plots/geom_set_force.in
+ 1652  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_freeze_P/na3ps4/3/log.temp dataset
+ 1653  scp raven.mpcdf.mpg.de:~/md_test/conduct/freeze_traj.tar.gz database/msd_plots
+ 1654  cd database/msd_plots/
+ 1655  ls
+ 1656  tar -zxvf freeze_traj.tar.gz 
+ 1657  cd triple_glass_mass_P/na3ps4/
+ 1658  ls
+ 1659  conda activate quip
+ 1660  ase gui 2_full_traj.xyz 
+ 1661  ase gui 4_full_traj.xyz 
+ 1662  vim 4_full_traj.xyz 
+ 1663  ssh hpc-cloud-ytli-workstation 
+ 1664  ssh hpc-cloud-ytli-workstation 
+ 1665  ssh hpc-cloud-ytli-workstation 
+ 1666  cd dataset
+ 1667  ls
+ 1668  cd ../database/msd_plots/
+ 1669  ls
+ 1670  cd mass_S
+ 1671  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/msd_plots/mass_S/*.png .
+ 1672  clear
+ 1673  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/freeze_new/mass_S/*.png .
+ 1674  ls /home/yli/database/0324/
+ 1675  ls /home/yli/database/0324/na3ps4
+ 1676  cd softwares/MD_analys_scripts/
+ 1677  LS
+ 1678  ls
+ 1679  cd ..
+ 1680  ls
+ 1681  cd new_scripts/
+ 1682  ls
+ 1683  cd scripts/
+ 1684  ls
+ 1685  vim struct_analysis_parallel.py 
+ 1686  mkdir /home/yli/database/equ
+ 1687  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_0316/na4p2s7_comp.tar.gz /home/yli/database/equ
+ 1688  vim struct_analysis_parallel.py
+ 1689  python struct_analysis_parallel.py 
+ 1690  nohup python struct_analysis_parallel.py &
+ 1691  cp struct_analysis_parallel.py struct_analysis_0.py 
+ 1692  vim struct_analysis_0.py 
+ 1693  nohup python struct_analysis_0.py &
+ 1694  top
+ 1695  cp struct_analysis_parallel.py struct_analysis_1.py 
+ 1696  vim struct_analysis_1.py 
+ 1697  nohup python struct_analysis_1.py &
+ 1698  top
+ 1699  vim nohup.out 
+ 1700  vim struct_analysis_0.py 
+ 1701  top
+ 1702  ls
+ 1703  vim nohup.out 
+ 1704  top
+ 1705  vim nohup.out 
+ 1706  top
+ 1707  vim nohup.out 
+ 1708  top
+ 1709  vim nohup.out 
+ 1710  conda activate quip
+ 1711  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1712  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/plot_result.py
+ 1713  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1714  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/plot_result.py
+ 1715  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1716  conda activate quip
+ 1717  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis_parallel.py
+ 1718  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1719  conda activate quip
+ 1720  ssh raven.mpcdf.mpg.de 
+ 1721  ssh raven.mpcdf.mpg.de 
+ 1722  ssh -X hpc-cloud-ytli-workstation 
+ 1723  cd /home/yli/database
+ 1724  ls
+ 1725  cd equ
+ 1726  ls
+ 1727  tar -zxvf na4p2s7_comp.tar.gz 
+ 1728  top
+ 1729  cd ~/database/msd_plots/
+ 1730  cd triple_glass_freeze_P/
+ 1731  cd na3ps4/
+ 1732  ase gui 4_full_traj.xyz 
+ 1733  cd ..
+ 1734  cd ../triple_glass_freeze_S
+ 1735  ssh raven.mpcdf.mpg.de 
+ 1736  scp raven.mpcdf.mpg.de:~/md_test/conduct/triple_glass_freeze_P/na3ps4/*full_traj* .
+ 1737  ase gui 3_full_traj.xyz 
+ 1738  ssh -X raven.mpcdf.mpg.de 
+ 1739  conda activate quip
+ 1740  conda activate quip
+ 1741  vim plot_iter.py 
+ 1742  ssh raven.mpcdf.mpg.de 
+ 1743  conda activate quip
+ 1744  conda activate quip
+ 1745  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots/*450* database/Na_plots/
+ 1746  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/*450* database/ps_plots/
+ 1747  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/ps_plots/*450* database/ps_plots/
+ 1748  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots/*450* database/Na_plots/
+ 1749  scp hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/Na_plots/*600* database/Na_plots/
+ 1750  ssh raven.mpcdf.mpg.de 
+ 1751  scp -r hpc-cloud-ytli-workstation:~/softwares/MD_analys_scripts/plots database/
+ 1752  ls database/plots/
+ 1753  ls database/plots/na3ps4_*.txt
+ 1754  vncviewer localhost:2345
+ 1755  ssh hpc-cloud-ytli-workstation 
+ 1756  ssh  hpc-cloud-workstation 'vncserver :1'
+ 1757  ssh  hpc-cloud-ytli-workstation 'vncserver :1'
+ 1758  ssh -L 2345:localhost:5901 hpc-cloud-workstation ':'
+ 1759  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation ':'
+ 1760  ssh -L 2345:localhost:5901 hpc-cloud-ytli-workstation
+ 1761  ssh hpc-cloud-ytli-workstation 
+ 1762  ssh hpc-cloud-ytli-workstation 
+ 1763  ls database/
+ 1764  vim database/plots/na3ps4_0_500K_all_all.txt
+ 1765  vim na3ps4_0_500K_s.txt
+ 1766  vim database/plots/na3ps4_0_500K_s.txt 
+ 1767  pwd
+ 1768  python
+ 1769  ssh raven.mpcdf.mpg.de 
+ 1770  ssh hpc-cloud-ytli-workstation 
+ 1771  cd database/
+ 1772  ls msd_plots
+ 1773  ls plots
+ 1774  clear
+ 1775  ls plots/*550*
+ 1776  ls plots/*450*
+ 1777  ls plots/*850*
+ 1778  ls plots/*brids*
+ 1779  ls /home/yli/database/*900*
+ 1780  ls /home/yli/database/plots/*900*
+ 1781  ls /home/yli/database/plots/*450*
+ 1782  ls /home/yli/database/plots/*550*
+ 1783  ssh raven.mpcdf.mpg.de 
+ 1784  ssh raven.mpcdf.mpg.de 
+ 1785  conda activate quip
+ 1786  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/msd_violin.py
+ 1787  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1788  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/msd_violin.py
+ 1789  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1790  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/msd_violin.py
+ 1791  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1792  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/msd_violin.py
+ 1793  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/visualize_violin.py
+ 1794  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/msd_violin.py
+ 1795  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1796  ssh raven.mpcdf.mpg.de 
+ 1797  conda activate quip
+ 1798  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/new_scripts/scripts/struct_analysis.py
+ 1799  conda activate quip
+ 1800  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1801  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1802  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1803  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1804  ssh hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/g3_gama_g2_small/*.xyz .
+ 1805  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/g3_gama_g2_small/*.xyz .
+ 1806  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/new_gama_g0/*.xyz .
+ 1807  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/new_gama_g1/*.xyz .
+ 1808  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/new_gama_g2/*.xyz .
+ 1809  ssh raven.mpcdf.mpg.de 
+ 1810  conda activate quip
+ 1811  /home/yli/anaconda3/envs/quip/bin/python /home/yli/softwares/MD_analys_scripts/arrhenius.py
+ 1812  /home/yli/anaconda3/envs/quip/bin/python /home/yli/error.py
+ 1813  ssh hpc-cloud-ytli-workstation 
+ 1814  scp hpc-cloud-ytli-workstation:/work/data/iter_glass/gap_0306/new_gama_g3/*.xyz .
+ 1815  ssh hpc-cloud-ytli-workstation 
+ 1816  find . -name "element.ini"
+ 1817  find . -name "element*.ini"
+ 1818  find . -name "element*"
+ 1819  ls
+ 1820  ssh raven.mpcdf.mpg.de 
+ 1821  scp hpc-cloud-ytli-workstation:/work/data/glass_gap/g7/*.xyz .
+ 1822  history
+ 1823  history > history_0427.txt
