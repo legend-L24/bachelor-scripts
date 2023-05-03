@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+/home/ytli/softwares/QUIP/build/linux_x86_64_gfortran_openmp/gap_fit  at_file=train.xyz sparse_jitter=1e-10 gap={distance_2b cutoff=5.0 covariance_type=ard_se cutoff_transition_width=0.6 delta=0.6 theta_uniform=1.0 sparse_method=uniform add_species=T n_sparse=20 : soap cutoff=6.0 cutoff_transition_width=2.0 n_max=4 l_max=12 delta=0.05 atom_sigma=0.8 zeta=2 n_sparse=200 normalise=T sparse_method=cur_points add_species covariance_type=dot_product} e0_method=isolated default_sigma={0.0005 0.02 0.1 1.0} energy_parameter_name=energy force_parameter_name=forces do_copy_at_file=F sparse_separate_file=T gp_file=gp_2b_soap.xml >& out.log 
