@@ -1,0 +1,21 @@
+{"initial_density":1.3,
+"final_densrange":[1.7, 1.9],
+"cell":[[12.37549515, 0.0, 0.0],
+                 [-2.57550726, 11.86797731, 0.0],
+                 [-2.73043011, -4.41844128, 11.28104536]],
+"cation":"Li",
+"building_blocks":
+	{"p2s7":10,
+	"p2s6":10,
+	"p2s6_":10,
+	"ps4":10},
+"gap":
+	{"gapdir":"gap/GAP_11.xml",
+	 "label_file":"GAP_2021_8_13_120_2_27_27_481"
+	},
+"opt_params": 
+	{"compr_factor":0.99,
+	 "fmax":3.0,
+	 "nsteps":100
+}
+}

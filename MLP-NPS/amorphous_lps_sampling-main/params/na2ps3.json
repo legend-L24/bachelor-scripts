@@ -1,0 +1,21 @@
+{"initial_density":1.65,
+"final_densrange": [1.95, 2.15],
+"cell":[[12.0,  0.0        ,  0.0        ],
+       [0.0, 12.0,  0.0        ],
+       [ 0.0,  0.0, 12.0   ]],
+"cation":"Na",
+"building_blocks":
+	{"p2s7":0,
+	"p2s6":30,
+	"p2s6_":0,
+	"ps4":0},
+"gap":
+  	{"gapdir":"gap/gp_2b_soap.xml",
+  	 "label_file":"GAP_2023_3_5_0_17_33_0_661"
+  	},
+"opt_params": 
+   {"compr_factor":0.99,
+  	"fmax":3.0,
+  	"nsteps":100
+}
+}
