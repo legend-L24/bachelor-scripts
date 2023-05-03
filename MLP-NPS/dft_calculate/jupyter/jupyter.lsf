@@ -1,0 +1,13 @@
+#!/bin/bash
+#BSUB -q fat
+#BSUB -J gap_test
+#BSUB -o %J.stdout
+#BSUB -n 1
+#BSUB -R "span[ptile=24]"
+
+# add modulefiles
+source ~/.bashrc
+
+cat /etc/hosts | grep c51-s001
+jupyter-lab --ip=0.0.0.0 --port=9898
+

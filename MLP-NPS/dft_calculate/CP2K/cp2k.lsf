@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+#BSUB -q 51-medium
+#BSUB -W 12:00
+#BSUB -J 0.37
+#BSUB -o cp2k.%J.stdout
+#BSUB -e cp2k.%J.stderr
+#BSUB -n 48
+
+# add modulefiles
+module load intel/17.5.239 mpi/intel/2017.5.239
+module load gcc/5.5.0
+module load cp2k/7.1
+
+for i in $(seq 0 1 99)
+do
+    mpiexec.hydra cp2k.popt input_${i}.inp >& output_${i}
+    rm *bak* 
+done

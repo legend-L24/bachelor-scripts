@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH -o ./tjob.out.%j
+#SBATCH -e ./tjob.err.%j
+#SBATCH -J test_lammps
+#SBATCH --partition=broadwl
+
+#SBATCH --time=00:30:00
+
+#SBATCH --nodes=4
+
+#SBATCH --ntasks-per-node=72
+
+#SBATCH --cpus-per-task=1
+
+#SBATCH --exclusive
+
+module purge
+module load gcc/10 impi/2021.2 mkl/2021.2 fftw-mpi/3.3.9 gsl/2.4
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$MKLROOT/lib/intel64"
+ 
+#srun /u/ytli/apps/lammps/lammps_20201029/build/lmp -in in.lammps -l log.lammps_1 > out
+srun -n 288 /raven/u/thuss/LAMMPS/lammps_22_10/build/lmp -in geom.in -l log.lammps > out

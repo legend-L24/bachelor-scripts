@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#SBATCH -o ./tjob.out.%j        #Standard output
+#SBATCH -e ./tjob.err.%j        #Error output
+#SBATCH -D ./                   #Initial working directory
+#SBATCH -J aims_test_memory              #Job name
+#SBATCH --nodes=4               #Nr. of compute nodes
+#SBATCH --ntasks=288             #Nr. of MPI processes for the job
+#SBATCH --ntasks-per-core=1     #Nr. of threads per MPI process; set always to 1
+#SBATCH --mem=24000             #Memory in MB
+#SBATCH --mail-type=none
+#SBATCH --mail-user=vondrak@fhi-berlin.mpg.de
+#SBATCH --time=5:59:00         #Wall clock time; max = 24:00:00
+
+export OMP_NUM_THREADS=1        #Disables OpenMP multi-threading
+export MKL_DYNAMIC=FALSE        #Disables MKL (Math Kernel Library) to dynamically change the number of threads
+export MKL_NUM_THREADS=1        #Disable MKL multi-threading
+
+#Load compiler and modules
+module purge                    #To start at the root of the environment modules hierarchy
+module load intel/21.4.0       #Intel Fortran compiler: currently recommended version (Feb 2021) by MPCDF on Raven: intel/19.1.2
+module load mkl/2021.4          #Intel MKL
+module load impi/2021.4        #Intel MPI: currently recommended version (Feb 2021) by MPCDF on Raven: impi/2019.8
+module load gcc/11
+module load anaconda    #Manage python packages: currently (Feb 2021) official supported python environment by MPCDF: anaconda/3/2020.02
+module load fhiaims/210716
+
+export aimsbin="aims.210716_2.mpi.x"
+
+
+# Run the program
+for i in $(seq 1 1 13)
+do
+	cp geometry_${i}.in geometry.in
+	cp control_${i}.in control.in
+	srun -n 288 $aimsbin > aims.out
+	echo "this is one time to compute">> record.txt
+	mv aims.out output__${i}
+	sleep 10s
+done
