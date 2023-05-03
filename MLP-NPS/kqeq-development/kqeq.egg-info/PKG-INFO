@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: kqeq
+Version: 0.1
+Summary: A Python implementation of the kernel Charge Equilibration method, allows training and using physics-based machine-learning models for predicting charge distributions in molecules and materials.
+Home-page: https://jmargraf.gitlab.io/kqeq/
+Author: Johannes Margraf, 
+Author-email: margraf@fhi.mpg.de
+License: The software is licensed under the MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+License-File: LICENSE
