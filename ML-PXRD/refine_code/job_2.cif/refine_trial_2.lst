@@ -1,0 +1,98 @@
+********************************************************************************
+   General Structure Analysis System-II Crystal Structure Refinement
+              by Robert B. Von Dreele & Brian H. Toby
+                Argonne National Laboratory(C), 2010
+ This product includes software developed by the UChicago Argonne, LLC,
+            as Operator of Argonne National Laboratory.
+                          Please cite:
+   B.H. Toby & R.B. Von Dreele, J. Appl. Cryst. 46, 544-549 (2013)
+********************************************************************************
+ Least squares controls:
+ Refinement type: analytic Hessian
+ Maximum number of cycles: 3
+ Regularize hydrogens (if any): False
+ Initial shift factor: 1.000
+
+ Phases:
+
+ Phase name: trial
+=======================================================================================================================================
+
+ X-ray scattering factors:
+   Symbol     fa                                      fb                                      fc
+---------------------------------------------------------------------------------------------------
+ Zr        17.87650  10.94800   5.41732   3.65721   1.27618  11.91600   0.11762  87.66270   2.06929
+
+ Neutron scattering factors:
+   Symbol   isotope       mass       b       resonant terms
+---------------------------------------------------------------------------------------------------
+ Zr      Nat. Abund.     91.220    0.716
+
+ Space Group: C 2/c
+ The lattice is centrosymmetric C-centered monoclinic
+ The Laue symmetry is 2/m
+ The lattice point group is 2/m
+ Multiplicity of a general site is 8
+ The unique monoclinic axis is b
+ The inversion center is located at 0,0,0
+ 
+ The equivalent positions are:
+
+ (0,0,0; 1/2,1/2,0)+
+
+ ( 1)     X,     Y,     Z 
+ ( 2)    -X,     Y, 1/2-Z 
+
+ Atoms:
+   name    type  refine?   x         y         z      frac site sym  mult I/A   Uiso     U11     U22     U33     U12     U13     U23
+---------------------------------------------------------------------------------------------------------------------------------------
+  Zr4+0     Zr     XU   0.26543   0.01028   0.40710   1.000      1    8    I 0.01000                                                
+
+ Unit cell: a = 32.36000 b = 15.80000 c = 7.91000 alpha = 90.000 beta = 103.000 gamma = 90.000 volume = 3940.633 Refine? False
+
+ Spherical harmonics texture: Order:0
+
+ Phase: trial in histogram: PWDR spec.csv
+=======================================================================================================================================
+ Phase fraction  :          1 Refine? False
+ Extinction coeff:     0.0000 Refine? False
+ March-Dollase PO:     1.0000 Refine? False Axis: 0 0 1
+
+ Size model    : isotropic equatorial:       1.000 Refine? False
+	 LG mixing coeff.:       1.0000 Refine? False
+
+ Mustrain model: isotropic equatorial:      1000.0 Refine? False
+	 LG mixing coeff.:      1.0000 Refine? False
+
+ Hydrostatic/elastic strain:
+ names :         D11         D22         D33         D13
+ values:           0           0           0           0
+ refine:       False       False       False       False
+
+ Histogram: PWDR spec.csv histogram Id: 0
+=======================================================================================================================================
+ Instrument type: Bragg-Brentano
+ Histogram limits:     4.02 deg to    30.00 deg
+
+ Sample Parameters:
+ Goniometer omega = 0.00, chi = 0.00, phi = 0.00
+ name  :         Scale         Shift  Transparency    SurfRoughA    SurfRoughB
+ value :        0.0000        0.0000        0.0000        0.0000        0.0000
+ refine:          True         False         False         False         False
+
+ Instrument Parameters:
+ name  :     Azimuth        Bank I(L2)/I(L1)        Lam1        Lam2    Polariz.        SH/L
+ value :    0.000000    1.000000    0.500000    1.540500    1.544300    0.700000    0.002000
+ refine:                   False       False                               False       False
+
+ name  :           U           V           W           X           Y           Z        Zero
+ value :    2.000000   -2.000000    5.000000    0.000000    0.000000    0.00000051189344.771458
+ refine:       False       False        True        True       False       False        True
+
+ Background function: lin interpolate Refine? True
+ Coefficients:     21.777    20.893    20.790    20.996    23.308    23.832    26.042    26.150    25.708    24.639    23.204
+                   22.246
+ Fixed background file: ; mult: 1.000  Refine? False
+
+ Refinement results:
+---------------------------------------------------------------------------------------------------------------------------------------

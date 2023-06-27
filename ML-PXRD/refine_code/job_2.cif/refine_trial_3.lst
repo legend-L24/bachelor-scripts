@@ -1,0 +1,148 @@
+********************************************************************************
+   General Structure Analysis System-II Crystal Structure Refinement
+              by Robert B. Von Dreele & Brian H. Toby
+                Argonne National Laboratory(C), 2010
+ This product includes software developed by the UChicago Argonne, LLC,
+            as Operator of Argonne National Laboratory.
+                          Please cite:
+   B.H. Toby & R.B. Von Dreele, J. Appl. Cryst. 46, 544-549 (2013)
+********************************************************************************
+ Least squares controls:
+ Refinement type: analytic Hessian
+ Maximum number of cycles: 3
+ Regularize hydrogens (if any): False
+ Initial shift factor: 1.000
+
+ Phases:
+
+ Phase name: trial
+=======================================================================================================================================
+
+ X-ray scattering factors:
+   Symbol     fa                                      fb                                      fc
+---------------------------------------------------------------------------------------------------
+ Zr        17.87650  10.94800   5.41732   3.65721   1.27618  11.91600   0.11762  87.66270   2.06929
+
+ Neutron scattering factors:
+   Symbol   isotope       mass       b       resonant terms
+---------------------------------------------------------------------------------------------------
+ Zr      Nat. Abund.     91.220    0.716
+
+ Space Group: C 2/c
+ The lattice is centrosymmetric C-centered monoclinic
+ The Laue symmetry is 2/m
+ The lattice point group is 2/m
+ Multiplicity of a general site is 8
+ The unique monoclinic axis is b
+ The inversion center is located at 0,0,0
+ 
+ The equivalent positions are:
+
+ (0,0,0; 1/2,1/2,0)+
+
+ ( 1)     X,     Y,     Z 
+ ( 2)    -X,     Y, 1/2-Z 
+
+ Atoms:
+   name    type  refine?   x         y         z      frac site sym  mult I/A   Uiso     U11     U22     U33     U12     U13     U23
+---------------------------------------------------------------------------------------------------------------------------------------
+  Zr4+0     Zr     XU   0.31259   0.06060   0.11391   1.000      1    8    I-0.04075                                                
+
+ Unit cell: a = 32.36000 b = 15.80000 c = 7.91000 alpha = 90.000 beta = 103.000 gamma = 90.000 volume = 3940.633 Refine? False
+
+ Spherical harmonics texture: Order:0
+
+ Phase: trial in histogram: PWDR spec.csv
+=======================================================================================================================================
+ Phase fraction  :          1 Refine? False
+ Extinction coeff:     0.0000 Refine? False
+ March-Dollase PO:     1.0000 Refine? False Axis: 0 0 1
+
+ Size model    : isotropic equatorial:       1.000 Refine? False
+	 LG mixing coeff.:       1.0000 Refine? False
+
+ Mustrain model: isotropic equatorial:      1000.0 Refine? False
+	 LG mixing coeff.:      1.0000 Refine? False
+
+ Hydrostatic/elastic strain:
+ names :         D11         D22         D33         D13
+ values:           0           0           0           0
+ refine:       False       False       False       False
+
+ Histogram: PWDR spec.csv histogram Id: 0
+=======================================================================================================================================
+ Instrument type: Bragg-Brentano
+ Histogram limits:     4.02 deg to    30.00 deg
+
+ Sample Parameters:
+ Goniometer omega = 0.00, chi = 0.00, phi = 0.00
+ name  :         Scale         Shift  Transparency    SurfRoughA    SurfRoughB
+ value :        2.1887        0.0000        0.0000        0.0000        0.0000
+ refine:          True         False         False         False         False
+
+ Instrument Parameters:
+ name  :     Azimuth        Bank I(L2)/I(L1)        Lam1        Lam2    Polariz.        SH/L
+ value :    0.000000    1.000000    0.500000    1.540500    1.544300    0.700000   -1.187415
+ refine:                   False       False                               False        True
+
+ name  :           U           V           W           X           Y           Z        Zero
+ value :-60258.568017   -2.000000    5.000000    0.000000 4725.598647    0.000000    0.000000
+ refine:        True       False       False       False        True       False       False
+
+ Background function: Q^-2 power series Refine? False
+ Coefficients:      1.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000     0.000
+                    0.000
+ Fixed background file: ; mult: 1.000  Refine? False
+
+ Refinement results:
+---------------------------------------------------------------------------------------------------------------------------------------
+ Number of function calls: 10 No. of observations: 1300 No. of parameters: 8 User rejected: 0 Sp. gp. extinct: 0
+ Refinement time =    1.038s,    0.259s/cycle, for 4 cycles
+ wR =    7.43%, chi**2 =      167.538, GOF =   0.36
+
+ Phases:
+ Result for phase: trial
+=======================================================================================================================================
+
+ Atoms:
+   name      x         y         z      frac   Uiso     U11     U22     U33     U12     U13     U23
+---------------------------------------------------------------------------------------------------------------------------------------
+  Zr4+0     Zr:
+ values:   0.29169   0.05674  -0.31527   1.000-0.43368
+ sig   :   0.00212   0.00322   0.06851         0.00964
+
+ Density: 0.3075 g/cm**3
+
+ Phase: trial in histogram: PWDR spec.csv
+=======================================================================================================================================
+ Final refinement RF, RF^2 = 1.47%, 3.02% on 78 reflections
+ Durbin-Watson statistic = 0.103
+ Bragg intensity sum = 9.3e+04
+
+ Histogram: PWDR spec.csv histogram Id: 0
+=======================================================================================================================================
+ PWDR histogram weight factor = 1.000
+ Final refinement wR = 7.43% on 1300 observations in this histogram
+ Other residuals: R = 5.71%, R-bkg = 5.72%, wR-bkg = 7.43% wRmin = 20.70%
+ Instrument type: Bragg-Brentano
+
+ Resonant form factors:(ref: D.T. Cromer & D.A. Liberman (1981), Acta Cryst. A37, 267-268.)
+ Element:       Zr
+ f'     :   -0.187
+ f"     :    2.244
+
+ Sample Parameters:
+ names :         Scale         Shift  Transparency    SurfRoughA    SurfRoughB
+ values:        0.8252        0.0000        0.0000        0.0000        0.0000
+ sig   :        0.0160                                                        
+
+ Instrument Parameters:
+ names :        Bank I(L2)/I(L1)    Polariz.        SH/L
+ value :    1.000000    0.500000    0.700000   -0.062181
+ sig   :                                        0.054731
+
+ Instrument Parameters:
+ names :           U           V           W           X           Y           Z        Zero
+ value :-71652.435528   -2.000000    5.000000    0.000000 7883.521484    0.000000    0.000000
+ sig   : 2096.396366                                      206.970611                        
+ Background sums: empirical 1.3e+03, Debye 0, peaks 0, Total 1.3e+03
