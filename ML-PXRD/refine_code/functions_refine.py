@@ -15,7 +15,9 @@ sys.path.append('/home/jyb/.conda/envs/yfh/GSASII')
 
 global exitFlag
 exitFlag = 0
-
+'''
+调用GSAS软件包，设置峰型函数等参数进行精修的部分，具体GSASII库的软件含义，我手上有个官方手册pdf
+'''
 class RefineProject():
     def __init__(self,cif,exprm,wdir,csv):
         self.cif = cif 
@@ -46,7 +48,9 @@ class RefineProject():
         for hist in self.gpx.histograms():
             _, Rwp = hist.name, hist.get_wR()
         return Rwp
-
+'''
+主要是贝叶斯模型的部分，如何调用贝叶斯模型选择峰型函数等
+'''
 class OptunaProject():
     def __init__(self,cif,exprm,csv,max_time):
         self.cif = cif 
@@ -215,7 +219,9 @@ class OptunaProject():
         self.study = optuna.create_study(study_name=self.cif + '_seed%s' % (random_seed),
                                          sampler=optuna.samplers.TPESampler(n_startup_trials=20, seed=random_seed))
         self.study.optimize(self.objective, n_trials=ntrials, n_jobs=1)
-
+'''
+在上述函数的基础上，实现并行化精修
+'''
 class MultiRefine():
     def __init__(self,cifpath,exprm,csv,rand_seed=0,ntrials=50,max_time=150,nthreads=3):
         self.cifpath = cifpath
