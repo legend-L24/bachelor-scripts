@@ -1,0 +1,262 @@
+Command line usage of decryst programs
+======================================
+
+Introduction
+------------
+
+Core decryst programs include several lower level single-purpose C programs and
+a higher level multi-purpose Python program `decr_utils' which in turn relies on
+these lower level programs.  `decr_utils' has several (sub-)commands which act
+as single-purpose programs, and here they are documented alongside the lower
+level programs; in addition, `decr_utils' recognises the `$DECR_EXTRA'
+environment variable, which is also documented here.
+
+Some common notes and definitions:
+* The user is expected to read `doc/usage/format.txt' before reading this
+  document.
+* All decryst programs exit 0 iff they performed their tasks successfully.
+* All item indices in this document using `#' are 0-based.
+* The ext_sub routine produces a path from another path and an extension:
+  extension [1] (if any) of the inputted path is replaced with the specified
+  extension; if the resulted path is the same as the inputted path, it is
+  further concatenated with the specified extension to produce the final path.
+* `decr_utils' writes sequentially, viz. two write operations never overlap.
+
+[1] eg. The extension of `/foo/bar.baz.txt' is `.txt'.
+
+
+`$DECR_EXTRA'
+-------------
+
+Commands `comb', `dump' and `merge' of `decr_utils' need to read data files
+`wyck.json' (space group data), `asfs.json' (ASF data) and `rad.json' (atom
+radii).  The user can control this by using the `$DECR_EXTRA' environment
+variable which, if set, shall be a `:'-delimited tuple of 4 fields (all of
+which can be empty, in which case the default setting is used):
+* Field #0 shall specify the directory the 3 `.json' files reside in, and
+  defaults to `/usr/share/decryst'.
+* Fields #1-3 shall specify the files that are read in additional to the `.json'
+  files in directory #0, of which the data will be merged with the data from
+  `wyck.json', `asfs.json' and `rad.json' in directory #0, respectively.  If
+  there are entries with the same key in both files to be merged, the entries
+  in directory #0 will be overridden.  Defaults to none, resulting in no
+  merging.
+* As an exception, if the `$DECR_EXTRA' environment is unset, it is treated as
+  if `$DECR_EXTRA' is set to `:::'.
+
+
+decr_utils comb
+---------------
+
+This command computes the possible element Wyckoff combinations of a crystal,
+and is invoked as:
+$ decr_utils comb decr.txt
+
+This command writes a `combs' file to stdout, listing a possible element
+Wyckoff combination as field #1 on each line, and that combination string
+concatenated with `.cr' as field #0, with the delimiter between fields #0-1
+being one tab.  The user can then manipulate field #0 to specify alternative
+paths to the `cryst' files to be dumped by the `dump' command; cf.
+`doc/scripts/do_dump.sh' for an example on this.
+
+
+decr_utils dump
+---------------
+
+This command dumps `cryst' files according to the inputted `decr' file and
+`combs' file, and is invoked as:
+$ decr_utils dump decr.txt < combs.list
+
+The `decr' file shall specify a crystal, possibly with atoms undesignated to any
+Wyckoff position; the `crysts' shall specify a list of element Wyckoff
+combinations which designate the yet undesignated atoms, and the corresponding
+paths for this command to dump `cryst' files into.
+
+This command reads the `crysts' file from stdin; for each successsfully dumped
+`cryst' file, this command writes a corresponding `crysts' line to stdout, with
+the delimiters between the first 7 fields being one space, and the delimiter
+between fields #6-7 being one tab.
+
+
+decr_utils merge
+----------------
+
+This command dumps `decr' files and `.cif' files according to the inputted
+`decr' file and `combs' file, and is invoked as:
+$ decr_utils merge decr.txt < combss.list
+
+For each `cryst' file specified in the `combs' file, its path is ext_sub'ed with
+extension `.log' to determine path to the corresponding `crlog' file, and the
+crystal model with the smallest overall score of all type #1 lines in this
+`crlog' file is merged with the inputted `decr' file to produce a crystal model
+where all atoms have fixed coordinates.  This crystal model is dumped into a
+`decr' file and a `.cif' file, with their paths determined by ext_sub'ing the
+path to the `cryst' file with `.txt' and `.cif', respectively.
+
+A merged `decr' file is produced by resetting field #3 of every data line in
+part #0, block #1 of the inputted `decr' file to `--', removing part #2 from
+block #1, and appending a new part #2 produced from the information in the
+corresponding `crlog' file to block #1.  This way all comments in the inputted
+`decr' file are preserved, and the user can then implement the heavy atom method
+by commenting out the light atoms in part #0, solving the heavy atoms and
+merging the results with the commented `decr' file, uncommenting the light atoms
+and finally solving the light atoms; cf. `doc/examples/PbSO4.sh' for an example
+on this.
+
+This command reads the `combs' file from stdin; for each successfully merged
+`cryst' file, this command writes the path to the file to stdout.
+
+
+decr_utils stat
+---------------
+
+This command performs statistical analysis on `cryst' files according to the
+inputted `crysts' file, and is invoked as:
+$ decr_utils stat stat.sh hosts.conf < crysts.list
+
+The `stat' program is invoked as:
+$ stat.sh #samples #1 #2 ...
+It shall pass its stdin, stdout and stderr to a
+$ decr_mcs #samples
+process created on the host specified by its command line arguments, where `#1',
+`#2', ... are fields from the `hosts' file.  cf. `doc/scripts/stat.sh' for an
+example on this.
+
+This command reads the `crysts' file from stdin; for each `cryst' line in the
+`crysts' file, this command updates the line to record the statistics (mean, sd,
+best) produced by `decr_mcs' for the `cryst' file specified on the line (`best'
+is only updated when the new result is really better), and writes the updated
+`crysts' line to stdout in the same format as of the `dump' command.
+
+
+decr_utils optim
+----------------
+
+This command performs structure optimisation on `cryst' files according to the
+inputted `crysts' file, and is invoked as:
+$ decr_utils optim optim.sh hosts.conf < crysts.list
+
+The `optim' program is invoked as:
+$ optim.sh #tau #lambda #mean #sd #1 #2 ...
+It shall pass its stdin, stdout and stderr to a
+$ decr_lsa #tau #lambda #mean #sd
+process created on the host specified by its command line arguments, where `#1',
+`#2', ... are fields from the `hosts' file.  cf. `doc/scripts/optim.sh' for an
+example on this.
+
+This command reads the `crysts' file from stdin; for each `cryst' line in the
+`crysts' file with known `mean' and `sd', this command appends the `crlog' file
+produced by `decr_lsa' for the `cryst' file specified on the line to the path
+determined by ext_sub'ing the path to the `cryst' file with `.log'; this command
+then updates the line to record the smallest overall score of all type #1 lines
+in the `crlog' file as `best' if it is better than the already recorded value,
+and writes the updated `crysts' line to stdout; for `crysts' lines with `mean'
+or `sd' unknown, the original line is written; the outputted `crysts' file is in
+the same format as of the `dump' command.
+
+
+decr_utils poptim
+-----------------
+
+This command performs parallel structure optimisation on the specified `cryst'
+file, and is invoked as:
+$ decr_utils poptim server.sh hosts.conf < crysts.txt
+
+The `server' program is invoked as:
+$ server.sh #0 #1 ...
+It shall pass its stdin, stdout and stderr to a
+$ decr_sas #0 tcp://#1:#2
+process created on the host specified by its command line arguments, where `#0',
+`#1', ... are fields from the `hosts' file.  cf. `doc/scripts/server.sh' for an
+example on this.
+
+This command reads the `crysts' file from stdin, allowing exactly 1 `crysts'
+line in the file; it creates `decr_sas' processes and one `decr_sac' process,
+feeds all these processes on their stdins with the `cryst' file specified on the
+only `crysts' line, and redirects their stdouts and stderrs to the stdout and
+stderr of itself; the user is responsible for further processing.
+
+
+decr_mcs
+--------
+
+This program performs Monte Carlo statistical analysis on the inputted `cryst'
+file, and is invoked as:
+$ decr_mcs num_of_samples < cryst.cr
+
+`num_of_samples' is (integer) the number of samples used to gather statistics,
+and shall be > 1 for `cryst' files with DOF != 0, or `0' for `cryst' with DOF ==
+0.
+
+This program reads the `cryst' file from stdin; it writes the statistics (mean,
+sd, best) to stdout with the delimiters being one space; `mean' and `sd' will be
+`-' iff DOF == 0.
+
+
+decr_lsa
+--------
+
+This program performs serial structure optimisation on the inputted `cryst'
+file, and is invoked as:
+$ decr_lsa [-d delta] [-k kappa] tau lambda mean sd < cryst.cr
+
+`tau' (integer) is the number of moves in every optimisation cycle; `lambda'
+(float) is the lambda parameter for the Lam schedule; `mean' and `sd' (floats)
+are statistics of the inputted `cryst' file.
+
+`delta' (float, defaults to `DELTA_TRIAL' from `src/int_conf.h') is an upper
+limit to the growth in inverse temperature in every optimisation cycle: for each
+move, the ratio between the inverse temperatures before and after the move is
+hard-limited to be at most delta ^ (1 / tau).
+
+`kappa' (float, defaults to `KAPPA_TRIAL' from `src/int_conf.h') is the stopping
+criterion: if the mean overall score of the optimisation cycle fails to change
+more than `kappa', `STABLE_LIMIT' (from `src/int_conf.h') times consecutively,
+the optimisation procedure terminates.
+
+This program reads the `cryst' file (the DOF of which shall be > 0) from stdin;
+it writes `crlog' record of the optimisation procedure to stdout, with the first
+metadata line recording (tau, dof, delta, kappa, lambda, mean, sd) of the
+optimisation procedure, where `dof' corresponds to the DOF.  The number of
+optimisation cycles recorded in each type #0 line (except for the last line,
+which can contain less records) in the `crlog' file is `LINE_LIMIT' from 
+`src/int_conf.h'.
+
+
+decr_sas
+--------
+
+This program is the server for parallel structure optimisation on the inputted
+`cryst' file, and is invoked as:
+$ decr_sas num_of_cores zmq_addr < cryst.cr
+
+`num_of_cores' (integer) is the number of cores to use on this server, and
+`zmq_addr' is the ZeroMQ address to bind to.  This program reads the `cryst'
+file from stdin.
+
+
+decr_sac
+--------
+
+This program is the client for parallel structure optimisation on the inputted
+`cryst' file, and is invoked as:
+$ decr_sac [-d delta] [-k kappa] [-m mix] \
+           tau lambda mean sd cryst.cr < hosts.txt
+
+`delta', `kappa', `lambda', `mean' and `sd' are the same as with `decr_lsa';
+`tau' (integer) is the number of moves on every core in every optimisation
+cycle.
+
+`mix' (integer, defaults to `tau' times `RATIO_TRIAL' from `src/int_conf.h') is
+the period of state mixing: after every `mix' optimisation cycles, states from
+all cores will be mixed according to the Boltzmann scheme.
+
+DOF of the inputted `cryst' file shall not be 0.  This program reads the `hosts'
+file from stdin; it writes `crlog' record of the optimisation procedure to
+stdout, with the first metadata line recording (tau, cores, mix, dof, delta,
+kappa, lambda, mean, sd) of the optimisation procedure, where `dof' and `cores'
+corresponds to the DOF and the total number of cores, respectively.  The number
+of optimisation cycles recorded in each type #0 line (except for the last line,
+which can contain less records) in the `crlog' file equals `mix'.
+
+# vim:et

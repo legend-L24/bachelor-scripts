@@ -1,0 +1,281 @@
+Input format specification for decryst
+======================================
+
+Introduction
+------------
+
+Note that you are strongly advised to read `doc/usage/guide.txt' before
+reading this document!
+
+decryst accepts several kinds of input: `decr_utils' reads `decr', `combs',
+`crysts' and `hosts' files; `decr_mcs', `decr_lsa', `decr_sas' and `decr_sac'
+reads `cryst' files; `decr_sac' reads a simplified variation of the `hosts'
+file; command `merge' of `decr_utils' reads `crlog' files.
+
+Formats of these files are details below, but some common notes apply:
+* All following files accept only LF (`\n') line terminators, and do not allow
+  the Unicode BOM.
+* Lines beginning with `#' are comments and are usually ignored; however,
+  decryst programs may write metadata in comments of its output, and these
+  metadata lines should be manipulated only when necessary and with care.
+* Non-comment lines are delimited into blocks by spaces and tabs (called
+  whitespaces in this text); using other whitespaces, including but not limited
+  to `\f', `\v' and Unicode whitespaces, results in undefined behaviour.  A
+  non-comment line is called a blank line if it has no field; otherwise it is
+  called a data line.
+* When a string is delimited by whitespaces, consecutive whitespace characters
+  are treated as a single delimiter; however, when other delimiters are
+  specified, multiple delimiters are treated as delimiting empty strings.
+* `decr_utils' splits a line into fields after stripping the line of any leading
+  and trailing whitespaces; other decryst programs disallow leading and trailing
+  whitespaces on non-comment lines, and only accept lines no longer than the
+  limit in `src/utils.h'.
+* In general, blank lines are significant, and can not be arbitrarily added or
+  removed.
+* Item indices in this document using `#' are always 0-based: #0, #1, ...
+
+Here is the definition of some frequently used terms:
+* A block is a group of data lines, followed by a blank line which marks the
+  end of the block.
+* A record line is a data line consisting of at least 1 whitespace-delimited
+  fixed-length tuple called a record, where the records are further delimited by
+  whitespaces.
+* A Wyckoff combination is a list of (Wyckoff letter, site occupation number)
+  tuples (cf. `python/wyck.json' for the list of Wyckoff letters for each space
+  group, and note that the alpha position of Group 47 is represented as `A';
+  there shall not be duplicate Wyckoff letters in a Wyckoff combination)
+  formatted like `c2d1'; an empty combination shall be specified as `--'.  A
+  Wyckoff letter can be absent from a Wyckoff combination, in which case the
+  default condition will apply to this Wyckoff position: if the Wyckoff
+  combination represents upper limits to site occupation, the default limit will
+  apply; if it represents known or guessed site occupation numbers, this Wyckoff
+  position will be considered to have no occupation.
+* An `@'-expression is the concatenation of a 0-based element ID (determined
+  according to the order of element specifications in part #0, block #1 of the
+  corresponding `decr' file), the character `@' and a Wyckoff combination.
+* An element Wyckoff combination is a `,'-delimited list of `@'-expressions
+  (there shall not be duplicate element IDs in an element Wyckoff combination),
+  with the exception that when the length of the list is 0, the list shall be
+  formatted as `nil'.  An element Wyckoff combination specifies a guessed
+  designation of atoms which are undesignated yet, to the Wyckoff positions of
+  a cell.
+* The DOF (degree of freedom) of a `cryst' file is the count of variable
+  coordinates of independent atoms in the file.
+
+
+`decr' file
+-----------
+
+This file specifies a crystal structure to be solved, and is the concatenation
+of 3 blocks.
+
+Block #0 consists of 3 data lines:
+* Line #0 consists of 7 fields:
+  - Field #0 (string) is the space group ID (cf. the keys of the dictionary at
+    the root level of `python/wyck.json' for the list of space group IDs).
+  - Fields #1-#6 (decimals) are (a, b, c, alpha, beta, gamma) of the cell.
+* Line #1 consists of 5 decimal fields:
+  - Fields #0-#2 are the collision detection parameters `ctl' as specified in
+    the comments on cryst_mk() in `src/cryst.h'.
+  - Field #3 is the parameter `p' in the Lorentz-polarisation factor
+      lpf = ((1 - p) + p * cos(2theta) ^ 2) / (sin(2theta) * sin(theta))
+  - Field #4 is the peak merge parameter `d': consecutive peaks are merged into
+    a hill (basic unit in the computation of the similarity between the computed
+    and actual spectra) if for any two adjacent peaks, their difference in
+    2-thetas is less than d times the average of the two peaks' FWHMs.
+* Line #2 specifies the additional limits (intersected with the defaults [1] to
+  determine the finally applied limits) on the combination of Wyckoff positions:
+  - Except when the exception #0 applies, the number of fields shall be the same
+    as the number of Wyckoff positions in the space group specified above, and
+    the i-th field will correspond to the i-th Wyckoff letter as specified in
+    `python/wyck.json'.
+  - Each field shall be of the format `m-n', where `m' and `n' (integers) are
+    the lower and upper limits (inclusive) to the site occupation number of the
+    corresponding Wyckoff position.  Both `m' and `n' can be omitted (`-n', `m-'
+    and `-'), which results in the default limit(s) being applied.
+  - Exception #0: when the default limits are to be applied to all Wyckoff
+    positions, the user can replace the fields with one field, with the content
+    of that only field being `--'.
+
+[1] If all coordinates of a Wyckoff position are fixed, the default upper limit
+    will be 1; otherwise the site occupation number will only be limited by the
+    number of atoms in the cell.  The default lower limit is always 0.
+
+Block #1 consists of 3 parts:
+* Part #0 consists of at least 1 data line, each consisting of 4 fields:
+  - Except when exception #1 applies, field #0 shall be a `;'-delimited pair of
+    strings; each string shall be a `,'-delimited list of (decimal [2], element
+    name) tuples, formatted like `0.5Cu2+,0.5Zn2+'.  The two strings specify
+    composite elements used for computing atom radii and ASFs, respectively; cf.
+    `python/rad.json' and `python/asf.json' for lists of the corresponding
+    element names, respectively.
+  - Exception #1: a composite element consisting of only 1 element with its
+    decimal being 1 can have its decimal omitted (eg. `1O2-' -> `O2-'); a
+    (radius composition, asf composition) tuple with its two strings identical
+    can be abbreviated into one string (eg. `O2-;O2-' -> `O2-').
+  - Field #1 (integer) shall be the number of this element's atoms in the cell.
+  - Fields #2-3 shall be 2 Wyckoff combinations specifying the upper limit of
+    this element's site occupations and the known numbers of this element's site
+    occupations with unknown coordinate ranges, respectively.
+* Part #1 consists of 0 or more data lines, each specifying the zoom factors of
+  some element pairs:
+  - Each field is a `:'-delimited (zoom, pairs) tuple, with `zoom' being a
+    decimal, and `pairs' being a `-'-delimited pair of `,'-delimited non-empty
+    element ID list specifying element pairs, eg. `0,1-1,3' specifies the pairs
+    (0, 1), (0, 3), (1, 1) and (1, 3).
+  - `zooms' default to 1; a later `zoom' specified for a pair overrides an
+    earlier `zoom' (either default or specified).
+* Part #2 consists of 0 or more data lines, each specifying a site occupation
+  group with known coordinate ranges and consisting of 4 fields:
+  - Field #0 is an `@'-expression consisting of only 1 element.
+  - Fields #1-3 are (x, y, z) ranges of this site occupation group, each range
+    (decimal tuple) formatted like `0.55,0.65', with the exception that a range
+    with its length being 0 (i.e. a fixed or unused coordinate) can be
+    abbreviated into one decimal (eg. `0.5,0.5' -> `0.5').
+
+[2] The sum of decimals in a composite element can be not 1.  This way the user
+    can specify partial occupations.  Also note that each partial occupation
+    (eg. a `0.6Fe2+,0.3Fe3+') is treated as a full atom.
+
+Block #2 consists of at least 1 data line, each line specifying one peak, and
+consisting of 7 fields, with the lines in ascending order according to their
+2-thetas:
+  - Fields #0-#1 (floats) are the 2-theta and the FWHM.
+  - Fields #2-#5 (integers) are the (h, k, l) and the multiplicity.
+  - Field #6 (float) is the relative intensity.
+
+
+`combs' file
+-------------
+
+This file specifies a list of `cryst' files to be processed by the `dump'
+and `merge' commands of `decr_utils', and consists of 0 or more data lines with
+1 to 2 fields:
+* Field #0 (mandatory) is the path to a `cryst' file.
+* Field #1 (mandatory for `comb', optional for `merge') is the element Wyckoff
+  combination, of which the corresponding structure optimisation parameters are
+  to be dumped into this `cryst' file.
+
+
+`crysts' file
+-------------
+
+This file specifies a list of `cryst' files to be processed by the `stat',
+`optim' and `poptim' commands of `decr_utils', and consists of 0 or more data
+lines with 10 fields:
+* Fields #0-2 (integers) are, respectively, the DOF of a `cryst' file, the
+  number of samples for `decr_mcs' and the number of moves in each optimisation
+  cycle for `decr_lsa', `decr_sas' and `decr_sac'.
+* Fields #3 (float) is the lambda parameter for the Lam schedule used in
+  `decr_lsa', `decr_sas' and `decr_sac'.
+* Fields #4-6 (floats) are statistics (mean, sd, best) of the `cryst' file.
+* Fields #7-8 (floats) are (R / 2, atom bumping score) of the best model.
+* Field #9 is the path to the `cryst' file.
+* Fields #2-8 will be replaced with `-'s when unknown or meaningless (for
+  fields #2-5 when DOF == 0).
+
+
+`hosts' file
+------------
+
+This file specifies a list of hosts to connect to for parallel and distributed
+computing, and consists of at least 1 data line with at least 3 fields:
+* Field #0 (integer) is the number of cores on a host.
+* Field #1 is the hostname or address of this host.
+* Field #2 (integer) is the port on this host to connect to.
+* The rest of the line, if existing, provides additional information to the
+  setup of this host.  eg. with `doc/example/hosts.conf' and related scripts in
+  `doc/scripts', if field #1 is `127.0.0.1' and field #3 exists, a port on a
+  remote host (ZeroMQ endpoint tcp://#3:#4) will be forwarded, through an ssh(1)
+  tunnel, to the specified port on localhost (ZeroMQ endpoint
+  tcp://127.0.0.1:#2).
+
+
+`cryst' file
+------------
+
+This file specifies the parameters for structure optimisation of a crystal with
+every atom in the cell designated to a certain Wyckoff position, and consists of
+9 blocks.  cf. `src/cryst.h' for details on requirements of the data.
+
+Block #0 consists of at least 2 data lines:
+* Line #0 consists of 9 float fields:
+  - Fields #0-5 are (a, b, c, alpha, beta, gamma) of the cell.
+  - Fields #6-8 are the collision detection parameters `ctl'.
+* The rest of this block consists of record lines of `origs', which are origins
+  of the cell.
+
+The rest of the file is blocks, each consisting of at least 1 record line:
+* Block #1 consists of `hills', which are number of peaks and sum of relative
+  intensities in each hill.
+* Block #2 consists of `peaks', which are hkl and weight (multiplicity times
+  Lorentz-polarisation factor) of each peak.
+* Block #3 consists of `dists', which are normal bond lengths of element pairs.
+* Block #4 consists of `asfs', which are ASFs on each peak of each element.
+* Block #5 consists of `wycks', which are index information for each used
+  Wyckoff position.
+* Block #6 consists of `affs', which are affine transforms from (x, y, z) to
+  one coordinate used in each Wyckoff position.
+* Block #7 consists of `aids', which are 0-based IDs of `affs' in each used
+  Wyckoff position.
+* Block #8 consists of `atoms', which are (element ID, 0-based `wyck' ID) and
+  (x, y, z) ranges of each independent atom.
+
+`decr_utils' adds 1 metadata line to block #8 of a `cryst' file:
+* As the first (comment or not) line in this file:
+  - Format: `# decr_utils: used = (...)', where `...' is a whitespace-delimited
+    list of 0-based Wyckoff IDs determined according to the Wyckoff positions'
+    order of occurrence in `python/wyck.json'.
+  - This list specifies which Wyckoff positions are actually used in this file.
+
+
+`hosts' for `decr_sac'
+----------------------
+
+This file specifies a list of hosts for `decr_sac' to connect to for parallel and
+distributed computing, and consists of at least 1 data line with 2 fields:
+* Field #0 (integer) is the number of cores on a host.
+* Field #1 is this host's ZeroMQ endpoint.
+
+
+`crlog' file
+------------
+
+This file records the structure optimisation procedure of a crystal with parameters
+specified in a corresponding `cryst' file, and consists of at least 1 data line
+group, each group being a type #0 line followed by a type #1 line:
+
+A type #0 line records the mean overall scores of some consecutive optimisation
+cycles, and consists of at least 2 fields:
+  - Field #0 (integer) is the 0-base index of the first optimisation cycle on
+    this line, enclosed in square brackets like `[123]'.
+  - The rest of this line are (floats) mean overall scores of all optimisation
+    cycles on this line.
+  - The first type #0 line in this file shall begin with the first optimisation
+    cycle; the rest type #0 lines shall begin with the optimisation cycle
+    immediately after the last cycle on the previous data line group.
+
+A type #1 line records the overall score of a crystallographic model and the
+values of variable coordinates in this model, and consists of at least 4 fields:
+  - Field #0-#2 (floats) are (overall score, R / 2, atom bumping score) of the
+    best model after the latest moves on all cores, enclosed in parentheses like
+    `(0.67 0.45 0.89)'.  An exception is that for the final type #1 line, the
+    corresponding model will be the best model from the entire optimisation
+    procedure.
+  - The rest of this line are (floats) the values of variable coordinates of
+    independent atoms in this model, in the order of their specifications in the
+    corresponding `cryst' file.
+
+`decr_lsa' and `decr_sac' add 1 metadata line to a `crlog' file:
+* As the first (comment or not) line in this file:
+  - Format: `# #name: (...) = (...)'.
+  - `#name' is `decr_lsa' (for `decr_lsa') or `decr_sa' (for `decr_sac').
+  - The two `...'s are whitespace-delimited lists of the names and values,
+    respectively, of program-specific parameters for the record.
+  - The two lists will be of the same length.
+
+Multiple `crlog' files corresponding to the same `cryst' file may be
+concatenated into a single `crlog' file; this facilitates repeated runs on a
+single `cryst' file.
+
+# vim:et

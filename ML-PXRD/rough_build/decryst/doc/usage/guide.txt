@@ -1,0 +1,207 @@
+A gentle guide to decryst
+=========================
+
+Introduction
+------------
+
+decryst is a software suite that, given indexed powder diffraction data of a
+crystal, attempts to solve the structure of said crystal by performing global
+optimisation on an objective function `E' of the atomic coordinates,
+  E = mu * B + (1 - mu) * R / 2,
+where 0 <= R <= 2 is the Bragg factor, 0 <= B <= 1 is an evaluation function for
+atom bumping (serious bumping results in greater values), and 0 <= mu < 1 is the
+combination factor.  During the computation of `B', to account for the Coulomb
+interaction between ions, a "pairwise zoom factor" is necessary; the factor is
+defined as the ratio between the expected "bond length" for an atom pair and the
+sum of the two atoms' recorded radii.
+
+To reduce the degree of freedom (DOF) of the search space for global
+optimisation, decryst actually computes `E' from coordinates of the independent
+atoms, and this requires a designation of all atoms to the available Wyckoff
+positions (a Wyckoff combination).  Therefore decryst needs to enumerate all
+allowed Wyckoff combinations according to the cell content, subject to certain
+restrictions in order to reduce atom bumping.  Since the number of Wyckoff
+combinations is usually large and different Wyckoff combinations are mutually
+independent, tasks on them can be performed in parallel.
+
+To initialise certain parameters for global optimisation, statistical analysis
+of random structures generated from each Wyckoff combination is necessary.
+Additionally, from the gathered statistics, you can also filter out Wyckoff
+combinations that are unlikely to produce satisfactory results, according to
+certain heuristics.  Finally, decryst uses simulated annealing for global
+optimisation, and employs the adaptive annealing schedule by Lam (cf.
+`src/optim.h'; the schedule is also the basis of parallel global optimisation in
+decryst), which uses certain optimisation parameters, the most important of
+which are called `tau' and `lambda'.
+
+The programs shipped with decryst are categorised into several parts:
+* Lower level programs that implement performance-critical core functionalities:
+  `decr_mcs', `decr_lsa', `decr_sas' and `decr_sac'.
+* A higher level program that controls the lower level programs and implements
+  core functionalities that are not performance-critical: `decr_utils'.
+* Wrapper scripts that invoke a lower level program on a certain machine, and
+  themselves executed by the control program in parallel, hence enabling
+  parallel and distributed computing: `stat.sh', `optim.sh', etc.
+* Helper scripts that bridge different tasks and provide higher abstractions:
+  `do_dump.sh', `do_stat.sh', `do_rank.sh', `do_filter.sh', etc.
+
+The typical usage of decryst revolves around several basic tasks, which will be
+shown in the following:
+* Generating Wyckoff combinations, using `decr_utils comb' / `decr_utils dump'.
+* Statistical analyses of these combinations, using `decr_utils stat'.
+* Global optimisation of these combinations, using `decr_utils optim'.
+* Exporting the results for these combinations, using `decr_utils merge'.
+
+
+The `decr' file
+---------------
+
+The major part of an input file (called a `decr' file; here we use
+`doc/examples/Al2O3.txt' as the main example) for `decr_utils' corresponds to
+diffraction data for the crystal in question: space group, cell parameters, cell
+content and reflections.  The rest of the `decr' file is intended for you to
+place explicit restrictions on the Wyckoff combinations to be enumerated,
+customise the pairwise zoom factors, and specify some other settings.
+
+The reflection lines and the space group / cell parameter line should be easy to
+understand, but note that the space group ID needs to be taken from `wyck.json'.
+The line (nicknamed the `ctl'/`extra' line) after the space group / cell
+parameter line specifies several parameters (cf. `doc/usage/format.txt' for more
+details), the most important of which are (the first field) `mu' and (the fourth
+field) the parameter `p' in the Lorentz-polarisation factor
+  lpf = ((1 - p) + p * cos(2theta) ^ 2) / (sin(2theta) * sin(theta)).
+
+Global restrictions on Wyckoff combinations, specified below the `ctl'/`extra'
+line, are written like `0-3 1-2 ...', with each field corresponding to a single
+Wyckoff position (`a', `b', ..., corresponding to the list of Wyckoff positions
+for the specified space group in `wyck.json').  Both the lower bound and the
+upper bound can be omitted, meaning that the value is unrestricted;
+additionally, positions with completely fixed coordinates are implicitly
+restricted to be occupied at most once.  If there is no explicit restriction on
+any Wyckoff position, the line can be abbreviated into `--'.
+
+The cell content is specified by lines like
+> Al3+    12      --      --
+The first field is the element, and its radius and atomic scattering factors
+will be taken from `rad.json' and `asf.json', respectively; values like
+`0.6Fe2+,0.3Fe3+' can be used for "hybrid elements", and values like `S6+;S' can
+be used in case different elements are needed from the two `.json' files.  The
+second field is the number of this element's atoms.  The last two fields specify
+maximal and minimal Wyckoff combinations for this element, written like `a2b1',
+with unspecified Wyckoff positions default to unrestricted; if no restriction is
+to be set in a field, this field can be written as `--'.
+
+The pairwise zoom factors (default to 1) are specified by lines like
+> 1.1:0,1-1,2 1.2:2-2
+Specifications are delimited by whitespaces, with the number before the colon
+being the factor, and the part after the colon being the pair specification:
+`0,1-0,1' will be expanded into `0-0', `0-1' and `1-1'.
+
+Already solved independent atoms are specified by lines like
+> 0@c1    0   0   0.14784
+The example line means that the first element (we use 0-based indices, hence
+`0@') specified above occupies one `c' site with coordinates (0, 0, 0.14784).
+Coordinate ranges of partially solved independent atoms can also be specified
+here (cf. `doc/usage/format.txt').
+
+Finally, do note that `decr' files (as well as other input files for decryst)
+only admit LF (`\n') line terminators, so if you prepare them on Windows,
+remember to run dos2unix(1) (or something equivalent) on them!
+
+
+The `combs' file and `comb'/`dump' commands of `decr_utils'
+-----------------------------------------------------------
+
+After preparation of the `decr' file (eg. `doc/examples/Al2O3.txt'), you can
+enumerate the possible Wyckoff combinations:
+$ decr_utils comb /path/to/Al2O3.txt | tee combs.list
+The output would look like:
+> 0@a1b1,1@d1.cr  0@a1b1,1@d1
+> 0@a1b1,1@e1.cr  0@a1b1,1@e1
+> ...
+For each line, the two fields are the name of the file to be dumped and the
+Wyckoff combination corresponding to the file.
+
+Note that the output (called a `combs' file) would only list atoms that are not
+yet designated to any Wyckoff position, i.e. it would not count atoms specified
+in minimal Wyckoff combinations (with unknown coordinates) or already solved
+independent atoms.  Additionally, these two kinds of Wyckoff designations are
+counted separately, so if a certain element has a `c3' maximal Wyckoff
+combination, a `c1' minimal Wyckoff combination and a `c1' solved independent
+atom, the combinations listed for this element in the `combs' file would occupy
+the `c' position at most once.
+
+You can then dump files for use in the lower level programs (called `cryst'
+files; their format will not be covered here, nor will the input formats for
+other lower level programs) from the `combs' file:
+$ decr_utils dump /path/to/Al2O3.txt < combs.list | tee crysts.list
+The output would look like:
+> 0 0 - - - - - - -       0@a1b1,1@d1.cr
+> 0 0 - - - - - - -       0@a1b1,1@d1.cr
+> 1 1000 100 0.01 - - - - -       0@a1b1,1@e1.cr
+> ...
+And you would find these `.cr' files created in the current directory.
+
+For each line in the output of `decr_utils dump' (called a `crysts' file):
+* The last field is the name of a `cryst' file.
+* The first field is the DOF of the Wyckoff combination.
+* The next three fields are number of samples (to be taken in the statistical
+  analysis step) and the `tau'/`lambda' parameters for the Lam schedule, all
+  of which are generated based on an empirical formula; for a Wyckoff
+  combination with DOF = 0, these parameters are meaningless anyway, and their
+  values would be set to 0/`-'/`-' (perhaps 1 is better for the number of
+  samples, but using 0 makes programming easier to some extent).
+* The next three fields are mean, standard deviation and best of the samples'
+  `E' values; `-', as they are for now, means "unknown".
+* The final two fields are (R / 2, B) values of the best model encountered.
+
+
+The `hosts' file and the `stat'/`optim'/`merge' commands of `decr_utils'
+------------------------------------------------------------------------
+
+Hosts used for parallel and distributed computing are specified in a `hosts'
+file; cf. `examples/hosts.conf' for an example compatible with the example
+wrapper scripts.  Additionally, for the following examples to work properly,
+the path to `doc/scripts' needs to be in the $PATH; if remote computation is
+needed, you would also need to install `decr_mcs', `decr_lsa' and `decr_sas'
+on all remote machines.
+
+Now you can run statistical analyses on all `cryst' files:
+$ decr_utils stat stat.sh /path/to/hosts.conf < crysts.list | tee crysts.stat
+The output would look like:
+> 0 0 - - - - 0.385611 0.514147 0 0@a1b1,1@d1.cr
+> 2 1000 200 0.01 0.670503 0.675785 0.470007 0.431237 0.586318    0@c1,1@e1.cr
+> ...
+As the output shows, the mean, standard deviation and best values have been
+filled in; of course, for a `cryst' file with DOF = 0, `mean' and `sd' are
+meaningless, which is why they are not filled in.
+
+Then you are ready to run the global optimisation procedure:
+$ decr_utils optim optim.sh /path/to/hosts.conf < crysts.stat |
+  tee crysts.optim | sort -k7g
+The output would look like:
+> 2 1000 200 0.01 0.509498 0.538364 0.0296991 0.0395988 0 0@c1,1@e1.cr
+> 1 1000 100 0.01 0.470953 0.495779 0.209781 0.279708 0   0@a1b1,1@e1.cr
+> ...
+Note that the values for `best' field have been replaced by values of solutions
+obtained from the optimisation procedure.  You might also note that the
+optimisation process of individual `cryst' files have been recorded in `.log'
+files (called `crlog' files), eg. `0@c1,1@e1.log'; `cryst' files with DOF = 0
+would be silently skipped, with the corresponding `crysts' lines printed as is.
+
+As the output (sorted according to the best values) clearly shows, `0@c1,1@e1'
+is the only plausible Wyckoff combination, and you can merge the results with
+the original `decr' file to produce `decr' files and CIF files for the solved
+structures:
+$ decr_utils merge /path/to/Al2O3.txt < combs.list
+> 0@a1b1,1@d1.cr
+> 0@a1b1,1@e1.cr
+> ...
+And now you can load `0@c1,1@e1.cif' into a CIF viewer and visually inspect
+the solved structure.  After you successully solve the Al2O3 structure, you are
+advised to proceed to `doc/usage/PbSO4.sh' for an example on automation with
+decryst using its helper scripts; however, bear in mind that what these helpers
+mainly do is abstracting the basic tasks, and even the more complex examples
+revolve around these tasks after all.  For parallel simulated annealing, you may
+consult the section on `decr_utils poptim' in `doc/usage/cmdline.txt'.
+
