@@ -1,0 +1,1234 @@
+#!/usr/bin/python
+
+import copy
+import json
+import math
+import multiprocessing
+import os
+import re
+import sys
+import traceback
+from fractions import Fraction
+from subprocess import Popen, PIPE
+import pdb
+if sys.version_info[0] < 3:
+    import Queue as queue
+else:
+    import queue
+from math import cos, sin, sqrt
+
+radDeg = math.pi / 180.0
+Uiso = 0.01
+Scale_0 = 1 # I change 1->0.75->0.60
+# this part is to filter the hkl crystface
+
+'''
+orthogonal: 195-230;
+
+input: (h,k,l) the number of space group
+output: [h,k,l,mutil], set_hkl
+'''
+
+import numpy as np
+def rot_poly(poly, origs, angles, para):
+    ele_ls = [x[0] for x in poly[-1]]
+    car_mat = np.transpose(np.matrix([x[1:] for x in poly[-1]]))
+    cs = [cos (i * np.pi / 180.0) for i in para[3:]]
+    s = sin (para[5] * np.pi /180)
+    vol = sqrt(1+2*cs[0]*cs[1]*cs[2]-cs[0]*cs[0]-cs[1]*cs[1]-cs[2]*cs[2])
+    rot_cs = [cos (i * np.pi / 180.0) for i in angles]
+    rot_sn = [sin (i * np.pi / 180.0) for i in angles]
+    car_to_fra_mat = np.matrix([
+		[1/para[0], -cs[2] / (para[0]*s), (cs[0]*cs[2]-cs[1]) / (para[0]*vol*s) ],
+		[0.0,    1/(para[1] * s),     (cs[1]*cs[2]-cs[0]) / (para[1]*vol*s) ],
+		[0.0,    0.0,	s/(para[2] * vol) ]
+	])
+    dcm_rot_mat = np.matrix([
+		[rot_cs[0]*rot_cs[1], rot_cs[0]*rot_sn[1]*rot_sn[2]-rot_sn[0]*rot_cs[2], rot_cs[0]*rot_sn[1]*rot_cs[2]+rot_sn[0]*rot_sn[2]],
+		[rot_sn[0]*rot_cs[1], rot_sn[0]*rot_sn[1]*rot_sn[2]+rot_cs[0]*rot_cs[2], rot_sn[0]*rot_sn[1]*rot_cs[2]-rot_cs[0]*rot_sn[2]],
+		[-rot_sn[1], rot_cs[1]*rot_sn[2], rot_cs[1]*rot_cs[2]]
+	])
+    coor_mat = np.transpose(car_to_fra_mat * dcm_rot_mat * car_mat)
+    coor_mat = coor_mat + np.matrix(origs)
+    coor_ls = coor_mat.tolist()
+    coor_ls = [[[1, x] for x in l] for l in coor_ls]
+    wyck = poly[1]
+    return [[x, wyck, y] for x,y in zip(ele_ls, coor_ls)]
+
+def ligand_mk(lig_ls,n,tables):
+    '''
+        input: 
+            the list of ligands: [[the centered atom, the ligands name],...]
+            n: the number of elements
+            tables[3] contain the poly.json
+        output the cr["extra_atoms"], which can be explaied by the content above definition of funtion: cryst_proc
+    '''
+    ret = []
+    ret.append(lig_ls)
+    ele_dic = {}
+    reg_ls = []
+    pos_ls = []
+    for e in lig_ls:
+        ele_dic.update(tables[3][e[-1]]["elems"])
+        reg_ls.append(tables[3][e[-1]]["region"])
+        pos_ls.append(tables[3][e[-1]]["ref_coor"])
+    for i in ele_dic.keys():
+        ele_dic[i]+=n
+    ret.append(ele_dic)
+    ret.append(reg_ls)
+    ret.append([[[ele_dic[x[0]]]+x[1:] for x in poss] for poss in pos_ls])
+    return ret
+
+def check_ligand(ls):
+    '''
+        input: cr[elems][0],cr[elems][1]
+        output: check whether Ru3+-L1 exists and add this extra_elems
+    '''
+    ret = []
+    for i in range(len(ls)):
+        for j in range(len(ls[i])):
+            if re.search("-", ls[i][j][1]):
+                new_ele = ls[i][j][1].split("-")
+                ret.append([i,new_ele[1]])
+                ls[i][j][1] = new_ele[0]
+    return ret
+
+def symmetry_op(h,k,l,number):
+    if number >= 207:
+        ls_hkl = [
+            [h,k,l],[-h,k,l],[h,-k,l],[h,k,-l],[-h,-k,l],[h,-k,-l],[-h,k,-l],[-h,-k,-l],
+            [k,h,l],[-k,h,l],[k,-h,l],[k,h,-l],[-k,-h,l],[k,-h,-l],[-k,h,-l],[-k,-h,-l],
+            [l,k,h],[-l,k,h],[l,-k,h],[l,k,-h],[-l,-k,h],[l,-k,-h],[-l,k,-h],[-l,-k,-h],
+            [k,l,h],[-k,l,h],[k,-l,h],[k,l,-h],[-k,-l,h],[k,-l,-h],[-k,l,-h],[-k,-l,-h],
+            [l,h,k],[-l,h,k],[l,-h,k],[l,h,-k],[-l,-h,k],[l,-h,-k],[-l,h,-k],[-l,-h,-k],
+            [h,l,k],[-h,l,k],[h,-l,k],[h,l,-k],[-h,-l,k],[h,-l,-k],[-h,l,-k],[-h,-l,-k]
+        ]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 206 >=number >=195:
+        ls_hkl = [
+            [h,k,l],[-h,k,l],[h,-k,l],[h,k,-l],[-h,-k,l],[h,-k,-l],[-h,k,-l],[-h,-k,-l],
+	    [l,h,k],[-l,h,k],[l,-h,k],[l,h,-k],[-l,-h,k],[l,-h,-k],[-l,h,-k],[-l,-h,-k],
+	    [k,l,h],[-k,l,h],[k,-l,h],[k,l,-h],[-k,-l,h],[k,-l,-h],[-k,l,-h],[-k,-l,-h]
+        ]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 142 >=number >=123:
+        ls_hkl = [
+            [h,k,l],[-h,k,l],[h,-k,l],[h,k,-l],[-h,-k,l],[h,-k,-l],[-h,k,-l],[-h,-k,-l],
+            [k,h,l],[-k,h,l],[k,-h,l],[k,h,-l],[-k,-h,l],[k,-h,-l],[-k,h,-l],[-k,-h,-l]
+        ]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 120 >=number >=115:
+        ls_hkl = [
+                [h,k,l],[-h,-k,l],[k,-h,-l],[-k,h,-l],[h,-k,l],[-h,k,l],[k,h,-l],[-k,-h,-l]        
+                ]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 114 >=number >=111 or 122 >=number >=121:
+        ls_hkl = [
+                [h,k,l],[-h,-k,l],[k,-h,-l],[-k,h,-l],[-h,k,-l],[h,-k,-l],[-k,-h,l],[k,h,l]
+                ]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 110 >=number >=99:
+        ls_hkl = [
+                [h,k,l],[-h,-k,l],[-k,h,l],[k,-h,l],[h,-k,l],[-h,k,l],[-k,-h,l],[k,h,l]        ]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 98 >=number >=89:
+        ls_hkl = [
+            [h,k,l],[-h,-k,l],[-k,h,l],[k,-h,l],[-h,k,-l],[h,-k,-l],
+            [k,h,-l],[-k,-h,-l]
+        ]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 80 >=number >=75:
+        ls_hkl = [
+            [h,k,l],[-h,-k,l],[-k,h,l],[k,-h,l]
+        ]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 74 >=number >= 47:
+        ls_hkl = [
+            [h,k,l],[-h,-k,l],[-h,k,-l],[h,-k,-l],[-h,-k,-l],[h,k,-l],[h,-k,l],[-h,k,l]
+        ]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 46  >=number >= 25:
+        ls_hkl = [[h,k,l], [-h,-k,l], [h,-k,l], [-h,k,l]]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 24  >=number >= 16:
+        ls_hkl = [[h,k,l],[-h,-k,l], [-h,k,-l], [h,-k,-l]]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 3<= number <=5:
+        ls_hkl = [[h,k,l], [-h,k,-l]]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 6<= number <=9:
+        ls_hkl = [[h,k,l], [h,-k,l]]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif 10<= number <=15:
+        ls_hkl = [[h,k,l], [-h,k,-l], [h,-k,l], [-h, -k, -l]]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    elif number <=2:
+        ls_hkl = [[h,k,l]]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    else:
+        ls_hkl = [[h,k,l]]
+        set_hkl = {tuple(x) for x in ls_hkl}
+        mutil = len(set_hkl)
+    return [h,k,l,mutil], set_hkl
+
+'''
+input:
+    list:abc[3],angel[3]; string: space group
+output:
+    hkl 3*n list :which is these hkl of significance;
+Wavelength = 1.545
+'''
+def hkl_compute(abc,wyck):
+    # this is the number of space group
+    try:
+        number = int(wyck)
+    except:
+        number = int(wyck[:-1])
+    H=int(abc[0]*2/1.54*0.42)
+    K=int(abc[1]*2/1.54*0.42)
+    L=int(abc[2]*2/1.54*0.42)
+    H = K = L = 20 # special case
+    cryst_face = []
+    # ignore -h,-k,-l the mutil is doule
+    for h in range(-H,H+1):
+        for k in range(-K,K+1):
+            for l in range(1,L+1):
+                cryst_face.append((h,k,l))
+            l = 0
+            if k<0: continue
+            elif k==0 and h<=0:continue
+            else:cryst_face.append((h,k,l))   
+    cryst_face_0 = cryst_face[:]
+    # the line is to be removed
+    hkl_val = []
+    for h, k, l in cryst_face_0:
+        if (h,k,l) not in cryst_face: continue
+        #ls_valid,set_hkl = symmetry_op(h,k,l,number), I will change later
+        ls_valid,set_hkl = symmetry_op(h,k,l,number)
+        hkl_val.append(ls_valid)
+        for each in set_hkl:
+            try:
+                cryst_face.remove(each)
+            except:
+                continue
+    return hkl_val, [number]
+# '''this is cut hkl by the  lattice with heart''', the force is limitted
+def lattice_filt(hkl_val,lattice_heart = 'F'):
+    if lattice_heart == 'F':
+        for k in hkl_val:
+            p = k[0]%2+k[1]%2+k[2]%2
+            if p == 0 or p == 3:
+                hkl_val.remove(k)
+    return hkl_val
+# the theta filtrate of hkl surface
+def theta_filt(hkl_val,P,angle_min,angle_max,w=1.5406):
+    a,b,c,aerfa,beta,gama = P[0], P[1], P[2], P[3]*np.pi/180, P[4]*np.pi/180, P[5]*np.pi/180
+    V=a*b*c*np.sqrt(1-np.cos(aerfa)**2-np.cos(beta)**2-np.cos(gama)**2+2*np.cos(aerfa)*np.cos(beta)*np.cos(gama))
+    hkl_val_new = []
+    for h,k,l,mutil in hkl_val:
+        t1=((h**2)*(b**2)*(c**2)*(np.sin(aerfa)**2)+(k**2)*(a**2)*(c**2)*(np.sin(beta)**2)+(l**2)*(a**2)*(b**2)*(np.sin(gama)**2)+2*h*k*a*b*(c**2)*(np.cos(aerfa)*np.cos(beta)-np.cos(gama))+2*k*l*(a**2)*b*c*(np.cos(beta)*np.cos(gama)-np.cos(aerfa))+2*h*l*a*(b**2)*c*(np.cos(aerfa)*np.cos(gama)-np.cos(beta)))
+        if np.sqrt(t1/(V**2))*1.54/2 >= 1:
+            continue
+        else:
+            double_theta = np.arcsin(np.sqrt(t1/(V**2))*1.54/2)*360/np.pi
+        if angle_min < double_theta < angle_max: hkl_val_new.append([h,k,l,mutil,double_theta])
+    return hkl_val_new
+def mem_deco(f):
+    d = {}
+    def g(*x):
+        if not x in d:
+            d[x] = f(*x)
+        return d[x]
+    return g
+
+def col_sep(ls):
+    return [list(l) for l in zip(*ls)]
+
+def list_split(l, n, strict = False):
+    if strict and len(l) % n:
+        raise SyntaxError("malformed tuple list")
+    return [l[i : i + n] for i in range(0, len(l), n)]
+
+def list_join(ls):
+    return [x for l in ls for x in l]
+
+def xf_map(fs, l):
+    return [[f(x) for x in l] for f in fs]
+
+def id_dict(l):
+    d = {}
+    [d.setdefault(x, len(d)) for x in l]
+    return d
+
+def id_vals(d):
+    return [k for v, k in sorted([v, k] for k, v in d.items())]
+
+def my_match(pat, s, err):
+    ret = re.match(pat, s)
+    if not ret:
+        raise SyntaxError(err)
+    return ret
+
+def pmap_slave(q, i, f):
+    while True:
+        x = q[0].get()
+        if x[0]:
+            try:
+                y = [1, i, f(x[1])]
+            except:
+                y = [0, i, traceback.format_exc()]
+        else:
+            y = [0, i, None]
+        q[1].put(y)
+        if not x[0]:
+            break
+
+def pmap_master(q, ps, n, xs):
+    n, fail = [n, 0], False
+
+    for x in xs:
+        try:
+            y = q[1].get(n[1] == n[0])
+            n[1] -= 1
+        except queue.Empty:
+            y = None
+        if y and not y[0]:
+            sys.stderr.write("Subprocess %u:\n%s" % tuple(y[1:]))
+            fail = True
+            break
+        else:
+            q[0].put([1, x])
+            n[1] += 1
+            if y:
+                yield y[2]
+
+    while n[0]:
+        if n[1] < n[0]:
+            q[0].put([0])
+            n[1] += 1
+        else:
+            y = q[1].get()
+            n[1] -= 1
+            if y[0]:
+                yield y[2]
+            elif y[2] == None:
+                ps[y[1]].join()
+                n[0] -= 1
+            else:
+                sys.stderr.write("Subprocess %u:\n%s" % tuple(y[1:]))
+                fail = True
+
+    if fail:
+        raise RuntimeError("some computation failed")
+
+def pmap(fs, xs):
+    q, ps, n = (multiprocessing.Queue(), multiprocessing.Queue()), [], 0
+    for f in fs:
+        p = multiprocessing.Process(target = pmap_slave, args = (q, len(ps), f))
+        p.start()
+        ps.append(p)
+        n += 1
+    return pmap_master(q, ps, n, xs)
+
+def my_run(cmd, input, stdout):
+    p = Popen(cmd, stdin = PIPE, stdout = stdout)
+    p.stdin.write(input.encode("UTF-8"))
+    p.stdin.close()
+    return p
+'''
+def my_out(p):
+    try:
+        outs, errs = p.communicate(timeout=15)
+    except TimeoutExpired:
+        p.kill()
+        outs, errs = p.communicate(timeout=15)
+#ret = p.stdout.read().decode("UTF-8")
+    return outs
+
+'''
+def my_out(p):
+    ret = p.stdout.read().decode("UTF-8")
+    if p.wait():
+        raise RuntimeError("subprocess failed")
+    return ret
+
+def procs_wait(ps):
+    pd = dict((p.pid, p) for p in ps)
+    try:
+        while pd:
+            pid, ret = os.wait()
+            if pid in pd:
+                pd.pop(pid)
+                if ret:
+                    [p.terminate() for p in pd.values()]
+                    [p.wait() for p in pd.values()]
+                    raise RuntimeError("subprocess failed")
+    except KeyboardInterrupt:
+        [p.terminate() for p in pd.values()]
+        [p.wait() for p in pd.values()]
+        raise
+
+def pair_deco(c):
+    def deco(f):
+        def g(s):
+            s = s.split(c)
+            if len(s) == 1:
+                s = f(s[0])
+                return [s, s]
+            elif len(s) != 2:
+                raise SyntaxError("malformed pair")
+            else:
+                return [f(x) for x in s]
+        return g
+    return deco
+
+def ext_sub(s, ext):
+    ret = re.sub(r"\.[^/.]*$", ext, s)
+    return ret + ext if ret == s else ret
+
+def torus_pos(x):
+    return x - int(x) + (x < 0)
+
+def bound_dof(bs):
+    return len([0 for b in bs if b[0] != b[1]])
+
+def edge_add(x1, x2, left):
+    return x2 if x1 == None else (x1 if x2 == None else (
+        x1 if (x1 < x2) == left else x2
+    ))
+
+def limit_add(l1, l2):
+    return [edge_add(l1[0], l2[0], True), edge_add(l1[1], l2[1], False)]
+# lyt add in 2022/1/27
+def para_mk(num, ls):
+    para = []
+    para.extend(ls[0])
+    para.extend(ls[1])
+    para.append(ls[2])
+    return [num*i for i in para]
+
+def para_ls (ele, table_1):  #ele is [[1, Zr], [1,Zr], ...]
+    para = [0 for i in range(9)]
+    for x in ele:
+        ls = para_mk(x[0], table_1[x[1]])
+        para = [x+y for x,y in zip(para,ls)]
+    return para
+
+def masf_func(mix):
+    return lambda q: sum(x * (par[2] + sum(
+        a * math.exp(-b * (q / 2) ** 2) for a, b in zip(par[0], par[1])
+    )) for x, par in mix)
+
+def lp_func(p):
+    return lambda ttheta: (
+        (1 - p) + p * math.cos(radDeg * ttheta) ** 2
+    ) / (math.sin(radDeg * ttheta) * math.sin(radDeg * ttheta / 2))
+
+def q_func(abc, angles):
+    scs = [[f(radDeg * x) for x in angles] for f in [math.cos, math.sin]]
+    ratios = [s / l for l, s in zip(abc, scs[1])]
+    cycle = [(0, 1, 2), (1, 2, 0), (2, 0, 1)]
+    v = math.sqrt(
+        1 - sum(c ** 2 for c in scs[0]) + 2 * scs[0][0] * scs[0][1] * scs[0][2]
+    )
+    bs = [r / v for r in ratios]
+    ds = [
+        (scs[0][y] * scs[0][z] - scs[0][x]) / (scs[1][y] * scs[1][z])
+        for x, y, z in cycle
+    ]
+    def q(hkl):
+        hbs = [h * b for h, b in zip(hkl, bs)]
+        return math.sqrt(sum(hb ** 2 for hb in hbs) + 2 * sum(
+            hbs[x] * hbs[y] * ds[z] for x, y, z in cycle
+        ))
+    return q
+
+# Read the comments on ccombs_gen() first if you need to read these functions.
+def comb_step(nn, ls, us, comb):
+    for i, u in enumerate(us):
+        nn[1] += u[0]
+        u[3] += 1
+        comb[i] += 1
+        if nn[1] > nn[0] or (ls[i] != None and comb[i] > ls[i]) \
+            or (u[2] != None and u[3] > u[2]):
+            nn[1] -= comb[i] * u[0]
+            u[3] -= comb[i]
+            comb[i] = 0
+        else:
+            return us, comb
+    return us, None
+
+def comb_next_base(nn, ls, us, comb):
+    while True:
+        us, comb = comb_step(nn, ls, us, comb)
+        if nn[1] == nn[0] or comb == None:
+            return us, comb
+
+def comb_next(n, us, comb):
+    return comb_next_base([n[0], n[0]], n[1], us, comb)
+
+def comb_first(n, us):
+    comb = [0] * len(us)
+    return comb_next_base([n[0], 0], n[1], us, comb) if n[0] else (us, comb)
+
+def combs_step(ns, us, combs):
+    if len(combs) < len(ns):
+        us, comb = comb_first(ns[len(combs)], us)
+        if comb:
+            combs.append(comb)
+            return us, combs
+    while combs:
+        us, combs[-1] = comb_next(ns[len(combs) - 1], us, combs[-1])
+        if combs[-1]:
+            return us, combs
+        else:
+            combs.pop()
+    return us, None
+
+def combs_next(ns, us, combs):
+    while True:
+        us, combs = combs_step(ns, us, combs)
+        if combs == None or (len(combs) == len(ns) and not any(
+            u[1] != None and u[3] < u[1] for u in us
+        )):
+            return us, combs
+
+# ns: [[
+#   number of this element's atoms,
+#   [upper limits for each Wyckoff position's site occupation number]
+# ] for each element]
+# us: [[
+#   number of equivalent positions,
+#   lower limit for total site occupation number,
+#   upper limit for total site occupation number,
+#   current total site occupation number
+# ] for each Wyckoff position]
+# ccomb: [[
+#   [index, site occupation number] for each occupied Wyckoff position
+# ] for each element]
+def ccombs_gen(ns, us):
+    if not ns:
+        yield []
+        return
+    if any(x != None and x < 0 for n in ns for x in n[1]):
+        return
+    us, combs = combs_next(ns, us, [])
+    while combs != None:
+        yield [[[i, n] for i, n in enumerate(comb) if n] for comb in combs]
+        us, combs = combs_next(ns, us, combs)
+
+def ccombs_par(vs, limits, elems):
+    return [elems[4], [
+        [v, l[0], l[1], sum(p[0] for p in list_join(w))]
+        for v, l, w in zip(vs, limits, zip(*elems[5]))
+    ]]
+
+def ccomb_conv(wmap, ccomb):
+    return [[[wmap[x], n] for x, n in c] for c in ccomb]
+
+def comb_scan(s):
+    my_match(r"([^0-9]+[0-9]+)+$", s, "malformed Wyckoff combination")
+    ret = [[x, int(n)] for x, n in re.findall(r"([^0-9]+)([0-9]+)", s)]
+    if len(set(x for x, n in ret)) != len(ret):
+        raise ValueError("duplicate position in Wyckoff combination")
+    return ret
+
+def at_scan(s):
+    m = my_match(r"([^@]+)@([^@]+)$", s, "malformed `@'-expression").groups()
+    return [int(m[0]), comb_scan(m[1])]
+
+def ccomb_scan(n, s):
+    ret = [[] for i in range(n)]
+    if s != "nil":
+        for at in s.split(","):
+            i, comb = at_scan(at)
+            if ret[i]:
+                raise ValueError("duplicate in element Wyckoff combination")
+            ret[i] = comb
+    return ret
+
+def ccomb_fmt(ccomb):
+    return ",".join([
+        "%u@%s" % (i, "".join("%s%u" % tuple(c) for c in e))
+        for i, e in enumerate(ccomb) if e
+    ]) or "nil"
+
+# ecomb: [[
+#   [[n, bound] for each bound, the first being default]
+#   for each Wyckoff position
+# ] for each element]
+def ecomb_add(ecomb, ccomb):
+    for e, c in zip(ecomb, ccomb):
+        for i, n in c:
+            e[i][0][0] += n
+    return ecomb
+
+def pos_split(s):
+    return [p.split(",") for p in s.split("; ")]
+
+# The coefficients of x/y/z can only be integers in crystallography, so we do
+# not need to handle expressions such as `2y/3'.
+def term_scan(s):
+    m, ret = re.match(r"([+-]?[0-9/]*)([xyz]?)$", s).groups(), [Fraction(0)] * 4
+    ret[{"x": 0, "y": 1, "z": 2, "": 3}.get(m[1])] = \
+        Fraction(m[0] + "1" if m[0] in ["", "+", "-"] else m[0])
+    return ret
+
+def aff_add(a1, a2):
+    ret = [x + y for x, y in zip(a1, a2)]
+    return ret
+
+def aff_scan(s):
+    aff = [Fraction(0)] * 4
+    for t in re.findall(r"[+-]?[^+-]+", s):
+        aff = aff_add(aff, term_scan(t))
+    return aff
+
+def aff_round(a):
+    return a[:3] + [torus_pos(a[3])]
+
+def aff_eval(aff, xyz):
+    return torus_pos(sum(a * x for a, x in zip(aff[:3], xyz)) + aff[3])
+
+def aff_comp(aff):
+    lin = [list(a) for a in enumerate(aff[:3]) if a[1]]
+    return [len(lin), aff[3], lin]
+
+# See also the comments on term_scan().
+def aff_fmt(aff):
+    ret = [
+        str(a) + x if a else "" for a, x in
+        zip([aff[3]] + aff[:3], ["", "x", "y", "z"])
+    ]
+    ret = [s if s.startswith("-") else s and "+" + s for s in ret]
+    ret = "".join(re.sub(r"^([+-])1([xyz])", r"\1\2", s) for s in ret)
+    return (ret[1:] if ret.startswith("+") else ret) or "0"
+
+def pos_expand(origs, inv, poss):
+    poss += [[
+        aff_round(aff_add(a, o)) for a, o in zip(pos, orig)
+    ] for orig in origs[1:] for pos in poss]
+    if inv:
+        poss += [[aff_round([-x for x in a]) for a in pos] for pos in poss]
+    return poss
+
+def pos_proc(p):
+    bound = \
+        [[float(Fraction(x)) for x in s.split(",")] for s in p[2].split(";")]
+    poss = pos_split(p[3])
+    affd = id_dict(list_join(poss))
+    affs = [aff_comp(aff_scan(x)) for x in id_vals(affd)]
+    aids = [[affd[a] for a in i] for i in poss]
+    return [
+        p[0], (1 + p[1]) * len(aids), bound_dof(bound),
+        bound, [len(affs), len(aids), p[1]], affs, aids
+    ]
+
+def peaks_proc(peaks, lpf, delta):
+    ret, prev, delta = [[], []], None, 0.5 * delta
+    for peak in peaks:
+        if not (
+            peak[0][0] > 0.0 and peak[0][1] >= 0.0 and
+            peak[2][0] > 0 and peak[2][1] >= 0.0
+        ):
+            raise ValueError("invalid peak line")
+        if prev and peak[0][0] < prev[0]:
+            raise ValueError("unsorted peak lines")
+        ret[0].append([peak[1], peak[2][0] * lpf(peak[0][0])])
+        if prev and peak[0][0] - prev[0] < delta * (peak[0][1] + prev[1]):
+            hill[0] += 1
+            hill[1] += peak[2][1]
+        else:
+            if prev:
+                ret[1].append(hill)
+            hill, prev = [1, peak[2][1]], peak[0]
+    ret[1].append(hill)
+    return ret
+
+def comb_proc(wmap, vs, bounds, limit, comb):
+    rn = [limit[0], [None] * len(vs)]
+    rc = [[[0, b]] for b in bounds]
+    for x, n in limit[1]:
+        if n < 0:
+            raise ValueError("invalid element occupation limit")
+        rn[1][wmap[x]] = n
+    for x, n, b in comb:
+        if n <= 0:
+            raise ValueError("invalid element occupation")
+        i = wmap[x]
+        rn[0] -= n * vs[i]
+        if rn[1][i] != None:
+            rn[1][i] -= n
+        if b:
+            rc[i].append([n, b])
+        else:
+            rc[i][0][0] = n
+    return [rn, rc]
+
+# After this function, we get:
+# pos:
+#   [0] wmap: (name <-> index) dict for Wyckoff positions
+#   [1] vs: numbers of equivalent positions
+#   [2] degrees of freedom                  [3] default bounds
+#   [4] `wycks'         [5] `affine' lists  [6] `aid' lists
+# elems:
+#   [0-1] rad and asf combinations          [2-3] `dists' and `asfs'
+#   [4] `ns' as in ccombs_gen()             [5] original ecomb    [6]the total asfs parameters [[9],[9]]
+def cryst_proc(tables, cr):
+    if not all(x > 0.0 for x in cr["abc"]):
+        raise ValueError("invalid `abc'")
+    if not all(0.0 < x < 180.0 for x in cr["angles"]):
+        raise ValueError("invalid `angles'")
+    if not (0.0 <= cr["ctl"][0] < 1.0 and 0.0 <= cr["ctl"][1] < cr["ctl"][2]):
+        raise ValueError("invalid `ctl'")
+    if not all(x >= 0.0 for x in cr["extra"]):
+        raise ValueError("invalid `extra'")
+    sg = tables[0][cr["sg"]]
+    q_get = q_func(cr["abc"], cr["angles"])
+    cr["origs"] = [[Fraction(s) for s in p] for p in pos_split(sg["orig"])]
+    cr["pos"] = col_sep([pos_proc(p) for p in sg["pos"]])
+    cr["pos"][0] = dict(enumerate(cr["pos"][0]))
+    cr["pos"][0].update([(v, k) for k, v in cr["pos"][0].items()])
+    cr["pos"][1] = [v * len(cr["origs"]) for v in cr["pos"][1]]
+    if cr["limits"]:
+        if len(cr["limits"]) != len(cr["pos"][1]) or not all(
+            x == None or x >= 0 for x in list_join(cr["limits"])
+        ):
+            raise ValueError("invalid `limits'")
+    else:
+        cr["limits"] = [[None, None] for p in cr["pos"][0]]
+    cr["limits"] = [limit_add(l1, l2) for l1, l2 in zip(cr["limits"], (
+        [None, None] if dof else [None, 1] for dof in cr["pos"][2]
+    ))]
+    cr["peaks"], cr["hills"] = \
+        peaks_proc(cr["peaks"], lp_func(cr["extra"][0]), cr["extra"][1])
+    cr["elems"] = col_sep([e[:4] + comb_proc(
+        cr["pos"][0], cr["pos"][1], cr["pos"][3], *e[4:]
+    ) for e in cr["elems"]])
+    #lyt add in order to choice valid hkl crystal face
+    hkl_val_0,cr['sg_number'] = hkl_compute(cr['abc'],cr['sg'])
+    hkl_list_0 = theta_filt(hkl_val_0,cr['abc']+cr['angles'],cr['spec'][0][0],cr['spec'][-1][0])
+    cr['hkl_valid'] = []
+    for ls in hkl_list_0:
+    #times L-P factor and thermal motion factor
+        ls[3] *= lp_func(cr["extra"][0])(ls[-1])*math.exp(-8*math.pi*math.pi*Uiso*(q_get(ls[0:3])**2))
+        cr['hkl_valid'].append(ls)
+    hkl_list = [x[0:3] for x in hkl_list_0]
+
+    if not all(e[0] > 0.0 for e in list_join(list_join(cr["elems"][:2]))):
+        raise ValueError("invalid element composition coefficients")
+    lig_ls = check_ligand(cr["elems"][0])
+    if lig_ls:    
+        cr["extra_atoms"] = ligand_mk(lig_ls=lig_ls,n=len(cr["elems"][0]),tables=tables)
+        ele_ls = sorted([[num,ele] for ele,num in cr["extra_atoms"][1].items()])
+        cr["elems"][0].extend([[[1.0,x[1]]] for x in ele_ls])
+        cr["elems"][1].extend([[[1.0,x[1]]] for x in ele_ls])
+        cr["elems"][2] = [e +[Scale_0]*len(ele_ls) for e in cr["elems"][2]]
+        cr["elems"][2].extend([[Scale_0]*len(cr["elems"][0]) for i in range(len(ele_ls))])
+    else:
+        cr["extra_atoms"] = [] 
+    rads, cr["elems"][3] = [
+        sum(x[0] * tables[2][x[1]] for x in e) for e in cr["elems"][0]
+    ], xf_map([
+        masf_func([(x[0], tables[1][x[1]]) for x in e]) for e in cr["elems"][1]
+    ], [q_get(hkl) for hkl in hkl_list])
+    for i in range(len(cr["elems"][0])):
+        for j in range(len(cr["elems"][0])):
+            cr["elems"][2][i][j] *= rads[i] + rads[j]
+    cr["elems"].append([para_ls(ele, tables[1]) for ele in cr["elems"][1]])
+    return cr
+@pair_deco(";")
+def elem_scan(ss):
+    return [[float(x), e] for x, e in (
+        my_match(r"([.0-9]+)(.*)", s, "malformed element combination").groups()
+        for s in ss.split(",")
+    )] if re.match(r"[.0-9]+", ss) else [[1.0, ss]]
+
+def elem_escan(l):
+    if len(l) != 4:
+        raise SyntaxError("malformed element spec line")
+    for i in [2, 3]:
+        l[i] = [] if l[i] == "--" else comb_scan(l[i])
+    return elem_scan(l[0]) + \
+        [[], [], [int(l[1]), l[2]], [c + [None] for c in l[3]]]
+
+def elem_zscan(ret, l):
+    for f in l:
+        f = f.split(":")
+        if len(f) != 2:
+            raise SyntaxError("malformed element zooms line")
+        f = [float(f[0]), f[1].split("-")]
+        if len(f[1]) != 2:
+            raise SyntaxError("malformed element zooms line")
+        f = [f[0]] + [[int(e) for e in ee.split(",")] for ee in f[1]]
+        if not (f[1] and f[2]):
+            raise SyntaxError("malformed element zooms line")
+        if f[0] <= 0.0:
+            raise ValueError("invalid pairwise zoom factor")
+        for i in f[1]:
+            for j in f[2]:
+                ret[i][2][j] = ret[j][2][i] = f[0]
+
+bound_scan = pair_deco(",")(float)
+def elem_oscan(ret, l):
+    if len(l) != 4:
+        raise SyntaxError("malformed element occupation line")
+    i, ccomb = at_scan(l[0])
+    if len(ccomb) != 1:
+        raise SyntaxError("malformed element occupation line")
+    ret[i][5].append(ccomb[0] + [[bound_scan(x) for x in l[1:]]])
+
+def elems_scan(ls):
+    ret = []
+    while ls and not re.search(r"[:@]", ls[0][0]):
+        ret.append(elem_escan(ls.pop(0)))
+    [e[2].extend([1.0] * len(ret)) for e in ret]
+    while ls and "@" not in ls[0][0]:
+        elem_zscan(ret, ls.pop(0))
+    while ls:
+        elem_oscan(ret, ls.pop(0))
+    return {"elems": ret}
+
+peak_ifs = [float] * 2 + [int] * 4 + [float]
+def peaks_scan(ls):
+    ret = []
+    for l in ls:
+        if len(l) != len(peak_ifs):
+            raise SyntaxError("malformed peak line")
+        l = [f(x) for f, x in zip(peak_ifs, l)]
+        ret.append([l[:2], l[2 : 5], l[5:]])
+    return {"peaks": ret}
+
+# lyt add in 2021/10/22
+
+def spec_scan(ls):
+    ret = []
+    for l in ls:
+        if len(l) != 2:
+            raise SyntaxError("malformed spectrum line")
+        l = [float(x) for x in l]
+        ret.append(l)
+    return {"spec": ret}
+
+def cell_scan(ls):
+    ret = {}
+    if not (len(ls) == 3 and len(ls[0]) == 7 and len(ls[1]) == 5):
+        raise SyntaxError("malformed metadata block")
+    ls[0][1:] = [float(x) for x in ls[0][1:]]
+    ls[1] = [float(x) for x in ls[1]]
+    ret["sg"], ret["abc"], ret["angles"], ret["ctl"], ret["extra"] = \
+        ls[0][0], ls[0][1 : 4], ls[0][4:], ls[1][:3], ls[1][3:]
+    ret["limits"] = [] if ls[2] == ["--"] else [[
+        int(x) if x else None for x in
+        my_match(r"([0-9]*)-([0-9]*)$", s, "malformed `limits'").groups()
+    ] for s in ls[2]]
+    return ret
+
+def line_read(f):
+    for l in f:
+        l = l.strip()
+        if not l or l[0] != "#":
+            return l.split()
+
+def lines_gen(f):
+    while True:
+        l = line_read(f)
+        if l == None:
+            break
+        else:
+            yield l
+
+def hosts_read(f):
+    ret = []
+    for l in lines_gen(f):
+        if len(l) < 3:
+            raise SyntaxError("malformed `hosts' line")
+        l[0] = int(l[0])
+        if l[0] <= 0:
+            raise ValueError("invalid core number in `hosts'")
+        ret.append(l)
+    if not ret:
+        raise SyntaxError("empty `hosts'")
+    return ret
+
+def cryst_read(tables, f):
+    cr = {}
+    for scan in [cell_scan, elems_scan, peaks_scan, spec_scan]: #lyt add spec_scan
+        ret = []
+        while True:
+            l = line_read(f)
+            if not len(l):
+                break
+            ret.append(l)
+        if not ret:
+            raise SyntaxError("empty `decr' block")
+        cr.update(scan(ret))
+    if line_read(f) != None:
+        raise SyntaxError("trailing `decr' line")
+    return cryst_proc(tables, cr)
+
+@mem_deco
+def cmeta_mk(n):
+    if n:
+        par = [int(1000 * (n / 3.0 - 4 if n > 15 else 1)), int(100 * n * (
+            1.0 if n < 12 else (5.0 if n > 21 else 1.0 + (n - 11) * 0.4)
+        )), 0.1 ** (2.0 if n < 12 else 2.0 + 0.16 * (n - 11))]
+        if par[0] > 10000:
+            par[0] = 10000
+        if par[2] < 6e-5:
+            par[2] = 6e-5
+        return ["%u" % x for x in [n] + par[:2]] + ["%g" % par[2]] + ["-"] * 5
+    else:
+        return ["0"] * 2 + ["-"] * 7
+
+# crf: [crl, cr], where `crl' is the `crysts' line.
+def crfs_gen(f):
+    for l in lines_gen(f):
+        if len(l) != 10:
+            raise SyntaxError("malformed `crysts' line")
+        yield [l, open(l[9]).read()]
+
+def log_best(log):
+    best = None
+    for l in re.finditer(r".*", log):
+        l = l.group(0).strip()
+        if l.startswith("("):
+            l = my_match(
+                r"\(([^()]+)\)[ \t]+(.*)", l, "malformed `decr_lsa' output"
+            ).groups()
+            l = [l[0].split(), [float(x) for x in l[1].split()]]
+            if len(l[0]) != 3:
+                raise SyntaxError("malformed `decr_lsa' output")
+            l.append(float(l[0][0]))
+            if not best or l[2] < best[2]:
+                best = l
+    if not best:
+        raise SyntaxError("malformed `decr_lsa' output")
+    return best
+
+def atoms_read(poss, cname):
+    blocks, used, atoms = open(cname).read().split("\n\n"), [], []
+    if len(blocks) != 15: #change 10 to 13, 13 to 15
+        raise SyntaxError("malformed `cryst' file")
+    for l in blocks[11].split("\n"): #change 8 to 10
+        (used if l.startswith("#") else atoms).append(l)
+    used = [l for l in used if l.startswith("# decr_utils: used =")]
+    if len(used) != 1:
+        raise SyntaxError("malformed `decr_utils' metadata")
+    used = [int(s) for s in my_match(
+        r"# decr_utils: used = \(([^()]+)\)$",
+        used[0], "malformed `decr_utils' metadata"
+    ).group(1).split()]
+    para = [l for l in blocks[0].split("\n") if not l.startswith("#")]
+    para = list_join([l.split() for l in para])[0:6]
+    para = [float(x) for x in para]
+    polys = [l for l in blocks[12].split("\n") if not l.startswith("#")]
+    polys = list_join(list_split(l.split(), 9, True) for l in polys)
+    polys = [poly[:3] + [list_split(poly[3:], 2)] for poly in polys]
+    nPolys = [int(poly[2]) for poly in polys]
+    polys = [[int(poly[0]), used[int(poly[1])], poly[3]] for poly in polys]
+    extra_pos = [l for l in blocks[13].split("\n") if not l.startswith("#")]
+    extra_pos = list_join(list_split(l.split(), 4, True) for l in extra_pos)
+    extra_pos = [[int(pos[0]), float(pos[1]), float(pos[2]), float(pos[3])] for pos in extra_pos]
+    if sum(nPolys) != len(extra_pos): raise ValueError("poly sizes and positions mismatch")
+    idx = 0
+    for i in range(len(nPolys)):
+        k = nPolys[i]
+        polys[i].append(extra_pos[idx:idx+k])
+        idx+=k
+    atoms = list_join(list_split(l.split(), 8, True) for l in atoms)
+    atoms = [atom[:2] + [list_split(atom[2:], 2)] for atom in atoms]
+    atoms = [[int(atom[0]), used[int(atom[1])], atom[2]] for atom in atoms]
+    dofs, idx = [], 0
+    for atom in atoms:
+        for i, x in enumerate(atom[2]):
+            if x[0] == x[1]:
+                atom[2][i] = [0, float(x[0])]
+            else:
+                # `nil' does not produce a log, so only read when necessary.
+                if not idx:
+                    dofs = log_best(open(ext_sub(cname, ".log")).read())[1]
+                if idx >= len(dofs):
+                    raise ValueError("`decr_lsa' dof mismatch")
+                atom[2][i] = [1, dofs[idx]]
+                idx += 1
+        atom[1], pos, bound = poss[atom[1]]
+        for i, x in enumerate(atom[2]):
+            atom[2][i][1] = aff_eval(pos[i], [x[1] for x in atom[2]])
+            if not (
+                bound[i][0] == bound[i][1] or
+                bound[i][0] <= atom[2][i][1] <= bound[i][1]
+            ):
+                atom[2][i][1] += -1 if bound[i][0] < 0 else 1
+    extra_atoms = []
+    for poly in polys:
+        poly[1] = poss[poly[1]][0]
+        n = poly[0]
+        for atom in atoms:
+            if atom[0] != n: continue
+            angles = dofs[idx:idx+3]
+            orig_coors = [x[1] for x in atom[2]]
+            extra_atoms.extend(rot_poly(poly, orig_coors, angles, para))
+            idx+=3
+    atoms.extend(extra_atoms)
+    if idx != len(dofs):
+        raise ValueError("`decr_lsa' dof mismatch")
+    return atoms
+
+def group_fmt(fmt, l, n, sep= "\t"):
+    return "".join(sep.join(fmt(x) for x in l) + "\n" for l in list_split(l, n))
+
+def poly_mk(poly_ls, wyck_n):
+    if len(poly_ls):
+        poly_ls_0 = [[x[0],y,z] for x,y,z in zip(poly_ls[0],poly_ls[2],poly_ls[3])]
+        return "# polys.\n%s\n" % group_fmt(
+            lambda x: "%u %u %u %s" % tuple([x[0],wyck_n,len(x[2]),x[1]]), poly_ls_0, 1
+        ) + "# poss.\n%s\n" % group_fmt(
+            lambda x: "%u %g %g %g" % tuple(x), list_join(poly_ls[3]), 4
+        )
+    else:
+        return "# polys.\n\n" + "# poss.\n\n"
+
+def cryst_head(cr):
+    return "# abc, angles, ctl, space_group.\n%g %g %g\t%g %g %g\t%g %g %g\t%g\n" % tuple(
+        cr["abc"] + cr["angles"] + cr["ctl"] + cr["sg_number"]
+    ) + "# origs.\n%s\n" % group_fmt(
+        lambda x: "%g %g %g" % tuple(x), cr["origs"], 4
+    ) + "# hills.\n%s\n" % group_fmt(
+        lambda x: "%u %g" % tuple(x), cr["hills"], 8
+    ) + "# peaks.\n%s\n" % group_fmt(
+        lambda x: "%d %d %d %g" % tuple(x[0] + [x[1]]), cr["peaks"], 4
+    ) + "# valid hkl surfaces: h,k,l,mutil**LP_factor*Debye factor,theta.\n%s\n" % group_fmt(
+        lambda x: "%u %u %u %g %g" % tuple(x), cr["hkl_valid"], 2
+    ) + "# the spectrum in experiment.\n%s\n" % group_fmt(
+        lambda x: "%g %g" % tuple(x), cr["spec"], 8
+    ) + "# dists.\n%s\n" % group_fmt(
+        lambda x: "%g" % x, list_join(cr["elems"][2]), 10
+    ) + "%s\n" % "".join("# asfs[%u].\n" % i + group_fmt(
+        lambda x: "%g" % x, l, 10
+    ) for i, l in enumerate(cr["elems"][3])
+    ) + "%s\n" % "".join("# asfs_para_a4b4c1[%u].\n" % i + group_fmt(
+        lambda x: "%g" % x, l, 10
+    ) for i, l in enumerate(cr["elems"][6])) 
+
+def cryst_ftr(pos, ecomb, num):
+    used = [i for i, n in enumerate(
+        sum(w[0] for w in list_join(p)) for p in zip(*ecomb)
+    ) if n]
+    if num >= 0 and num not in used: used.append(num)
+    poly_wyck = len(used)-1
+    used = used, id_dict(used);
+    return "# wycks.\n%s\n" % group_fmt(
+        lambda x: "%u %u %u" % tuple(x), [pos[4][i] for i in used[0]], 4
+    ) + "# affs.\n%s\n" % group_fmt(
+        lambda x: "%u %g %u %g %u %g" % tuple([x[0], x[1]] + list_join(
+            x[2] + [[0, Fraction(0)]] * (2 - len(x[2]))
+        )), list_join(pos[5][i] for i in used[0]), 4
+    ) + "# aids.\n%s\n" % group_fmt(
+        lambda x: "%u %u %u" % tuple(x),
+        list_join(pos[6][i] for i in used[0]), 8
+    ) + "# decr_utils: used = (%s)\n" % " ".join(
+        "%u" % i for i in used[0]
+    ) + "# atoms.\n%s\n" % group_fmt(
+        lambda x: "%u %u %g %g %g %g %g %g" % tuple(
+            [x[0], x[1]] + list_join(x[2])
+        ), list_join(
+            [[e, used[1][w], b]] * n for e, ee in enumerate(ecomb)
+            for w, p in enumerate(ee) for n, b in p if n
+        ), 2
+    ), poly_wyck
+
+def decr_hf(s):
+    ret = s.split("\n\n")
+    if len(ret) != 5: # before the number is 4,and I add spectrum, it's added to 5
+        raise SyntaxError("malformed `decr' file")
+    ret.append([])
+    for l in ret[1].split("\n"):
+        if l.startswith("#") or ":" in l:
+            ret[5].append(l + "\n") # 4 to 5
+        elif "@" not in l:
+            ret[5].append(re.sub(r"[^ \t]+$", "--", l) + "\n") # 4 to 5
+    return [ret[0] + "\n\n" + "".join(ret[5]), "\n" + ret[2] + "\n\n" + ret[3] + "\n\n" + ret[4]] # 4 to 5 and add ret[4]
+
+def cif_head(itn, sg, cr):
+    return "data_global\n_space_group_IT_number %s\n" % itn + "".join(
+        "_cell_%s_%s %g\n" % (v, a, x) for v, aa, xx in [
+            ["length", "abc", "abc"],
+            ["angle", ["alpha", "beta", "gamma"], "angles"]
+        ] for a, x in zip(aa, cr[xx])
+    ) + "_symmetry_space_group_name_H-M '%s'\n" % ( sg["desc"]
+    ) + "loop_\n_space_group_symop_operation_xyz\n" + "".join(
+        "\t" + l for l in group_fmt((lambda s: "'%s'" % s), [
+            ",".join(aff_fmt(a) for a in p) for p in pos_expand(
+                [[aff_scan(s) for s in p] for p in pos_split(sg["orig"])],
+                sg["pos"][-1][1],
+                [[aff_scan(s) for s in p] for p in pos_split(sg["pos"][-1][3])]
+            )
+        ], 3).splitlines(True)
+    ) + "loop_\n_atom_site_label\n" + "".join(
+        "_atom_site_fract_%s\n" % x for x in "xyz"
+    )
+
+def cryst_stat(prog, host, crf):
+    ret = my_out(my_run([prog, crf[0][1]] + host, crf[1], PIPE)).split()
+    if len(ret) != 5:
+        raise SyntaxError("malformed `decr_stat' output")
+    crf[0][4 : 6] = ret[:2]
+    if crf[0][6] == "-" or float(ret[2]) < float(crf[0][6]):
+        crf[0][6 : 9] = ret[2:]
+    return crf
+
+def cryst_optim(prog, host, crf):
+    if any(x == "-" for x in crf[0][4 : 6]):
+        return crf + [None]
+    crf.append(my_out(my_run([prog] + crf[0][2 : 6] + host, crf[1], PIPE))) # I change
+    ret = log_best(crf[2])
+    if crf[0][6] == "-" or ret[2] < float(crf[0][6]):
+        crf[0][6 : 9] = ret[0]
+    return crf
+
+# lyt change sys.stdin to f
+def cryst_pmap(func, prog, hname):
+    return pmap(((
+        lambda h: lambda c: func(prog, h, c)
+    )(host) for host in list_join(
+        [h[1:]] * h[0] for h in hosts_read(open(hname))
+    )), crfs_gen(sys.stdin))
+
+def tables_mk(extra):
+    cfg = ["/usr/share/decryst", None, None, None]
+    if extra != None:
+        extra = extra.split(":")
+        if len(extra) != 4:
+            raise SyntaxError("malformed `DECR_EXTRA' envvar")
+        for i, s in enumerate(extra):
+            if s:
+                cfg[i] = s
+    tables = [
+        json.load(open(os.path.join(cfg[0], "%s.json" % s)))
+        for s in ["wyck", "asf", "rad", "poly"]
+    ]
+    for t, s in zip(tables, cfg[1:]):
+        if s:
+            t.update(json.load(open(s)))
+    return tables
+
+def do_comb(decr, extra = None):
+    cr = cryst_read(tables_mk(extra), open(decr))
+    wmap = cr["pos"][0]
+    # set the super_limit of comb
+    num_comb = 0
+    for ccomb in ccombs_gen(*ccombs_par(
+        cr["pos"][1], cr["limits"], cr["elems"]
+    )):
+        s = ccomb_fmt(ccomb_conv(wmap, ccomb))
+        sys.stdout.write("%s.cr\t%s\n" % (s, s))
+        if num_comb >= 10000: raise Exception("Too many kinds of position", num_comb)
+def do_dump(decr, extra = None):
+    cr = cryst_read(tables_mk(extra), open(decr))
+    head, pos, ecomb = cryst_head(cr), cr["pos"], cr["elems"][5]
+    wyck_n = int(len(pos[0].keys())/2-1)
+    polys = poly_mk(cr["extra_atoms"],wyck_n)
+    dof = sum(n * bound_dof(b) for n, b in list_join(list_join(ecomb)))
+    for l in lines_gen(sys.stdin):# LYT do change
+        if len(l) != 2:
+            raise SyntaxError("malformed `combs' line for `dump'")
+        ccomb = ccomb_conv(pos[0], ccomb_scan(len(ecomb), l[1]))
+        extra_dof = 0
+        num = -1 # which determined the wyck of extra_atoms and if num < 0, there is no extra atom
+        if cr["extra_atoms"]:
+            for e in cr["extra_atoms"][0]:
+                num = int(len(pos[0].keys())/2-1)
+                extra_dof += sum([x[1] for x in ccomb[e[0]]])
+        atoms, poly_wyck = cryst_ftr(pos, ecomb_add(copy.deepcopy(ecomb), ccomb), num)
+        polys = poly_mk(cr["extra_atoms"],poly_wyck)
+        open(l[0], "w").write(head + atoms + polys)
+        sys.stdout.write("%s\t%s\n" % (" ".join(
+            cmeta_mk(extra_dof*3 + dof + sum(n * pos[2][i] for e in ccomb for i, n in e))
+        ), l[0]))
+def do_merge(decr, extra = None):
+    tables = tables_mk(extra)
+    cr = cryst_read(tables, open(decr))
+    sg = tables[0][cr["sg"]]
+    decr = decr_hf(open(decr).read())
+    cif = cif_head(re.sub(r"[^0-9].*", "", cr["sg"]), sg, cr)
+    poss = [[w[0], [aff_scan(s) for s in pos_split(w[3])[0]], [
+        [float(Fraction(x)) for x in s.split(",")] for s in w[2].split(";")
+    ]] for w in sg["pos"]]
+    syms = [max(e, key = lambda e: [-e[0], e[1]])[1] for e in cr["elems"][0]]
+    for l in lines_gen(sys.stdin):
+        if len(l) not in [1, 2]:
+            raise SyntaxError("malformed `combs' line")
+        atoms = atoms_read(poss, l[0])
+        for atom in atoms:
+            atom[2] = "\t".join("%g" % x[1] for x in atom[2])
+        open(ext_sub(l[0], ".txt"), "w").write(decr[0] + "".join(
+            "%u@%s1\t%s\n" % tuple(atom) for atom in atoms
+        ) + decr[1])
+        open(ext_sub(l[0], ".cif"), "w").write(cif + "".join(
+            "\t%s%u\t%s\n" % (syms[atom[0]], i, atom[2])
+            for i, atom in enumerate(atoms)
+        ))
+        sys.stdout.write(l[0] + "\n")
+
+def do_stat(prog, hname):
+    for crf in cryst_pmap(cryst_stat, prog, hname):
+        sys.stdout.write("%s\t%s\n" % (" ".join(crf[0][:9]), crf[0][9]))
+
+def do_optim(prog, hname):
+    for crf in cryst_pmap(cryst_optim, prog, hname):
+        if crf[2] != None:
+            open(ext_sub(crf[0][9], ".log"), "w+").write(crf[2])
+        sys.stdout.write("%s\t%s\n" % (" ".join(crf[0][:9]), crf[0][9]))
+
+def do_poptim(prog, hname):
+    hosts, crl = hosts_read(open(hname)), line_read(sys.stdin)
+    if line_read(sys.stdin) != None or crl == None or len(crl) != 10:
+        raise SyntaxError("malformed `crysts' file for `poptim'")
+    cr = open(crl[9]).read()
+    tau = int(crl[2]) // sum(h[0] for h in hosts)
+    crl[2] = "%u" % (1 if tau < 1 else tau)
+    ps = [my_run([prog, "%u" % h[0]] + h[1:], cr, None) for h in hosts]
+    ps.append(my_run(["decr_sac"] + crl[2 : 6] + [crl[9]], "".join(
+        "%u tcp://%s:%s\n" % tuple(h[:3]) for h in hosts
+    ), None))
+    procs_wait(ps)
+
+def do_usage():
+    sys.stderr.write(
+        "Usage:\n"
+        "    decr_utils comb decr.txt\n"
+        "    decr_utils dump decr.txt < combs.list\n"
+        "    decr_utils merge decr.txt < combs.list\n"
+        "    decr_utils stat stat.sh hosts.conf < crysts.list\n"
+        "    decr_utils optim optim.sh hosts.conf < crysts.list\n"
+        "    decr_utils poptim server.sh hosts.conf < crysts.list\n"
+    )
+    sys.exit(1)
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        do_usage()
+    n = {
+        "comb": [do_comb, 3, 1], "dump": [do_dump, 3, 1],
+        "merge": [do_merge, 3, 1], "stat": [do_stat, 4, 0],
+        "optim": [do_optim, 4, 0], "poptim": [do_poptim, 4, 0]
+    }.get(sys.argv[1])
+    if not n or len(sys.argv) != n[1]:
+        do_usage()
+    n[0](*sys.argv[2:], **({"extra": os.getenv("DECR_EXTRA")} if n[2] else {}))
