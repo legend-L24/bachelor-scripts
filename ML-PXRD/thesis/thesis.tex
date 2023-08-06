@@ -1,0 +1,142 @@
+% Copyright (c) 2008-2009 solvethis
+% Copyright (c) 2010-2018 Casper Ti. Vector
+% Public domain.
+
+\documentclass[UTF8]{casthss}
+\usepackage{floatrow, amsmath, siunitx, changepage}
+\usepackage{booktabs, fancyvrb, forest, multicol}
+\usepackage[rmdefault = ntxmi]{isomath}
+\usepackage[version = 4]{mhchem}
+\usepackage[
+	backend = biber, style = caspervector-ay, utf8, cparen,
+	sorting = cenyt, giveninits = true, sortgiveninits = true
+]{biblatex}
+
+% XXX.
+\geometry{top = 2.7cm, bottom = 2.8cm}
+\setlength{\hfuzz}{3pt}
+\renewcommand*{\ttdefault}{lmtt}
+\renewcommand*{\bibfont}{\zihao{5}}
+\renewcommand*{\floatpagefraction}{0.75}
+\setlength{\bibitemsep}{0pt}
+\setlength{\multicolsep}{0pt}
+\newcommand*{\bfcmd}{\vspace{0.8em}}
+\DeclareFloatFont{cfive}{\zihao{5}}
+\floatsetup{heightadjust = all, font = cfive}
+\forestset{prune/.style = {text = gray, edge = gray}}
+\sisetup{
+	math-micro = {\upmu}, text-micro = {\ensuremath{\upmu}},
+	math-angstrom = {\text{Å}}, text-angstrom = {Å},
+	range-phrase = {--}, range-units = single, group-digits = false
+}
+
+\let\cdott\cdot
+\renewcommand*{\cdot}{\hspace{-0.03em}\cdott\hspace{0.03em}}
+\let\cdotts\cdots
+\renewcommand*{\cdots}{\hspace{0.02em}\cdotts\hspace{-0.02em}}
+\renewcommand*{\vec}[1]{\vectorsym{#1}}
+\newcommand*{\mat}[1]{\tensorsym{#1}}
+\newcommand*{\eye}{\mathrm{i}}
+\newcommand*{\iee}{\mathrm{e}}
+\newcommand*{\dif}{\mathrm{d}}
+\newcommand*{\tee}{\mathrm{T}}
+\newcommand*{\mccomma}{\text{，}}
+\newcommand*{\mcscolon}{\text{；}}
+\newcommand*{\mcstop}{\text{。}}
+\newcommand*{\myterm}[1]{\textbf{#1}}
+\newcommand*{\wyck}[2]{\mathbfit{#2}_\mathbf{#1}}
+\newcommand*{\slop}[1]{#1 plus #1 minus #1}
+\newcommand*{\cm}[1]{\textcolor{black!66}{#1}}
+\newcommand*{\bs}{\char92}
+\newcommand*{\lb}{\char123}
+\newcommand*{\rb}{\char125}
+\newenvironment{rquote}[1]{%
+	\par\vspace{\baselineskip}%
+	\begin{adjustwidth}{#1}{2\ccwd}%
+	\itshape\ifstrempty{#1}{\raggedleft}{}%
+}{\end{adjustwidth}}
+
+\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{
+	frame = single, obeytabs = true, fontsize = {\zihao{5}},
+	baselinestretch = 1.3, commandchars = {\\\{\}}
+}
+\DeclareFieldFormat{doi}{%
+	DOI\addcolon\space\ifhyperref%
+		{\href{https://doi.org/#1}{\nolinkurl{#1}}}{\nolinkurl{#1}}%
+}
+\makeatletter
+% XXX.
+\def\FV@VerbatimEnd{\FV@EndList\vskip-0.55\baselineskip}
+\def\url@sloppystyle{%
+	\let\oUrlBreaks\UrlBreaks
+	\def\UrlBreaks{%
+		\do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j\do\k\do\l\do\m%
+		\do\n\do\o\do\p\do\q\do\r\do\s\do\t\do\u\do\v\do\w\do\x\do\y\do\z%
+		\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M%
+		\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z%
+		\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0\oUrlBreaks%
+	}%
+}
+\makeatother
+
+\casthssinfo{
+	cthesisname = {博士学位论文}, ethesisname = {dissertation},
+	ctitle = {晶体结构测定中正空间法的自动化和性能调优}, etitle = {%
+		Automation and Performance Optimisation of the\texorpdfstring{\\}{ }%
+		Direct Space Method for Crystal Structure Determination%
+	}, cauthor = {刘玙}, eauthor = {Liu Yu},
+	cdate = {2018 年 12 月}, edate = {December 2018},
+	cmentor = {董成\ 研究员\\（中国科学院物理研究所）},
+	ementor = {Prof.\ Dong Cheng},
+	cdegree = {理学博士}, edegree = {Doctor of Philosophy},
+	cmajor = {凝聚态物理}, emajor = {Condensed Matter Physics},
+	cschool = {中国科学院物理研究所},
+	eschool = {Institute of Physics, Chinese Academy of Sciences},
+	ckeywords =
+		{晶体结构测定，正空间法，碰撞检测，增量计算，并行和分布式计算。},
+	ekeywords = {%
+		Crystal Structure Determination, Direct Space Method,
+		Collision Detection, Incremental Computation,
+		Parallel and Distributed Computing.%
+	}, mentorlines = {2}, confidential = {}
+}
+\addbibresource{thesis.bib}
+
+\begin{document}
+	\frontmatter
+	\pagestyle{empty}
+	\maketitle
+	\cleardoublepage
+	\emaketitle
+	\cleardoublepage
+	\include{chap/origin}
+
+	\cleardoublepage
+	\fancypagestyle{plain}{\fancyfoot[C]{\zihao{-5}\normalfont{\thepage}}}
+	\pagestyle{plain}
+	\setcounter{page}{0}
+	\pagenumbering{Roman}
+	\include{chap/abs}
+	\tableofcontents
+	\listoffigures
+	\listoftables
+
+	\mainmatter
+	\fancypagestyle{plain}%
+		{\fancyfoot{}\fancyfoot[LE,RO]{\zihao{-5}\normalfont{\thepage}}}
+	\pagestyle{plain}
+	\include{chap/chap1}
+	\include{chap/chap2}
+	\include{chap/chap3}
+	\include{chap/chap4}
+	\include{chap/chap5}
+
+	\appendix
+	\printbibliography[heading = bibintoc]
+	\backmatter
+	\include{chap/ack}
+	\include{chap/bio}
+	\cleardoublepage
+\end{document}
+
+% vim:ts=4:sw=4

@@ -1,0 +1,157 @@
+% Copyright (c) 2014,2016,2018 Casper Ti. Vector
+% Public domain.
+
+\begin{cabstract}\raggedbottom
+	晶体结构测定的手段可以大致分为倒空间法和正空间法：前者的核心在于提取各衍射峰
+	所对应结构因子的振幅，并设法从振幅反推相位，然后通过 Fourier 变换从各衍射峰
+	的结构因子得到晶胞内的电子密度分布；后者以晶胞内原子的坐标组合为自变量，
+	通过全局最优化算法寻找使计算得到的衍射谱和实际测得的衍射谱最接近的原子坐标。
+	和倒空间法相比，正空间法对衍射谱的分辨率要求更低、对衍射峰重叠的容忍度更高，
+	因此更加适合处理从粉末衍射得到的数据。在正空间法的求解过程中，对结构中
+	成键关系的先验知识可以发挥极大的作用，因此正空间法特别适合求解分子晶体、
+	框架晶体等等类型的结构，但其在求解成键关系总体未知的结构时仍然会遇到许多
+	困难。为了降低最优化算法中搜索空间的维数，对于后一类型的结构常常可以使用
+	等效点系组合（EPC）法：通过将晶胞中的原子分配到可用的 Wyckoff 位置，
+	原先以晶胞中所有 $n$ 个原子的坐标为自变量的 $3n$ 维最优化问题可以
+	转化为多个互相独立的最优化问题，每个问题以一个 EPC 中独立原子的
+	可变坐标为自变量，而且这些最优化问题的维数在多数情况下远小于 $3n$。
+
+	在用正空间法求解晶体结构时，常常会遇到计算的衍射谱和实际谱很接近，但在化学上
+	不合理的晶体模型；其中最常见的问题之一是原子重叠，即一些原子对的间距明显小于
+	化学上允许的下限。为了尽量自动化地处理原子重叠问题，须要在全局最优化的过程中
+	高效地实时检测和排除存在原子重叠的模型；对原子重叠的检测属于计算几何中的
+	碰撞检测问题，而我们首先需要的就是一种实时的晶体学碰撞检测算法。本人基于
+	碰撞检测中常用的轴对齐包围盒（AABB）模型，并结合晶胞特殊的几何构造，提出了
+	一种通用的晶体学碰撞检测算法框架。在此基础之上，针对成键关系总体未知的结构，
+	本人对计算几何中常用的 sweep and prune（SAP）算法进行了修改，使之能以
+	$O(n\log n)$ 的时间复杂度检测晶体模型中的原子重叠；此外，考虑到这类结构的
+	求解往往会使用 EPC 法，本人也提出一种利用等效点系对称性显著减少碰撞检测
+	计算量的方法。基于以上的碰撞检测算法，本人设计了一种评估晶胞中
+	原子重叠状况的函数，该函数可用于在最优化的过程中实时排除存在原子重叠
+	的模型；此外，上述的碰撞检测算法不仅有助于更高效地避免原子重叠，
+	而且对于晶胞中配位多面体、原子键价等等的计算也具有重要的意义。
+
+	为了让上文所述的排除原子重叠的机制在求解未知结构的过程中发挥实际的作用，
+	本人开发了 \emph{decryst} 这套使用正空间法从粉末衍射数据求解晶体结构的软件。
+	\emph{decryst} 在功能上和以前的 \emph{EPCryst} 类似：两者都使用 EPC
+	法处理已指标化的数据，并把求解流程分为生成 EPC 列表、对各 EPC 进行统计分析、
+	对每个 EPC 进行全局最优化和导出解模型等 4 个主要步骤；因为 EPC 法的缘故，
+	两者都特别适合求解成键关系总体未知的结构。和 \emph{EPCryst} 相比，%
+	\emph{decryst} 最重要的优势在于后者可以在最优化的过程中利用上文中的机制
+	自动、高效地排除原子重叠。此外，受到 Unix 中 \verb|make| 程序的启发，在
+	\emph{decryst} 的实现中，本人首次将增量计算的思想以一种具有通用性的方式
+	应用于最优化的过程中，使其性能得到了明显的提升；\emph{decryst} 也使用一种
+	增量算法生成 EPC，这不仅极大地降低了其内存需求，而且为在生成 EPC 时对其
+	进行实时筛选做了准备。为了适应目前科学计算的发展趋势，本人在设计
+	\emph{decryst} 时也加入了对并行和分布式计算的支持，使之可以通过同时利用
+	多个处理器实现对晶体结构测定的进一步加速。考虑到同一结构的各 EPC 互相独立，
+	而且 EPC 数在多数有意义的情形下都相当大，\emph{decryst} 中统计分析和
+	全局最优化任务的并行化将为求解成键关系总体未知的结构带来前所未有的机遇。
+
+	\emph{decryst} 是运行在类 Unix 平台上的自由、开源软件，可以从
+	\url{https://gitea.com/CasperVector/decryst} 获得；其设计追求简洁、
+	灵活，而本人也希望其中的技巧可以在更多的晶体学软件中得到应用。在现有
+	自动化工具的配合下，用 \emph{decryst} 能简单地实现相当复杂的求解流程：
+	利用重原子法的求解，统计分析和全局最优化后基于 Bragg $R$ 因子的 EPC 筛选，
+	求解前筛除必发生原子重叠的 EPC、最优化中实时排除存在原子重叠的晶体模型、
+	求解后筛除仍发生原子重叠的 EPC，等等。本文的最后部分讨论了 \emph{decryst}
+	的设计和实现，并以美国矿物学家晶体结构数据库（AMCSD）中若干个不同晶系
+	和复杂度的结构为例，循序渐进地演示了 \emph{decryst} 的基本用法和常用技巧。
+\end{cabstract}
+
+\begin{eabstract}\raggedbottom
+	The methods for crystal structure determination can be roughly classified
+	into two categories, the reciprocal space methods and the direct space
+	method (DSM).  The reciprocal space methods work by extracting the
+	amplitudes of structure factors for individual reflections and then phasing
+	these reflections, after which the Fourier transform is used to obtain
+	the electron density distribution in the unit cell.  In contrast, the DSM
+	uses global optimisation (GO) algorithms to minimise the divergence between
+	the computed and measured diffraction patterns, and uses the coordinate
+	combination of atoms in the unit cell as the variables to be optimised.
+	In comparison with the reciprocal space methods, the DSM is more suitable
+	for handling low-resolution diffraction data, and is more tolerant of
+	overlapping reflection peaks in diffraction patterns.  When using the DSM,
+	\emph{a priori} knowledge of the structure to be determined is very
+	helpful, so the DSM is quite suitable for structures like molecular crystals
+	and framework crystals; on the other hand, it is much more difficult
+	to determine structures using the DSM when the bonding relations are
+	largely unknown.  To reduce the degree of freedom of the GO problem, the
+	equivalent position combination (EPC) method can often be used for the
+	latter kind of structures: by assigning the atoms to the available Wyckoff
+	positions, we can transform the $3n$-dimensional GO problem with regard to
+	all $n$ atoms in the unit cell into multiple mutually independent problems,
+	each of which only using the non-fixed coordinates of the independent atoms
+	from one EPC, and usually having a degree of freedom much smaller than $3n$.
+
+	In structure determination using the DSM, often encountered are chemically
+	unreasonable crystallographic models with the computed diffraction patterns
+	very similar to the measured patterns, and one of the top problems is
+	atom bumping: in many of these crystallographic models, the distance
+	between some atom pairs are unreasonably short.  To automatically handle
+	atom bumping, we need to efficiently detect and eliminate crystallographic
+	models with atom bumping in real time during the GO procedure;
+	since the detection of atom bumping is known as collision detection in
+	computational geometry, what we need first is a real-time algorithm
+	for crystallographic collision detection.  Based on the axis-aligned
+	bounding box (AABB) model, and noticing the unique geometric structure
+	of the unit cell, the author proposed a generic framework for
+	crystallographic collision detection.  Based on this framework,
+	regarding structures with largely unknown bonding relations,
+	the author modified the sweep and prune (SAP) algorithm, enabling it to
+	detect atom bumping in the unit cell in $O(n\log n)$ time bound.
+	In addition, considering that the EPC method is often used in
+	determination of these structures, the author proposed a method that
+	employs the equivalent position symmetry to significantly reduce the
+	computational complexity of collision detection.  Based on these algorithms,
+	the author designed an evaluation function for atom bumping in
+	crystallographic models, which can be used to eliminate unreasonable models
+	in real time during the GO procedure; additionally, apart from the
+	prevention of atom bumping, the collision detection algorithms mentioned
+	above can also be very helpful in computation of coordination polyhedra,
+	valence, \emph{etc.}\ in crystallographic models.
+
+	To facilitate practical use of above-mentioned mechanisms in
+	determination of unknown structures, the author wrote \emph{decryst},
+	a software suite for structure determination from powder diffraction that
+	uses the DSM.  \emph{decryst} is functionally similar to \emph{EPCryst}:
+	both use indexed data, employ the EPC method and abstract structure
+	determination as 4 stages, enumerating EPCs, statistical analyses of EPCs,
+	GO of EPCs and exporting the results; and due to the EPC method, both are
+	particularly suitable when the bonding relations are largely unknown.
+	The most important advantage of \emph{decryst} over \emph{EPCryst} is that
+	the former can automatically and efficiently eliminate atom bumping.  In
+	addition, inspired by the \verb|make| utility from Unix, the author employed
+	incremental computation in a generic way, for the first time, in the GO
+	procedure, resulting in a dramatic speedup of the procedure; \emph{decryst}
+	also employs an incremental algorithm for the generation of EPCs, allowing
+	for real-time filtering during the generation procedure in the future.  In
+	order to accommodate for contemporary developments in scientific computing,
+	the author designed \emph{decryst} with parallel and distributed computing
+	in mind, allowing for further enhancement of the performance by simultaneous
+	use of multiple processors.  Noticing that EPCs are mutually independent,
+	and that the number of EPCs is large in most useful cases, it is expected
+	that the parallelisation of statistical analyses and GO of EPCs will offer
+	unprecedented opportunities for determination of structures with largely
+	unknown bonding relations.
+
+	\emph{decryst} is free and open source software that
+	runs on Unix-like platforms, and can be obtained from
+	\url{https://gitea.com/CasperVector/decryst};
+	it is designed to be simple and flexible, in the hope that the underlying
+	techniques could be adopted in more crystallographic applications.
+	In combination with well-established automation utilities, it is easy to
+	implement fairly complicated structure determination procedures:
+	the heavy-atom method, filtering of EPCs based on the Bragg $R$ factor
+	after statistical analyses and GO; filtering of EPCs that would definitely
+	produce crystallographic models with atom bumping before actually solving
+	the structure, real-time elimination of models with atom bumping in GO,
+	filtering of EPCs that have atom bumping in the solutions, \emph{etc}.
+	The final parts of this dissertation discussed the design and
+	implementation of \emph{decryst} and then demonstrated its basic usage
+	and some useful techniques, using example structures from various
+	crystal families and of varying complexities, that are taken from the
+	American Mineralogist Crystal Structure Database (AMCSD).
+\end{eabstract}
+
+% vim:ts=4:sw=4
